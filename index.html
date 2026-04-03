@@ -42,6 +42,13 @@
   .view-toggle button.active { background: var(--accent); color: white; border-color: var(--accent); }
   .view-toggle button:hover:not(.active) { background: var(--accent-light); }
 
+  .fav-filter-group { display: flex; gap: 6px; align-items: center; }
+  #fav-filter-btn { padding: 7px 14px; border: 1px solid var(--fav); background: white; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--fav); border-radius: 8px; transition: all 0.2s; }
+  #fav-filter-btn.active { background: var(--fav); color: white; }
+  #fav-filter-btn:hover:not(.active) { background: var(--fav-light); }
+  #fav-clear-btn { padding: 7px 12px; border: 1px solid var(--border); background: white; font-size: 13px; cursor: pointer; color: var(--muted); border-radius: 8px; transition: all 0.2s; display: none; }
+  #fav-clear-btn:hover { background: #fee2e2; border-color: var(--red); color: var(--red); }
+
   main { padding: 24px 32px; }
 
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
@@ -122,6 +129,10 @@
   <div class="filter-group">
     <label for="search">Search:</label>
     <input type="text" id="search" placeholder="Location, area...">
+  </div>
+  <div class="fav-filter-group">
+    <button id="fav-filter-btn">★ Favourites (0)</button>
+    <button id="fav-clear-btn">Clear ×</button>
   </div>
   <div class="view-toggle">
     <button class="active" data-view="grid">Grid</button>
@@ -306,7 +317,16 @@ const properties = [
 ];
 
 let currentView = 'grid';
+let showFavOnly = false;
 let favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+
+function updateFavUI() {
+  const count = Object.values(favorites).filter(Boolean).length;
+  const btn = document.getElementById('fav-filter-btn');
+  const clearBtn = document.getElementById('fav-clear-btn');
+  btn.textContent = `★ Favourites (${count})`;
+  clearBtn.style.display = count > 0 ? 'inline-block' : 'none';
+}
 
 function renderProperties(filtered = properties) {
   const container = document.getElementById('properties-container');
@@ -359,6 +379,8 @@ function renderProperties(filtered = properties) {
       favorites[id] = !favorites[id];
       localStorage.setItem('favorites', JSON.stringify(favorites));
       btn.classList.toggle('favorited');
+      updateFavUI();
+      if (showFavOnly) applyFilters();
     });
   });
 }
@@ -372,7 +394,8 @@ function applyFilters() {
     const bedroomMatch = !bedrooms || p.bedrooms >= parseInt(bedrooms);
     const priceMatch = !priceMax || p.price <= parseInt(priceMax);
     const searchMatch = !search || p.address.toLowerCase().includes(search) || p.description.toLowerCase().includes(search) || (p.portal && p.portal.toLowerCase().includes(search));
-    return bedroomMatch && priceMatch && searchMatch;
+    const favMatch = !showFavOnly || favorites[p.id];
+    return bedroomMatch && priceMatch && searchMatch && favMatch;
   });
 
   renderProperties(filtered);
@@ -391,6 +414,24 @@ document.querySelectorAll('.view-toggle button').forEach(btn => {
   });
 });
 
+document.getElementById('fav-filter-btn').addEventListener('click', () => {
+  showFavOnly = !showFavOnly;
+  document.getElementById('fav-filter-btn').classList.toggle('active', showFavOnly);
+  applyFilters();
+});
+
+document.getElementById('fav-clear-btn').addEventListener('click', () => {
+  if (confirm('Clear all favourites?')) {
+    favorites = {};
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    showFavOnly = false;
+    document.getElementById('fav-filter-btn').classList.remove('active');
+    updateFavUI();
+    applyFilters();
+  }
+});
+
+updateFavUI();
 renderProperties();
 </script>
 
