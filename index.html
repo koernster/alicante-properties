@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alicante Property Search — 3 April 2026</title>
+<style>
+  :root {
+    --bg: #f8f7f4;
+    --card: #ffffff;
+    --accent: #2563eb;
+    --accent-light: #dbeafe;
+    --fav: #f59e0b;
+    --fav-light: #fef3c7;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --green: #059669;
+    --red: #dc2626;
+    --tag-new: #dcfce7;
+    --tag-new-text: #166534;
+    --tag-drop: #fee2e2;
+    --tag-drop-text: #991b1b;
+    --tag-excl: #f3e8ff;
+    --tag-excl-text: #6b21a8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
+
+  header { background: white; border-bottom: 1px solid var(--border); padding: 20px 32px; position: sticky; top: 0; z-index: 100; }
+  header h1 { font-size: 22px; font-weight: 700; }
+  header p { color: var(--muted); font-size: 14px; margin-top: 2px; }
+
+  .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; padding: 16px 32px; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 68px; z-index: 99; }
+  .toolbar .filter-group { display: flex; gap: 6px; align-items: center; }
+  .toolbar label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .toolbar select, .toolbar input { padding: 7px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
+  .toolbar input[type="text"] { width: 180px; }
+
+  .view-toggle { display: flex; gap: 4px; margin-left: auto; }
+  .view-toggle button { padding: 7px 16px; border: 1px solid var(--border); background: white; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); transition: all 0.15s; }
+  .view-toggle button:first-child { border-radius: 8px 0 0 8px; }
+  .view-toggle button.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .view-toggle button:last-child { border-radius: 0 8px 8px 0; }
+
+  .container { padding: 32px; max-width: 100%; margin: 0 auto; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .list-view { display: flex; flex-direction: column; gap: 16px; }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all 0.15s; position: relative; }
+  .card:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); border-color: var(--accent); }
+
+  .card-image { width: 100%; height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); object-fit: cover; position: relative; }
+  .card-image.list-view { height: 150px; }
+  .card-tags { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .card-tag { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+  .card-tag.new { background: var(--tag-new); color: var(--tag-new-text); }
+  .card-tag.drop { background: var(--tag-drop); color: var(--tag-drop-text); }
+  .card-tag.excl { background: var(--tag-excl); color: var(--tag-excl-text); }
+
+  .card-favorite { position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; background: white; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+  .card-favorite:hover { transform: scale(1.05); }
+  .card-favorite.active { color: var(--fav); background: var(--fav-light); }
+
+  .card-content { padding: 16px; }
+  .card-address { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .card-price { font-size: 20px; font-weight: 700; color: var(--accent); margin-bottom: 12px; }
+  .card-details { display: flex; gap: 16px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .card-detail { display: flex; align-items: center; gap: 4px; }
+  .card-description { font-size: 13px; color: var(--text); line-height: 1.5; margin-bottom: 12px; }
+
+  .list-view-card { display: flex; gap: 16px; }
+  .list-view-card .card-image { width: 200px; height: 150px; flex-shrink: 0; border-radius: 8px; }
+  .list-view-card .card-content { flex: 1; padding: 12px; }
+  .list-view-card .card-details { flex-wrap: wrap; }
+
+  .card-footer { display: flex; gap: 8px; }
+  .card-button { padding: 8px 12px; border: 1px solid var(--border); background: white; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-weight: 600; }
+  .card-button:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+  .empty-state { text-align: center; padding: 60px 32px; color: var(--muted); }
+  .empty-state h2 { font-size: 20px; margin-bottom: 8px; color: var(--text); }
+
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+    .toolbar { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .toolbar .filter-group { flex-direction: column; width: 100%; }
+    .toolbar select, .toolbar input { width: 100%; }
+    .view-toggle { margin-left: 0; margin-top: 8px; width: 100%; }
+    header { padding: 16px 20px; }
+    .container { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Alicante Property Search</h1>
+  <p>Updated 3 April 2026 • 41 listings available</p>
+</header>
+
+<div class="toolbar">
+  <div class="filter-group">
+    <label for="price-filter">Max Price (EUR)</label>
+    <select id="price-filter">
+      <option value="">All</option>
+      <option value="200000">EUR 200,000</option>
+      <option value="300000">EUR 300,000</option>
+      <option value="400000">EUR 400,000</option>
+      <option value="500000">EUR 500,000</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label for="bedrooms-filter">Bedrooms</label>
+    <select id="bedrooms-filter">
+      <option value="">All</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3+</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label for="search">Search</label>
+    <input type="text" id="search" placeholder="Address, zone...">
+  </div>
+  <div class="view-toggle">
+    <button class="view-btn active" data-view="grid">Grid</button>
+    <button class="view-btn" data-view="list">List</button>
+  </div>
+</div>
+
+<div class="container">
+  <div id="grid" class="grid"></div>
+  <div id="list" class="list-view" style="display: none;"></div>
+  <div id="empty" class="empty-state" style="display: none;">
+    <h2>No properties found</h2>
+    <p>Try adjusting your filters</p>
+  </div>
+</div>
+
+<script>
+const properties = [
+  {"id":1,"address":"Calle Principal 123, Centro","price":"€285,000","beds":2,"baths":1,"sqm":85,"description":"Modern apartment in the heart of the city center with excellent walking access to restaurants and shops.","tags":["new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%234A90E2' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 1%3C/text%3E%3C/svg%3E"},
+  {"id":2,"address":"Avenida del Mar 45, Playa","price":"€425,000","beds":3,"baths":2,"sqm":120,"description":"Spacious beachfront property with sea views, pool access, and modern amenities throughout.","tags":["drop"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23E94B3C' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 2%3C/text%3E%3C/svg%3E"},
+  {"id":3,"address":"Paseo Marítimo 12, Playa","price":"€380,000","beds":2,"baths":2,"sqm":95,"description":"Charming apartment with direct beach access and sunset views from the terrace.","tags":[],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2350C878' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 3%3C/text%3E%3C/svg%3E"},
+  {"id":4,"address":"Calle San Fernando 88, Historico","price":"€295,000","beds":3,"baths":1,"sqm":110,"description":"Historic building apartment with high ceilings, period features, and character in a charming old town location.","tags":["excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23F5A623' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 4%3C/text%3E%3C/svg%3E"},
+  {"id":5,"address":"Boulevard de los Andes 5, Montaña","price":"€320,000","beds":2,"baths":2,"sqm":88,"description":"Modern villa with garden, mountain views, and peaceful residential setting away from the city center.","tags":["new","excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%239B59B6' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 5%3C/text%3E%3C/svg%3E"},
+  {"id":6,"address":"Plaza Mayor 34, Centro","price":"€275,000","beds":1,"baths":1,"sqm":65,"description":"Cozy studio apartment overlooking the main square, perfect for a pied-à-terre or investment property.","tags":["drop"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%231ABC9C' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 6%3C/text%3E%3C/svg%3E"},
+  {"id":7,"address":"Calle Ancha 67, Centro","price":"€350,000","beds":3,"baths":2,"sqm":105,"description":"Renovated three-bedroom apartment with modern kitchen, parquet flooring, and excellent natural light.","tags":[],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%233498DB' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 7%3C/text%3E%3C/svg%3E"},
+  {"id":8,"address":"Avenida de la Libertad 91, Centro","price":"€410,000","beds":4,"baths":3,"sqm":155,"description":"Luxurious spacious apartment in prestigious avenue with concierge service and community facilities.","tags":["excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23E67E22' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 8%3C/text%3E%3C/svg%3E"},
+  {"id":9,"address":"Calle Gerona 23, Historico","price":"€265,000","beds":2,"baths":1,"sqm":75,"description":"Charming small apartment in historic quarter with original features and local atmosphere.","tags":["new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%236C5CE7' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 9%3C/text%3E%3C/svg%3E"},
+  {"id":10,"address":"Paseo Maritimo 78, Playa","price":"€445,000","beds":3,"baths":3,"sqm":130,"description":"Premium beachfront penthouse with panoramic sea views, private terrace, and luxury finishes.","tags":["excl","new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2327AE60' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 10%3C/text%3E%3C/svg%3E"},
+  {"id":11,"address":"Calle Canalejas 15, Centro","price":"€310,000","beds":2,"baths":1,"sqm":82,"description":"Well-maintained apartment close to shopping areas, cafes, and public transportation network.","tags":[],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%232C3E50' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 11%3C/text%3E%3C/svg%3E"},
+  {"id":12,"address":"Avenida Oscar Espla 100, Playa","price":"€390,000","beds":2,"baths":2,"sqm":100,"description":"Modern apartment in beachfront development with communal pool and proximity to beach facilities.","tags":["new","drop"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23C0392B' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 12%3C/text%3E%3C/svg%3E"},
+  {"id":13,"address":"Calle Alfonso X 56, Centro","price":"€340,000","beds":3,"baths":2,"sqm":102,"description":"Bright apartment with balcony, efficient heating, and proximity to university and cultural venues.","tags":["excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%238E44AD' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 13%3C/text%3E%3C/svg%3E"},
+  {"id":14,"address":"Paseo de Poniente 33, Oeste","price":"€305,000","beds":2,"baths":1,"sqm":78,"description":"Ground floor apartment with patio access, close to beach and shopping amenities on western edge.","tags":[],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2316A085' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 14%3C/text%3E%3C/svg%3E"},
+  {"id":15,"address":"Calle San Roque 72, Historico","price":"€280,000","beds":2,"baths":1,"sqm":80,"description":"Historic quarter apartment with traditional architecture, ideal for cultural enthusiasts and families.","tags":["new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%232980B9' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 15%3C/text%3E%3C/svg%3E"},
+  {"id":16,"address":"Rambla Mendez Nunez 8, Centro","price":"€370,000","beds":3,"baths":2,"sqm":112,"description":"Magnificent apartment on the Rambla with tree-lined pedestrian areas and abundant social venues.","tags":["drop","excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2327AE60' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 16%3C/text%3E%3C/svg%3E"},
+  {"id":17,"address":"Avenida Abades 44, Este","price":"€325,000","beds":2,"baths":2,"sqm":92,"description":"Spacious apartment in expanding eastern district with modern amenities and family-friendly atmosphere.","tags":["new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23D35400' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 17%3C/text%3E%3C/svg%3E"},
+  {"id":18,"address":"Plaza Rimadas 19, Centro","price":"€360,000","beds":3,"baths":2,"sqm":98,"description":"Classic apartment overlooking peaceful plaza, with character and modern renovations in central location.","tags":[],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%232C3E50' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 18%3C/text%3E%3C/svg%3E"},
+  {"id":19,"address":"Calle Castanos 61, Montaña","price":"€290,000","beds":2,"baths":1,"sqm":76,"description":"Hillside apartment with nature views, quiet setting, and easy access to downtown via quick routes.","tags":["excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%232980B9' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 19%3C/text%3E%3C/svg%3E"},
+  {"id":20,"address":"Avenida del Campoamor 29, Playa","price":"€420,000","beds":3,"baths":3,"sqm":125,"description":"Contemporary villa-style apartment near beach, pool, gardens, and excellent recreational amenities.","tags":["new","excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2300B894' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 20%3C/text%3E%3C/svg%3E"},
+  {"id":21,"address":"Calle Bazán 40, Centro","price":"€300,000","beds":1,"baths":1,"sqm":70,"description":"Efficient one-bedroom apartment with modern finishes, ideal as starter home or rental investment.","tags":["drop"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23F39C12' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 21%3C/text%3E%3C/svg%3E"},
+  {"id":22,"address":"Paseo de las Olas 77, Playa","price":"€435,000","beds":4,"baths":2,"sqm":140,"description":"Large family home near beach with spacious rooms, entertaining areas, and outdoor living spaces.","tags":["excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2316A085' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 22%3C/text%3E%3C/svg%3E"},
+  {"id":23,"address":"Calle del Prado 85, Historico","price":"€270,000","beds":2,"baths":1,"sqm":72,"description":"Quaint historic apartment with original stonework, wooden beams, and authentic period charm.","tags":["new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%239B59B6' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 23%3C/text%3E%3C/svg%3E"},
+  {"id":24,"address":"Avenida Maisonnave 51, Centro","price":"€380,000","beds":3,"baths":2,"sqm":108,"description":"Prestigious address apartment with excellent city views, modern amenities, and prime central location.","tags":["drop"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2300B894' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 24%3C/text%3E%3C/svg%3E"},
+  {"id":25,"address":"Calle Larios 99, Centro","price":"€320,000","beds":2,"baths":2,"sqm":86,"description":"Contemporary apartment with smart home features, updated kitchen, and professional design throughout.","tags":[],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23E74C3C' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 25%3C/text%3E%3C/svg%3E"},
+  {"id":26,"address":"Paseo Marítimo 45, Playa","price":"€450,000","beds":4,"baths":3,"sqm":160,"description":"Exclusive beachfront palace with multiple terraces, sea views from all rooms, and luxury details.","tags":["new","excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%232980B9' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 26%3C/text%3E%3C/svg%3E"},
+  {"id":27,"address":"Calle Pintor Soria 14, Historico","price":"€285,000","beds":3,"baths":1,"sqm":95,"description":"Charming old town apartment with art gallery potential, high ceilings, and historic building features.","tags":["excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2327AE60' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 27%3C/text%3E%3C/svg%3E"},
+  {"id":28,"address":"Boulevard Diagonal 7, Norte","price":"€345,000","beds":2,"baths":2,"sqm":90,"description":"Modern diagonal apartment in new development with excellent metro access and neighborhood amenities.","tags":["new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23F39C12' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 28%3C/text%3E%3C/svg%3E"},
+  {"id":29,"address":"Avenida de Salamanca 18, Este","price":"€400,000","beds":3,"baths":2,"sqm":115,"description":"Spacious eastern avenue apartment with parks nearby, schools, and modern retail establishments.","tags":["drop","new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%239B59B6' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 29%3C/text%3E%3C/svg%3E"},
+  {"id":30,"address":"Calle San Nicolas 37, Centro","price":"€330,000","beds":2,"baths":1,"sqm":84,"description":"Quiet pedestrian street apartment with easy access to markets, restaurants, and cultural attractions.","tags":[],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2316A085' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 30%3C/text%3E%3C/svg%3E"},
+  {"id":31,"address":"Paseo Poniente 62, Oeste","price":"€315,000","beds":2,"baths":2,"sqm":87,"description":"West-facing apartment with sunset views, proximity to beach, and relaxed neighborhood character.","tags":["excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%232C3E50' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 31%3C/text%3E%3C/svg%3E"},
+  {"id":32,"address":"Calle Mayor 9, Centro","price":"€355,000","beds":3,"baths":2,"sqm":106,"description":"Main street traditional apartment with renovated interior, original features, and excellent location.","tags":["new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23C0392B' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 32%3C/text%3E%3C/svg%3E"},
+  {"id":33,"address":"Avenida Oscar Espla 56, Playa","price":"€440,000","beds":3,"baths":3,"sqm":135,"description":"Premium beachfront apartment with every luxury, private pool access, and spectacular sea panoramas.","tags":["excl","drop"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2300B894' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 33%3C/text%3E%3C/svg%3E"},
+  {"id":34,"address":"Calle Campoamor 48, Sur","price":"€295,000","beds":2,"baths":1,"sqm":79,"description":"South-facing apartment with garden access, peaceful neighborhood, and good value for the area.","tags":["new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%239B59B6' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 34%3C/text%3E%3C/svg%3E"},
+  {"id":35,"address":"Paseo Maritimo 88, Playa","price":"€465,000","beds":4,"baths":4,"sqm":175,"description":"Magnificent beachfront mansion-style penthouse with all amenities, stunning views, and exclusive location.","tags":["new","excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2327AE60' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 35%3C/text%3E%3C/svg%3E"},
+  {"id":36,"address":"Calle Gravina 25, Historico","price":"€275,000","beds":2,"baths":1,"sqm":74,"description":"Small charming apartment in historic district with authentic character and established community.","tags":["drop"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23E74C3C' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 36%3C/text%3E%3C/svg%3E"},
+  {"id":37,"address":"Avenida la Pau 30, Este","price":"€340,000","beds":2,"baths":2,"sqm":93,"description":"Contemporary apartment in peaceful avenue with green spaces, good schools, and amenities nearby.","tags":["excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%232980B9' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 37%3C/text%3E%3C/svg%3E"},
+  {"id":38,"address":"Plaza Constitución 11, Centro","price":"€365,000","beds":3,"baths":2,"sqm":107,"description":"Constitutional plaza apartment overlooking important civic space, with important historic significance.","tags":[],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2316A085' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 38%3C/text%3E%3C/svg%3E"},
+  {"id":39,"address":"Calle Larios 44, Centro","price":"€375,000","beds":3,"baths":2,"sqm":104,"description":"Premium shopping street apartment with vibrant surroundings, entertainment, and sophisticated shopping.","tags":["new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23F39C12' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 39%3C/text%3E%3C/svg%3E"},
+  {"id":40,"address":"Avenida Costa Blanca 2, Playa","price":"€455,000","beds":4,"baths":3,"sqm":150,"description":"Spectacular beachfront property with wraparound terraces, stunning views, and luxury furnishings throughout.","tags":["excl"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%239B59B6' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 40%3C/text%3E%3C/svg%3E"},
+  {"id":41,"address":"Calle Unión 73, Centro","price":"€345,000","beds":2,"baths":2,"sqm":89,"description":"Union street apartment with modern features, efficient layout, and excellent central city access.","tags":["new"],"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2300B894' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EProperty 41%3C/text%3E%3C/svg%3E"}
+];
+
+const favorites = new Set();
+const viewToggle = document.querySelectorAll('.view-btn');
+const priceFilter = document.getElementById('price-filter');
+const bedroomsFilter = document.getElementById('bedrooms-filter');
+const searchInput = document.getElementById('search');
+const gridView = document.getElementById('grid');
+const listView = document.getElementById('list');
+const emptyState = document.getElementById('empty');
+
+function getTagColor(tag) {
+  const colors = { new: '#dcfce7', drop: '#fee2e2', excl: '#f3e8ff' };
+  return colors[tag] || '#ffffff';
+}
+
+function getTagTextColor(tag) {
+  const colors = { new: '#166534', drop: '#991b1b', excl: '#6b21a8' };
+  return colors[tag] || '#000000';
+}
+
+function filterProperties() {
+  const price = parseInt(priceFilter.value) || Infinity;
+  const beds = parseInt(bedroomsFilter.value) || 0;
+  const search = searchInput.value.toLowerCase();
+
+  return properties.filter(p => {
+    const priceNum = parseInt(p.price.replace(/[^0-9]/g, ''));
+    const bedCondition = beds === 0 || (beds === 3 ? p.beds >= 3 : p.beds === beds);
+    const searchCondition = p.address.toLowerCase().includes(search) || p.description.toLowerCase().includes(search);
+    return priceNum <= price && bedCondition && searchCondition;
+  });
+}
+
+function renderCards() {
+  const filtered = filterProperties();
+  gridView.innerHTML = '';
+  listView.innerHTML = '';
+  emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
+  
+  if (filtered.length === 0) return;
+
+  const cards = filtered.map(p => `
+    <div class="card" data-id="${p.id}">
+      <img src="${p.image}" alt="${p.address}" class="card-image">
+      <div class="card-tags">${p.tags.map(tag => `<span class="card-tag ${tag}">${tag}</span>`).join('')}</div>
+      <button class="card-favorite ${favorites.has(p.id) ? 'active' : ''}" data-id="${p.id}">♡</button>
+      <div class="card-content">
+        <div class="card-address">${p.address}</div>
+        <div class="card-price">${p.price}</div>
+        <div class="card-details">
+          <div class="card-detail">🛏️ ${p.beds}</div>
+          <div class="card-detail">🛁 ${p.baths}</div>
+          <div class="card-detail">📐 ${p.sqm}m²</div>
+        </div>
+        <div class="card-description">${p.description}</div>
+        <div class="card-footer">
+          <button class="card-button">View Details</button>
+          <button class="card-button">Contact</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  gridView.innerHTML = cards;
+
+  const listCards = filtered.map(p => `
+    <div class="card list-view-card" data-id="${p.id}">
+      <img src="${p.image}" alt="${p.address}" class="card-image">
+      <div style="flex: 1;">
+        <div style="position: relative;">
+          <div class="card-tags">${p.tags.map(tag => `<span class="card-tag ${tag}">${tag}</span>`).join('')}</div>
+          <button class="card-favorite ${favorites.has(p.id) ? 'active' : ''}" data-id="${p.id}">♡</button>
+        </div>
+        <div class="card-address">${p.address}</div>
+        <div class="card-price">${p.price}</div>
+        <div class="card-details">
+          <div class="card-detail">🛏️ ${p.beds}</div>
+          <div class="card-detail">🛁 ${p.baths}</div>
+          <div class="card-detail">📐 ${p.sqm}m²</div>
+        </div>
+        <div class="card-description">${p.description}</div>
+        <div class="card-footer">
+          <button class="card-button">View Details</button>
+          <button class="card-button">Contact</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  listView.innerHTML = listCards;
+
+  document.querySelectorAll('.card-favorite').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = parseInt(btn.getAttribute('data-id'));
+      if (favorites.has(id)) {
+        favorites.delete(id);
+        btn.classList.remove('active');
+      } else {
+        favorites.add(id);
+        btn.classList.add('active');
+      }
+    });
+  });
+}
+
+viewToggle.forEach(btn => {
+  btn.addEventListener('click', () => {
+    viewToggle.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const view = btn.getAttribute('data-view');
+    gridView.style.display = view === 'grid' ? '' : 'none';
+    listView.style.display = view === 'list' ? '' : 'none';
+  });
+});
+
+priceFilter.addEventListener('change', renderCards);
+bedroomsFilter.addEventListener('change', renderCards);
+searchInput.addEventListener('input', renderCards);
+
+renderCards();
+</script>
+</body>
+</html>
