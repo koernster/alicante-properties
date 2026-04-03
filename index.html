@@ -1,1 +1,238 @@
-PLACEHOLDER_FULL_CONTENT_HERE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alicante Property Search — 3 April 2026</title>
+<style>
+  :root {
+    --bg: #f8f7f4;
+    --card: #ffffff;
+    --accent: #2563eb;
+    --accent-light: #dbeafe;
+    --fav: #f59e0b;
+    --fav-light: #fef3c7;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --green: #059669;
+    --red: #dc2626;
+    --tag-new: #dcfce7;
+    --tag-new-text: #166534;
+    --tag-drop: #fee2e2;
+    --tag-drop-text: #991b1b;
+    --tag-excl: #f3e8ff;
+    --tag-excl-text: #6b21a8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
+
+  header { background: white; border-bottom: 1px solid var(--border); padding: 20px 32px; position: sticky; top: 0; z-index: 100; }
+  header h1 { font-size: 22px; font-weight: 700; }
+  header p { color: var(--muted); font-size: 14px; margin-top: 2px; }
+
+  .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; padding: 16px 32px; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 68px; z-index: 99; }
+  .toolbar .filter-group { display: flex; gap: 6px; align-items: center; }
+  .toolbar label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .toolbar select, .toolbar input { padding: 7px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
+  .toolbar input[type="text"] { width: 180px; }
+
+  .view-toggle { display: flex; gap: 4px; margin-left: auto; }
+  .view-toggle button { padding: 7px 16px; border: 1px solid var(--border); background: white; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); transition: all 0.2s; }
+  .view-toggle button.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .view-toggle button:hover:not(.active) { background: var(--accent-light); }
+
+  main { padding: 24px 32px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .list { display: flex; flex-direction: column; gap: 12px; }
+
+  .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: all 0.2s; cursor: pointer; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); transform: translateY(-2px); }
+  .card.list-view { display: flex; gap: 16px; padding: 12px; }
+  .card.list-view .image-section { flex-shrink: 0; width: 120px; height: 120px; }
+  .card.list-view .info-section { flex: 1; }
+
+  .image-section { position: relative; width: 100%; height: 200px; background: #f0f0f0; overflow: hidden; }
+  .image-section img { width: 100%; height: 100%; object-fit: cover; }
+
+  .fav-btn { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.95); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
+  .fav-btn:hover { transform: scale(1.1); }
+  .fav-btn.favorited { color: var(--fav); }
+
+  .tags { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+  .tag.new { background: var(--tag-new); color: var(--tag-new-text); }
+  .tag.price-drop { background: var(--tag-drop); color: var(--tag-drop-text); }
+  .tag.exclusive { background: var(--tag-excl); color: var(--tag-excl-text); }
+
+  .info-section { padding: 16px; }
+  .list-view .info-section { padding: 0; }
+
+  .address { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .list-view .address { font-size: 15px; }
+
+  .meta { display: flex; gap: 16px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .list-view .meta { margin-bottom: 8px; }
+
+  .price { font-size: 18px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .list-view .price { font-size: 16px; }
+
+  .previous-price { font-size: 12px; color: var(--red); text-decoration: line-through; }
+
+  .description { font-size: 13px; color: var(--muted); line-height: 1.4; }
+  .list-view .description { display: none; }
+
+  .no-results { text-align: center; padding: 48px 32px; color: var(--muted); }
+  .no-results h2 { font-size: 18px; margin-bottom: 8px; color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Alicante Property Search</h1>
+  <p>Last updated 3 April 2026</p>
+</header>
+
+<div class="toolbar">
+  <div class="filter-group">
+    <label for="bedrooms">Bedrooms:</label>
+    <select id="bedrooms">
+      <option value="">All</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3+</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label for="price-max">Max Price:</label>
+    <select id="price-max">
+      <option value="">All</option>
+      <option value="200000">€200k</option>
+      <option value="300000">€300k</option>
+      <option value="500000">€500k</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label for="search">Search:</label>
+    <input type="text" id="search" placeholder="Address, area...">
+  </div>
+  <div class="view-toggle">
+    <button class="active" data-view="grid">Grid</button>
+    <button data-view="list">List</button>
+  </div>
+</div>
+
+<main>
+  <div class="grid" id="properties-container"></div>
+</main>
+
+<script>
+const properties = [
+  { id: 1, address: "Playa del Postiguet, Alicante", bedrooms: 2, bathrooms: 2, price: 285000, image: "property-images/1.jpg", description: "Modern beachfront apartment with sea views", tags: ["new"] },
+  { id: 2, address: "Casco Antiguo, Alicante", bedrooms: 1, bathrooms: 1, price: 165000, image: "property-images/2.jpg", description: "Charming historic quarter flat", tags: [] },
+  { id: 3, address: "San Juan, Alicante", bedrooms: 3, bathrooms: 2, price: 325000, previous_price: 350000, image: "property-images/3.jpg", description: "Spacious villa with garden", tags: ["price-drop"] },
+  { id: 4, address: "Ensanche, Alicante", bedrooms: 2, bathrooms: 1, price: 195000, image: "property-images/4.jpg", description: "Renovated apartment near metro", tags: [] },
+  { id: 5, address: "Playa de la Caleta, Alicante", bedrooms: 1, bathrooms: 1, price: 210000, image: "property-images/5.jpg", description: "Beachfront studio with amenities", tags: ["new"] },
+  { id: 6, address: "Benalua, Alicante", bedrooms: 3, bathrooms: 2, price: 420000, image: "property-images/6.jpg", description: "New construction villa", tags: ["new"] },
+  { id: 7, address: "Centro, Alicante", bedrooms: 2, bathrooms: 1, price: 225000, previous_price: 245000, image: "property-images/7.jpg", description: "Central location apartment", tags: ["price-drop"] },
+  { id: 8, address: "Playa del Postiguet, Alicante", bedrooms: 1, bathrooms: 1, price: 195000, image: "property-images/8.jpg", description: "Compact beachfront efficiency", tags: [] },
+  { id: 10, address: "San Juan, Alicante", bedrooms: 2, bathrooms: 2, price: 275000, image: "property-images/10.jpg", description: "Modern apartment with terrace", tags: ["new"] },
+  { id: 12, address: "Ensanche, Alicante", bedrooms: 3, bathrooms: 2, price: 380000, image: "property-images/12.jpg", description: "Large family home", tags: [] },
+  { id: 13, address: "Playa de la Caleta, Alicante", bedrooms: 2, bathrooms: 2, price: 305000, image: "property-images/13.jpg", description: "Modern beachfront with pool", tags: ["new"] },
+  { id: 14, address: "Casco Antiguo, Alicante", bedrooms: 1, bathrooms: 1, price: 155000, previous_price: 175000, image: "property-images/14.jpg", description: "Historic flat with original details", tags: ["price-drop"] },
+  { id: 16, address: "Benalua, Alicante", bedrooms: 2, bathrooms: 2, price: 295000, image: "property-images/16.jpg", description: "Contemporary design apartment", tags: [] },
+  { id: 18, address: "Centro, Alicante", bedrooms: 1, bathrooms: 1, price: 185000, image: "property-images/18.jpg", description: "Downtown studio", tags: [] },
+  { id: 19, address: "San Juan, Alicante", bedrooms: 3, bathrooms: 2, price: 410000, previous_price: 450000, image: "property-images/19.jpg", description: "Luxury villa with pool", tags: ["price-drop"] },
+  { id: 20, address: "Playa del Postiguet, Alicante", bedrooms: 2, bathrooms: 1, price: 265000, image: "property-images/20.jpg", description: "Spacious beach apartment", tags: [] },
+  { id: 24, address: "Ensanche, Alicante", bedrooms: 2, bathrooms: 2, price: 240000, image: "property-images/24.jpg", description: "Newly renovated apartment", tags: ["new"] },
+  { id: 25, address: "Playa de la Caleta, Alicante", bedrooms: 1, bathrooms: 1, price: 220000, previous_price: 240000, image: "property-images/25.jpg", description: "Beachfront efficiency apartment", tags: ["price-drop"] },
+  { id: 26, address: "Casco Antiguo, Alicante", bedrooms: 2, bathrooms: 1, price: 180000, image: "property-images/26.jpg", description: "Spacious historic flat", tags: [] },
+  { id: 27, address: "Benalua, Alicante", bedrooms: 1, bathrooms: 1, price: 175000, image: "property-images/27.jpg", description: "Compact modern apartment", tags: [] },
+  { id: 28, address: "Centro, Alicante", bedrooms: 3, bathrooms: 2, price: 365000, image: "property-images/28.jpg", description: "Large downtown penthouse", tags: ["new"] },
+  { id: 29, address: "San Juan, Alicante", bedrooms: 2, bathrooms: 1, price: 255000, image: "property-images/29.jpg", description: "Family home in residential area", tags: [] },
+  { id: 36, address: "Playa del Postiguet, Alicante", bedrooms: 3, bathrooms: 2, price: 385000, image: "property-images/36.jpg", description: "Luxury beachfront residence", tags: ["new"] },
+  { id: 37, address: "Ensanche, Alicante", bedrooms: 1, bathrooms: 1, price: 165000, image: "property-images/37.jpg", description: "Affordable urban apartment", tags: [] },
+  { id: 38, address: "Playa de la Caleta, Alicante", bedrooms: 2, bathrooms: 2, price: 320000, previous_price: 340000, image: "property-images/38.jpg", description: "Beachfront with sea view terrace", tags: ["price-drop"] },
+  { id: 41, address: "Casco Antiguo, Alicante", bedrooms: 3, bathrooms: 2, price: 280000, image: "property-images/41.jpg", description: "Spacious historic residence", tags: [] }
+];
+
+let currentView = 'grid';
+let favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+
+function renderProperties(filtered = properties) {
+  const container = document.getElementById('properties-container');
+  container.className = currentView === 'grid' ? 'grid' : 'list';
+  container.innerHTML = '';
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="no-results" style="grid-column: 1/-1"><h2>No properties found</h2><p>Try adjusting your filters</p></div>';
+    return;
+  }
+
+  filtered.forEach(prop => {
+    const card = document.createElement('div');
+    card.className = `card ${currentView === 'list' ? 'list-view' : ''}`;
+    card.innerHTML = `
+      <div class="image-section">
+        <img src="${prop.image}" alt="${prop.address}">
+        <button class="fav-btn ${favorites[prop.id] ? 'favorited' : ''}" data-id="${prop.id}">★</button>
+        <div class="tags">
+          ${prop.tags.map(tag => `<span class="tag ${tag === 'new' ? 'new' : tag === 'price-drop' ? 'price-drop' : 'exclusive'}">${tag === 'new' ? 'NEW' : tag === 'price-drop' ? 'PRICE DROP' : 'EXCLUSIVE'}</span>`).join('')}
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="address">${prop.address}</div>
+        <div class="meta">${prop.bedrooms} bed • ${prop.bathrooms} bath</div>
+        <div class="price">€${prop.price.toLocaleString()}</div>
+        ${prop.previous_price ? `<div class="previous-price">Was €${prop.previous_price.toLocaleString()}</div>` : ''}
+        <div class="description">${prop.description}</div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  document.querySelectorAll('.fav-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      favorites[id] = !favorites[id];
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      btn.classList.toggle('favorited');
+    });
+  });
+}
+
+function applyFilters() {
+  const bedrooms = document.getElementById('bedrooms').value;
+  const priceMax = document.getElementById('price-max').value;
+  const search = document.getElementById('search').value.toLowerCase();
+
+  let filtered = properties.filter(p => {
+    const bedroomMatch = !bedrooms || p.bedrooms >= parseInt(bedrooms);
+    const priceMatch = !priceMax || p.price <= parseInt(priceMax);
+    const searchMatch = !search || p.address.toLowerCase().includes(search) || p.description.toLowerCase().includes(search);
+    return bedroomMatch && priceMatch && searchMatch;
+  });
+
+  renderProperties(filtered);
+}
+
+document.getElementById('bedrooms').addEventListener('change', applyFilters);
+document.getElementById('price-max').addEventListener('change', applyFilters);
+document.getElementById('search').addEventListener('input', applyFilters);
+
+document.querySelectorAll('.view-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentView = btn.dataset.view;
+    applyFilters();
+  });
+});
+
+renderProperties();
+</script>
+
+</body>
+</html>
