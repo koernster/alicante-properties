@@ -1,1 +1,579 @@
-PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+QWxpY2FudGUgUHJvcGVydHkgU2VhcmNoIOKAlCA0IEFwcmlsIDIwMjY8L3RpdGxlPgo8c3R5bGU+CiAgOnJvb3QgewogICAgLS1iZzogI2Y4ZjdmNDsKICAgIC0tY2FyZDogI2ZmZmZmZjsKICAgIC0tYWNjZW50OiAjMjU2M2ViOwogICAgLS1hY2NlbnQtbGlnaHQ6ICNkYmVhZmU7CiAgICAtLWZhdjogI2Y1OWUwYjsKICAgIC0tZmF2LWxpZ2h0OiAjZmVmM2M3OwogICAgLS10ZXh0OiAjMWUyOTNiOwogICAgLS1tdXRlZDogIzY0NzQ4YjsKICAgIC0tYm9yZGVyOiAjZTJlOGYwOwogICAgLS1ncmVlbjogIzA1OTY2OTsKICAgIC0tcmVkOiAjZGMyNjI2OwogICAgLS10YWctbmV3OiAjZGNmY2U3OwogICAgLS10YWctbmV3LXRleHQ6ICMxNjY1MzQ7CiAgICAtLXRhZy1kcm9wOiAjZmVlMmUyOwogICAgLS10YWctZHJvcC10ZXh0OiAjOTkxYjFiOwogICAgLS10YWctZXhjbDogI2YzZThmZjsKICAgIC0tdGFnLWV4Y2wtdGV4dDogIzZiMjFhODsKICB9CiAgKiB7IG1hcmdpbjogMDsgcGFkZGluZzogMDsgYm94LXNpemluZzogYm9yZGVyLWJveDsgfQogIGJvZHkgeyBmb250LWZhbWlseTogLWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0ZW1Gb250LCAnU2Vnb2UgVUknLCBSb2JvdG8sIHNhbnMtc2VyaWY7IGJhY2tncm91bmQ6IHZhcigtLWJnKTsgY29sb3I6IHZhcigtLXRleHQpOyB9CgogIGhlYWRlciB7IGJhY2tncm91bmQ6IHdoaXRlOyBib3JkZXItYm90dG9tOiAxcHggc29saWQgdmFyKC0tYm9yZGVyKTsgcGFkZGluZzogMjBweCAzMnB4OyBwb3NpdGlvbjogc3RpY2t5OyB0b3A6IDA7IHotaW5kZXg6IDEwMDsgfQogIGhlYWRlciBoMSB7IGZvbnQtc2l6ZTogMjJweDsgZm9udC13ZWlnaHQ6IDcwMDsgfQogIGhlYWRlciBwIHsgY29sb3I6IHZhcigtLW11dGVkKTsgZm9udC1zaXplOiAxNHB4OyBtYXJnaW4tdG9wOiAycHg7IH0KCiAgLnRvb2xiYXIgeyBkaXNwbGF5OiBmbGV4OyBnYXA6IDEycHg7IGZsZXgtd3JhcDogd3JhcDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgcGFkZGluZzogMTZweCAzMnB4OyBiYWNrZ3JvdW5kOiB3aGl0ZTsgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkIHZhcigtLWJvcmRlcik7IHBvc2l0aW9uOiBzdGlja3k7IHRvcDogNjhweDsgei1pbmRleDogOTk7IH0KICAudG9vbGJhciAuZmlsdGVyLWdyb3VwIHsgZGlzcGxheTogZmxleDsgZ2FwOiA2cHg7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IH0KICAudG9vbGJhciBsYWJlbCB7IGZvbnQtc2l6ZTogMTNweDsgZm9udC13ZWlnaHQ6IDYwMDsgY29sb3I6IHZhcigtLW11dGVkKTsgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsgbGV0dGVyLXNwYWNpbmc6IDAuNXB4OyB9CiAgLnRvb2xiYXIgc2VsZWN0LCAudG9vbGJhciBpbnB1dCB7IHBhZGRpbmc6IDdweCAxMnB4OyBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1ib3JkZXIpOyBib3JkZXItcmFkaXVzOiA4cHg7IGZvbnQtc2l6ZTogMTRweDsgYmFja2dyb3VuZDogd2hpdGU7IH0KICAudG9vbGJhciBpbnB1dFt0eXBlPSJ0ZXh0Il0geyB3aWR0aDogMTgwcHg7IH0KCiAgLnZpZXctdG9nZ2xlIHsgZGlzcGxheTogZmxleDsgZ2FwOiA0cHg7IG1hcmdpbi1sZWZ0OiBhdXRvOyB9CiAgLnZpZXctdG9nZ2xlIGJ1dHRvbiB7IHBhZGRpbmc6IDdweCAxNnB4OyBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1ib3JkZXIpOyBiYWNrZ3JvdW5kOiB3aGl0ZTsgZm9udC1zaXplOiAxM3B4OyBmb250LXdlaWdodDogNjAwOyBjdXJzb3I6IHBvaW50ZXI7IGNvbG9yOiB2YXIoLS1tdXRlZCk7IHRyYW5zaXRpb246IGFsbCAwLjJzOyB9CiAgLnZpZXctdG9nZ2xlIGJ1dHRvbi5hY3RpdmUgeyBiYWNrZ3JvdW5kOiB2YXIoLS1hY2NlbnQpOyBjb2xvcjogd2hpdGU7IGJvcmRlci1jb2xvcjogdmFyKC0tYWNjZW50KTsgfQogIC52aWV3LXRvZ2dsZSBidXR0b246aG92ZXI6bm90KC5hY3RpdmUpIHsgYmFja2dyb3VuZDogdmFyKC0tYWNjZW50LWxpZ2h0KTsgfQoKICAuZmF2LWZpbHRlci1ncm91cCB7IGRpc3BsYXk6IGZsZXg7IGdhcDogNnB4OyBhbGlnbi1pdGVtczogY2VudGVyOyB9CiAgI2Zhdi1maWx0ZXItYnRuIHsgcGFkZGluZzogN3B4IDE0cHg7IGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWZhdik7IGJhY2tncm91bmQ6IHdoaXRlOyBmb250LXNpemU6IDEzcHg7IGZvbnQtd2VpZ2h0OiA2MDA7IGN1cnNvcjogcG9pbnRlcjsgY29sb3I6IHZhcigtLWZhdik7IGJvcmRlci1yYWRpdXM6IDhweDsgdHJhbnNpdGlvbjogYWxsIDAuMnM7IH0KICAjZmF2LWZpbHRlci1idG4uYWN0aXZlIHsgYmFja2dyb3VuZDogdmFyKC0tZmF2KTsgY29sb3I6IHdoaXRlOyB9CiAgI2Zhdi1maWx0ZXItYnRuOmhvdmVyOm5vdCguYWN0aXZlKSB7IGJhY2tncm91bmQ6IHZhcigtLWZhdi1saWdodCk7IH0KICAjZmF2LWNsZWFyLWJ0biB7IHBhZGRpbmc6IDdweCAxMnB4OyBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1ib3JkZXIpOyBiYWNrZ3JvdW5kOiB3aGl0ZTsgZm9udC1zaXplOiAxM3B4OyBjdXJzb3I6IHBvaW50ZXI7IGNvbG9yOiB2YXIoLS1tdXRlZCk7IGJvcmRlci1yYWRpdXM6IDhweDsgdHJhbnNpdGlvbjogYWxsIDAuMnM7IGRpc3BsYXk6IG5vbmU7IH0KICAjZmF2LWNsZWFyLWJ0bjpob3ZlciB7IGJhY2tncm91bmQ6ICNmZWUyZTI7IGJvcmRlci1jb2xvcjogdmFyKC0tcmVkKTsgY29sb3I6IHZhcigtLXJlZCk7IH0KCiAgbWFpbiB7IHBhZGRpbmc6IDI0cHggMzJweDsgfQoKICAuZ3JpZCB7IGRpc3BsYXk6IGdyaWQ7IGdyaWQtdGVtcGxhdGUtY29sdW1uczogcmVwZWF0KGF1dG8tZmlsbCwgbWlubWF4KDI4MHB4LCAxZnIpKTsgZ2FwOiAyMHB4OyB9CiAgLmxpc3QgeyBkaXNwbGF5OiBmbGV4OyBmbGV4LWRpcmVjdGlvbjogY29sdW1uOyBnYXA6IDEycHg7IH0KCiAgLmNhcmQtbGluayB7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgY29sb3I6IGluaGVyaXQ7IGRpc3BsYXk6IGJsb2NrOyB9CiAgLmNhcmQgeyBiYWNrZ3JvdW5kOiB2YXIoLS1jYXJkKTsgYm9yZGVyLXJhZGl1czogMTJweDsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tYm9yZGVyKTsgb3ZlcmZsb3c6IGhpZGRlbjsgdHJhbnNpdGlvbjogYWxsIDAuMnM7IGN1cnNvcjogcG9pbnRlcjsgfQogIC5jYXJkOmhvdmVyIHsgYm94LXNoYWRvdzogMCA0cHggMTZweCByZ2JhKDAsIDAsIDAsIDAuMDgpOyB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoLTJweCk7IH0KICAuY2FyZC5saXN0LXZpZXcgeyBkaXNwbGF5OiBmbGV4OyBnYXA6IDE2cHg7IHBhZGRpbmc6IDEycHg7IH0KICAuY2FyZC5saXN0LXZpZXcgLmltYWdlLXNlY3Rpb24geyBmbGV4LXNocmluazogMDsgd2lkdGg6IDEyMHB4OyBoZWlnaHQ6IDEyMHB4OyB9CiAgLmNhcmQubGlzdC12aWV3IC5pbmZvLXNlY3Rpb24geyBmbGV4OiAxOyB9CgogIC5pbWFnZS1zZWN0aW9uIHsgcG9zaXRpb246IHJlbGF0aXZlOyB3aWR0aDogMTAwJTsgaGVpZ2h0OiAyMDBweDsgYmFja2dyb3VuZDogI2YwZjBmMDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQogIC5pbWFnZS1zZWN0aW9uIGltZyB7IHdpZHRoOiAxMDAlOyBoZWlnaHQ6IDEwMCU7IG9iamVjdC1maXQ6IGNvdmVyOyB9CgogIC5mYXYtYnRuIHsgcG9zaXRpb246IGFic29sdXRlOyB0b3A6IDhweDsgcmlnaHQ6IDhweDsgd2lkdGg6IDM2cHg7IGhlaWdodDogMzZweDsgYm9yZGVyLXJhZGl1czogNTAlOyBiYWNrZ3JvdW5kOiByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuOTUpOyBib3JkZXI6IG5vbmU7IGN1cnNvcjogcG9pbnRlcjsgZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsganVzdGlmeS1jb250ZW50OiBjZW50ZXI7IGZvbnQtc2l6ZTogMjBweDsgdHJhbnNpdGlvbjogYWxsIDAuMnM7IGJveC1zaGFkb3c6IDAgMnB4IDZweCByZ2JhKDAsIDAsIDAsIDAuMSk7IH0KICAuZmF2LWJ0bjpob3ZlciB7IHRyYW5zZm9ybTogc2NhbGUoMS4xKTsgfQogIC5mYXYtYnRuLmZhdm9yaXRlZCB7IGNvbG9yOiB2YXIoLS1mYXYpOyB9CgogIC50YWdzIHsgcG9zaXRpb246IGFic29sdXRlOyBib3R0b206IDhweDsgbGVmdDogOHB4OyBkaXNwbGF5OiBmbGV4OyBnYXA6IDZweDsgZmxleC13cmFwOiB3cmFwOyB9CiAgLnRhZyB7IGZvbnQtc2l6ZTogMTFweDsgZm9udC13ZWlnaHQ6IDYwMDsgcGFkZGluZzogM3B4IDhweDsgYm9yZGVyLXJhZGl1czogNHB4OyB9CiAgLnRhZy5uZXcgeyBiYWNrZ3JvdW5kOiB2YXIoLS10YWctbmV3KTsgY29sb3I6IHZhcigtLXRhZy1uZXctdGV4dCk7IH0KICAudGFnLnByaWNlLWRyb3AgeyBiYWNrZ3JvdW5kOiB2YXIoLS10YWctZHJvcCk7IGNvbG9yOiB2YXIoLS10YWctZHJvcC10ZXh0KTsgfQogIC50YWcuZXhjbHVzaXZlIHsgYmFja2dyb3VuZDogdmFyKC0tdGFnLWV4Y2wpOyBjb2xvcjogdmFyKC0tdGFnLWV4Y2wtdGV4dCk7IH0KCiAgLmluZm8tc2VjdGlvbiB7IHBhZGRpbmc6IDE2cHg7IH0KICAubGlzdC12aWV3IC5pbmZvLXNlY3Rpb24geyBwYWRkaW5nOiAwOyB9CgogIC5hZGRyZXNzIHsgZm9udC1zaXplOiAxNnB4OyBmb250LXdlaWdodDogNjAwOyBjb2xvcjogdmFyKC0tdGV4dCk7IG1hcmdpbi1ib3R0b206IDZweDsgfQogIC5saXN0LXZpZXcgLmFkZHJlc3MgeyBmb250LXNpemU6IDE1cHg7IH0KCiAgLm1ldGEgeyBkaXNwbGF5OiBmbGV4OyBnYXA6IDE2cHg7IGZvbnQtc2l6ZTogMTNweDsgY29sb3I6IHZhcigtLW11dGVkKTsgbWFyZ2luLWJvdHRvbTogMTJweDsgfQogIC5saXN0LXZpZXcgLm1ldGEgeyBtYXJnaW4tYm90dG9tOiA4cHg7IH0KCiAgLnByaWNlIHsgZm9udC1zaXplOiAxOHB4OyBmb250LXdlaWdodDogNzAwOyBjb2xvcjogdmFyKC0tYWNjZW50KTsgbWFyZ2luLWJvdHRvbTogNHB4OyB9CiAgLmxpc3QtdmlldyAucHJpY2UgeyBmb250LXNpemU6IDE2cHg7IH0KCiAgLnByZXZpb3VzLXByaWNlIHsgZm9udC1zaXplOiAxMnB4OyBjb2xvcjogdmFyKC0tcmVkKTsgdGV4dC1kZWNvcmF0aW9uOiBsaW5lLXRocm91Z2g7IH0KCiAgLmRlc2NyaXB0aW9uIHsgZm9udC1zaXplOiAxM3B4OyBjb2xvcjogdmFyKC0tbXV0ZWQpOyBsaW5lLWhlaWdodDogMS40OyB9CiAgLmxpc3QtdmlldyAuZGVzY3JpcHRpb24geyBkaXNwbGF5OiBub25lOyB9CgogIC5wb3J0YWwtYmFkZ2UgeyBmb250LXNpemU6IDExcHg7IGNvbG9yOiB2YXIoLS1tdXRlZCk7IG1hcmdpbi10b3A6IDhweDsgfQoKICAubm8tcmVzdWx0cyB7IHRleHQtYWxpZ246IGNlbnRlcjsgcGFkZGluZzogNDhweCAzMnB4OyBjb2xvcjogdmFyKC0tbXV0ZWQpOyB9CiAgLm5vLXJlc3VsdHMgaDIgeyBmb250LXNpemU6IDE4cHg7IG1hcmdpbi1ib3R0b206IDhweDsgY29sb3I6IHZhcigtLXRleHQpOyB9Cjwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+Cgo8aGVhZGVyPgogIDxoMT5BbGljYW50ZSBMdXh1cnkgVmlsbGEgU2VhcmNoPC9oMT4KICA8cD5MYXN0IHVwZGF0ZWQgNCBBcHJpbCAyMDI2IMK3IERldGFjaGVkIHZpbGxhcyAmYW1wOyBjaGFsZXRzIMK3IE1heCDigqwxLjFNIMK3IE1pbiAxNjBtwrIgwrcgTWluIDMgYmVkcyDCtyBQb29sIHByZWZlcnJlZDwvcD4KPC9oZWFkZXI+Cgo8ZGl2IGNsYXNzPSJ0b29sYmFyIj4KICA8ZGl2IGNsYXNzPSJmaWx0ZXItZ3JvdXAiPgogICAgPGxhYmVsIGZvcj0iYmVkcm9vbXMiPkJlZHJvb21zOjwvbGFiZWw+CiAgICA8c2VsZWN0IGlkPSJiZWRyb29tcyI+CiAgICAgIDxvcHRpb24gdmFsdWU9IiI+QWxsPC9vcHRpb24+CiAgICAgIDxvcHRpb24gdmFsdWU9IjMiPjMrPC9vcHRpb24+CiAgICAgIDxvcHRpb24gdmFsdWU9IjQiPjQrPC9vcHRpb24+CiAgICAgIDxvcHRpb24gdmFsdWU9IjUiPjUrPC9vcHRpb24+CiAgICA8L3NlbGVjdD4KICA8L2Rpdj4KICA8ZGl2IGNsYXNzPSJmaWx0ZXItZ3JvdXAiPgogICAgPGxhYmVsIGZvcj0icHJpY2UtbWF4Ij5NYXggUHJpY2U6PC9sYWJlbD4KICAgIDxzZWxlY3QgaWQ9InByaWNlLW1heCI+CiAgICAgIDxvcHRpb24gdmFsdWU9IiI+QWxsPC9vcHRpb24+CiAgICAgIDxvcHRpb24gdmFsdWU9IjUwMDAwMCI+4oKsNTAwazwvb3B0aW9uPgogICAgICA8b3B0aW9uIHZhbHVlPSI2MDAwMDAiPuKCrDYwMGs8L29wdGlvbj4KICAgICAgPG9wdGlvbiB2YWx1ZT0iNzAwMDAwIj7igqw3MDBrPC9vcHRpb24+CiAgICAgIDxvcHRpb24gdmFsdWU9IjgwMDAwMCI+4oKsODAwazwvb3B0aW9uPgogICAgICA8b3B0aW9uIHZhbHVlPSI5MDAwMDAiPuKCrDkwMGs8L29wdGlvbj4KICAgICAgPG9wdGlvbiB2YWx1ZT0iMTEwMDAwMCI+4oKsMS4xTTwvb3B0aW9uPgogICAgPC9zZWxlY3Q+CiAgPC9kaXY+CiAgPGRpdiBjbGFzcz0iZmlsdGVyLWdyb3VwIj4KICAgIDxsYWJlbCBmb3I9InNlYXJjaCI+U2VhcmNoOjwvbGFiZWw+CiAgICA8aW5wdXQgdHlwZT0idGV4dCIgaWQ9InNlYXJjaCIgcGxhY2Vob2xkZXI9IkxvY2F0aW9uLCBhcmVhLi4uIj4KICA8L2Rpdj4KICA8ZGl2IGNsYXNzPSJmYXYtZmlsdGVyLWdyb3VwIj4KICAgIDxidXR0b24gaWQ9ImZhdi1maWx0ZXItYnRuIj7imIUgRmF2b3VyaXRlcyAoMCk8L2J1dHRvbj4KICAgIDxidXR0b24gaWQ9ImZhdi1jbGVhci1idG4iPkNsZWFyIMOXPC9idXR0b24+CiAgPC9kaXY+CiAgPGRpdiBjbGFzcz0idmlldy10b2dnbGUiPgogICAgPGJ1dHRvbiBjbGFzcz0iYWN0aXZlIiBkYXRhLXZpZXc9ImdyaWQiPkdyaWQ8L2J1dHRvbj4KICAgIDxidXR0b24gZGF0YS12aWV3PSJsaXN0Ij5MaXN0PC9idXR0b24+CiAgPC9kaXY+CjwvZGl2PgoKPG1haW4+CiAgPGRpdiBjbGFzcz0iZ3JpZCIgaWQ9InByb3BlcnRpZXMtY29udGFpbmVyIj48L2Rpdj4KPC9tYWluPgoKPHNjcmlwdD4KY29uc3QgcHJvcGVydGllcyA9IFsKICB7CiAgICBpZDogMTAyLAogICAgYWRkcmVzczogIkxvbWEgQmFkYSwgUGV0cmVyIiwKICAgIGJlZHJvb21zOiA0LAogICAgYmF0aHJvb21zOiAzLAogICAgcHJpY2U6IDQ5MDAwMCwKICAgIHNpemVfbTI6IDM4MSwKICAgIHBsb3RfbTI6IDE3NjUsCiAgICBpbWFnZTogImh0dHBzOi8vY2RuLnRoaW5rd2ViY29udGVudC5jb20vcHJvcGVydHkvMTUxMjkvOTY5ODAwMi8yMDI2MDMyMDAwMDYxMi93MTkyMGgxMjc5L3MxNjAweDEyMDAveC0yNzYwMDYzNTAuanBnIiwKICAgIGRlc2NyaXB0aW9uOiAiTWVkaXRlcnJhbmVhbiB2aWxsYSBpbiBnYXRlZCBjb21tdW5pdHksIDM4MW3CsiBvbiAxLDc2NW3CsiBwbG90LiBQcml2YXRlIHBvb2wgfjU2bcKyLCBnYXJhZ2UsIGJhc2VtZW50IHdpdGggZmlyZXBsYWNlLiAzMCBtaW4gdG8gQWxpY2FudGUgY29hc3QuIiwKICAgIHRhZ3M6IFtdLAogICAgcG9ydGFsOiAiVGhpbmtTcGFpbiIsCiAgICB1cmw6ICJodHRwczovL3d3dy50aGlua3NwYWluLmNvbS9wcm9wZXJ0eS1mb3Itc2FsZS85Njk4MDAyIgogIH0sCiAgewogICAgaWQ6IDExNiwKICAgIGFkZHJlc3M6ICJCb25hbGJhLCBCdXNvdCIsCiAgICBiZWRyb29tczogNSwKICAgIGJhdGhyb29tczogMywKICAgIHByaWNlOiA1NDk1MDAsCiAgICBzaXplX20yOiAzMzAsCiAgICBwbG90X20yOiA4MDYsCiAgICBpbWFnZTogImh0dHBzOi8vY2RuLnRoaW5rd2ViY29udGVudC5jb20vcHJvcGVydHkvNzEwNy84NTY0Mzg1LzIwMjUwNjEyMDgwNTA2L3c4MDBoNjAwL3MxNjAweDEyMDAveC0yNTUyMzI1NzEuanBnIiwKICAgIGRlc2NyaXB0aW9uOiAiQmFsaW5lc2UtaW5zcGlyZWQgdmlsbGEgb24gODA2bcKyIHBsb3QuIFBvb2wgd2l0aCBhdXRvbWF0ZWQgY292ZXIsIG91dGRvb3IgamFjdXp6aSwgMTAwbcKyIHBvb2wgdGVycmFjZSwgZG91YmxlIGdhcmFnZSwgZmlyZXBsYWNlLiBTb3V0aC1mYWNpbmcgbW91bnRhaW4gdmlld3MuIiwKICAgIHRhZ3M6IFsibmV3Il0sCiAgICBwb3J0YWw6ICJUaGlua1NwYWluIiwKICAgIHVybDogImh0dHBzOi8vd3d3LnRoaW5rc3BhaW4uY29tL3Byb3BlcnR5LWZvci1zYWxlLzg1NjQzODUiCiAgfSwKICB7CiAgICBpZDogMTA4LAogICAgYWRkcmVzczogIkTDqW5pYSwgQWxpY2FudGUiLAogICAgYmVkcm9vbXM6IDQsCiAgICBiYXRocm9vbXM6IDMsCiAgICBwcmljZTogNTg1MDAwLAogICAgc2l6ZV9tMjogMjY1LAogICAgcGxvdF9tMjogNzA3LAogICAgaW1hZ2U6ICJodHRwczovL2Nkbi50aGlua3dlYmNvbnRlbnQuY29tL3Byb3BlcnR5LzExMzMzLzU4MjA5MzgvMjAyMzEyMDIxMDU1MjgvdzIwMDBoMTcyNy9zMTYwMHgxMjAwL3gtMjIwNzg2NjY3LmpwZyIsCiAgICBkZXNjcmlwdGlvbjogIlZpbGxhIHdpdGggaW5kZXBlbmRlbnQgZ3Vlc3QgYXBhcnRtZW50LCBwcml2YXRlIHBvb2wgKDjDlzRtKSwgY292ZXJlZCB0ZXJyYWNlLCBhdXRvbWF0aWMgaXJyaWdhdGlvbi4gQnVpbHQgMTk3OS9yZW5vdmF0ZWQgMjAxNy4iLAogICAgdGFnczogW10sCiAgICBwb3J0YWw6ICJUaGlua1NwYWluIiwKICAgIHVybDogImh0dHBzOi8vd3d3LnRoaW5rc3BhaW4uY29tL3Byb3BlcnR5LWZvci1zYWxlLzU4MjA5MzgiCiAgfSwKICB7CiAgICBpZDogMTE4LAogICAgYWRkcmVzczogIkdyYW4gQWxhY2FudCwgU2FudGEgUG9sYSIsCiAgICBiZWRyb29tczogNCwKICAgIGJhdGhyb29tczogMywKICAgIHByaWNlOiA2MTUwMDAsCiAgICBzaXplX20yOiAxOTcsCiAgICBwbG90X20yOiAzMDQsCiAgICBpbWFnZTogImh0dHBzOi8vaW1hZ2VzLmx1Y2FzZm94LmNvbS9wcm9wZXJ0eS80eDNfMTYwMHcvQTk5NUY5NTU4NS5qcGciLAogICAgZGVzY3JpcHRpb246ICJDb250ZW1wb3JhcnkgdmlsbGEgbmVhciBuYXR1cmFsIHBhcmsgYW5kIHNlYS4gUG9vbCAoN8OXM20pLCBzb2xhciBwYW5lbHMsIHNlbWktYmFzZW1lbnQgKDc3bcKyKSBmb3IgY2luZW1hL2d5bSwgZW5lcmd5IGNsYXNzIEEuIE5lYXIgc2Nob29scyBhbmQgc2hvcHBpbmcuIiwKICAgIHRhZ3M6IFsibmV3Il0sCiAgICBwb3J0YWw6ICJMdWNhcyBGb3giLAogICAgdXJsOiAiaHR0cHM6Ly93d3cubHVjYXNmb3guY29tL3Byb3BlcnR5LWZvci1zYWxlL3NwYWluL2Nvc3RhLWJsYW5jYS9hbGljYW50ZS9ncmFuLWFsYWNhbnQvaG91c2UtdmlsbGEvbW9uZHJpYW4uaHRtbCIKICB9LAogIHsKICAgIGlkOiAxMTEsCiAgICBhZGRyZXNzOiAiQWx0ZWEgSGlsbHMsIEFsdGVhIiwKICAgIGJlZHJvb21zOiA0LAogICAgYmF0aHJvb21zOiAzLAogICAgcHJpY2U6IDY1MDAwMCwKICAgIHNpemVfbTI6IDE5MCwKICAgIHBsb3RfbTI6IDI3MCwKICAgIGltYWdlOiAiaHR0cHM6Ly9jZG4ubHV4aW5tby5jb20vbHV4aW5tb193ZWJzaXRlL3dhdGVybWFyay8yNTYweDE0NDAvMTAwMTEzMTgvaW1hZ2UtODBkOTY4YmUtYTA2My00ZTZkLWE1MzQtNTcwYTZkYjVhN2JjLndlYnA/b3JpZ2luYWxFeHQ9anBnIiwKICAgIGRlc2NyaXB0aW9uOiAiRGV0YWNoZWQgaG91c2UgaW4gZXhjbHVzaXZlIEFsdGVhIEhpbGxzIHdpdGggcGFub3JhbWljIHNlYSB2aWV3cywgcHJpdmF0ZSBwb29sLCAyNGggc2VjdXJpdHksIGd1ZXN0IGhvdXNlLiBXZWxsLW1haW50YWluZWQuIiwKICAgIHRhZ3M6IFsiZXhjbHVzaXZlIl0sCiAgICBwb3J0YWw6ICJMdXhpbm1vIiwKICAgIHVybDogImh0dHBzOi8vd3d3Lmx1eGlubW8uY29tL3Byb3BlcnR5L3NlYS12aWV3LXZpbGxhLWluLWV4Y2x1c2l2ZS1hbHRlYS1oaWxscy02MjAzIgogIH0sCiAgewogICAgaWQ6IDEwNywKICAgIGFkZHJlc3M6ICJHb2xmIEJhaMOtYSwgRmluZXN0cmF0IiwKICAgIGJlZHJvb21zOiAzLAogICAgYmF0aHJvb21zOiAzLAogICAgcHJpY2U6IDY4NTAwMCwKICAgIHNpemVfbTI6IDE2MywKICAgIHBsb3RfbTI6IDQ0NSwKICAgIGltYWdlOiAiaHR0cHM6Ly9jZG4udGhpbmt3ZWJjb250ZW50LmNvbS9wcm9wZXJ0eS8zNjU3OC85NDEzNzQ0LzIwMjUxMTI2MDAzNTM5L3cxOTE5aDEyODEvczE2MDB4MTIwMC94LTI2NzY0NjAwNi5qcGciLAogICAgZGVzY3JpcHRpb246ICJBcmNoaXRlY3R1cmFsIHZpbGxhIGluIEZpbmVzdHJhdCBoaWxscyB3aXRoIHJlc29ydC1zdHlsZSBwb29sIGFuZCBzZWEgdmlld3MuIE9wZW4tY29uY2VwdCBpbnRlcmlvcnMsIHByZW1pdW0gYmF0aHJvb21zLCBleHBhbnNpdmUgdGVycmFjZXMuIiwKICAgIHRhZ3M6IFtdLAogICAgcG9ydGFsOiAiVGhpbmtTcGFpbiIsCiAgICB1cmw6ICJodHRwczovL3d3dy50aGlua3NwYWluLmNvbS9wcm9wZXJ0eS1mb3Itc2FsZS85NDEzNzQ0IgogIH0sCiAgewogICAgaWQ6IDEwNCwKICAgIGFkZHJlc3M6ICJCZW5pc3NhIENvc3RhLCBCYWxhZHJhciIsCiAgICBiZWRyb29tczogMywKICAgIGJhdGhyb29tczogMiwKICAgIHByaWNlOiA2OTUwMDAsCiAgICBzaXplX20yOiAyNDUsCiAgICBwbG90X20yOiAxMDI0LAogICAgaW1hZ2U6ICJodHRwczovL2Nkbi50aGlua3dlYmNvbnRlbnQuY29tL3Byb3BlcnR5LzEzOTI5LzkwMjYwOTkvMjAyNTA2MDIxODQzMzYvdzE0NTJoODE3L3MxNjAweDEyMDAveC0yNTQ0NzE0NjMuanBnIiwKICAgIGRlc2NyaXB0aW9uOiAiTW9kZXJuIHZpbGxhIG5lYXIgQ2FsYSBCYWxhZHJhci4gUHJpdmF0ZSBwb29sLCBzZWEgdmlld3MsIHJvb2Z0b3Agc29sYXJpdW0sIG91dGRvb3IgZGluaW5nIHdpdGggQkJRLiBFbmVyZ3kgY2xhc3MgQy4iLAogICAgdGFnczogW10sCiAgICBwb3J0YWw6ICJUaGlua1NwYWluIiwKICAgIHVybDogImh0dHBzOi8vd3d3LnRoaW5rc3BhaW4uY29tL3Byb3BlcnR5LWZvci1zYWxlLzkwMjYwOTkiCiAgfSwKICB7CiAgICBpZDogMTEzLAogICAgYWRkcmVzczogIlNhbiBNaWd1ZWwgZGUgU2FsaW5hcyIsCiAgICBiZWRyb29tczogNSwKICAgIGJhdGhyb29tczogNCwKICAgIHByaWNlOiA3ODAwMDAsCiAgICBzaXplX20yOiAyOTUsCiAgICBwbG90X20yOiA1NTgsCiAgICBpbWFnZTogImh0dHBzOi8vY2RuLnRoaW5rd2ViY29udGVudC5jb20vcHJvcGVydHkvMzcxMjYvOTY4NTUwMy8yMDI2MDMxNjE0Mzg1Mi93ODY1aDYyMC9zMTYwMHgxMjAwL3gtMjc1NjQ2NTQyLmpwZyIsCiAgICBkZXNjcmlwdGlvbjogIkx1eHVyeSB2aWxsYSBpbiBnYXRlZCBjb21tdW5pdHkuIEluZmluaXR5IHBvb2wgd2l0aCBzZWEgdmlld3MsIG1hc3RlciBzdWl0ZSB3aXRoIHdhbGstaW4gY2xvc2V0LCBkZXNpZ25lciBmdXJuaXR1cmUgaW5jbHVkZWQsIDUgbWluIHRvIGdvbGYsIDEwIG1pbiB0byBiZWFjaGVzLiIsCiAgICB0YWdzOiBbIm5ldyIsICJleGNsdXNpdmUiXSwKICAgIHBvcnRhbDogIlRoaW5rU3BhaW4iLAogICAgdXJsOiAiaHR0cHM6Ly93d3cudGhpbmtzcGFpbi5jb20vcHJvcGVydHktZm9yLXNhbGUvOTY4NTUwMyIKICB9LAogIHsKICAgIGlkOiAxMDUsCiAgICBhZGRyZXNzOiAiVG9ycmV2aWVqYSwgQWxpY2FudGUiLAogICAgYmVkcm9vbXM6IDMsCiAgICBiYXRocm9vbXM6IDMsCiAgICBwcmljZTogNzgwMDAwLAogICAgc2l6ZV9tMjogMTc4LAogICAgcGxvdF9tMjogMzc4LAogICAgaW1hZ2U6ICJodHRwczovL2Nkbi50aGlua3dlYmNvbnRlbnQuY29tL3Byb3BlcnR5LzI0NjE0Lzc1NTQ1OTEvMjAyMzA1MTAwNTI2NDMvdzExNzBoNjU4L3MxNjAweDEyMDAveC0yMDgyNTAxOTkuanBnIiwKICAgIGRlc2NyaXB0aW9uOiAiVHdvLXN0b3J5IGRldGFjaGVkIHZpbGxhIHdpdGggNTZtwrIgcm9vZiB0ZXJyYWNlLCBwcml2YXRlIHBvb2wsIDMwMG3CsiBvdXRkb29yIHNwYWNlLiAxLjNrbSB0byBQbGF5YSBkZWwgQ3VyYS4iLAogICAgdGFnczogW10sCiAgICBwb3J0YWw6ICJUaGlua1NwYWluIiwKICAgIHVybDogImh0dHBzOi8vd3d3LnRoaW5rc3BhaW4uY29tL3Byb3BlcnR5LWZvci1zYWxlLzc1NTQ1OTEiCiAgfSwKICB7CiAgICBpZDogMTA2LAogICAgYWRkcmVzczogIkxhIE51Y2lhLCBDb3N0YSBCbGFuY2EiLAogICAgYmVkcm9vbXM6IDMsCiAgICBiYXRocm9vbXM6IDMsCiAgICBwcmljZTogNzg4MDAwLAogICAgc2l6ZV9tMjogMjI1LAogICAgcGxvdF9tMjogMTI2NSwKICAgIGltYWdlOiAiaHR0cHM6Ly9jZG4udGhpbmt3ZWJjb250ZW50LmNvbS9wcm9wZXJ0eS8zMzA4OS85NDcwOTQ2LzIwMjUxMjIxMDYxMTI4L3cxOTIwaDE0NDAvczE2MDB4MTIwMC94LTI2OTQyODUzMS5qcGciLAogICAgZGVzY3JpcHRpb246ICJSZW5vdmF0ZWQgdmlsbGEgb24gMSwyNjVtwrIgcGxvdC4gSGVhdGVkIHByaXZhdGUgcG9vbCwgc2VhIHZpZXdzLCB0d28gc2VwYXJhdGUgbGV2ZWxzIHdpdGggcHJpdmF0ZSBlbnRyYW5jZXMuIDwxMCBtaW4gZnJvbSBBbHRlYSBhbmQgc2VhLiIsCiAgICB0YWdzOiBbXSwKICAgIHBvcnRhbDogIlRoaW5rU3BhaW4iLAogICAgdXJsOiAiaHR0cHM6Ly93d3cudGhpbmtzcGFpbi5jb20vcHJvcGVydHktZm9yLXNhbGUvOTQ3MDk0NiIKICB9LAogIHsKICAgIGlkOiAxMTAsCiAgICBhZGRyZXNzOiAiQmFsY8OzbiBkZSBGaW5lc3RyYXQsIEZpbmVzdHJhdCIsCiAgICBiZWRyb29tczogMywKICAgIGJhdGhyb29tczogMywKICAgIHByaWNlOiA3OTUwMDAsCiAgICBzaXplX20yOiAyNjAsCiAgICBwbG90X20yOiA1MDAsCiAgICBpbWFnZTogImh0dHBzOi8vY2RuLmx1eGlubW8uY29tL2x1eGlubW9fd2Vic2l0ZS93YXRlcm1hcmsvMjU2MHgxNDQwLzEwMDExMjQzL2ltYWdlLTlmMzVjNTBkLWJhYzEtNDQ3OC05YjZlLWJhYWM2M2VmZWYwNC53ZWJwP29yaWdpbmFsRXh0PWpwZyIsCiAgICBkZXNjcmlwdGlvbjogIkNvbnRlbXBvcmFyeSB2aWxsYSAoMjAyMiksIHBhbm9yYW1pYyBzZWEvbW91bnRhaW4gdmlld3MsIHNtYXJ0IGhvbWUsIHByaXZhdGUgcG9vbCwgYmFzZW1lbnQsIHJvb2Z0b3AgdGVycmFjZSB3aXRoIGphY3V6emkgcHJlLWluc3RhbGxhdGlvbi4gRW5lcmd5IGNsYXNzIEIuIiwKICAgIHRhZ3M6IFtdLAogICAgcG9ydGFsOiAiTHV4aW5tbyIsCiAgICB1cmw6ICJodHRwczovL3d3dy5sdXhpbm1vLmNvbS9wcm9wZXJ0eS9sdXh1cmlvdXMtZGV0YWNoZWQtdmlsbGEtd2l0aC1wYW5vcmFtaWMtdmlld3MtaW4tZmluZXN0cmF0LTYxMTQiCiAgfSwKICB7CiAgICBpZDogMTE5LAogICAgYWRkcmVzczogIkNlbnRybywgUm9qYWxlcyIsCiAgICBiZWRyb29tczogNCwKICAgIGJhdGhyb29tczogNCwKICAgIHByaWNlOiA4NDAwMDAsCiAgICBzaXplX20yOiAzNDUsCiAgICBwbG90X20yOiAxODk0LAogICAgaW1hZ2U6ICIiLAogICAgZGVzY3JpcHRpb246ICJTcGFjaW91cyB2aWxsYSBvbiAxLDg5NG3CsiBwbG90IGluIFJvamFsZXMgQ2VudHJvLiBQcml2YXRlIHBvb2wsIGdhcmRlbiwgdGVycmFjZSwgYmFsY29ueSwgcGFya2luZywgZml0dGVkIHdhcmRyb2Jlcywgc3RvcmFnZSByb29tLiBBbGwtYXNwZWN0IG9yaWVudGF0aW9uIChOL1MvRS9XKS4gQnVpbHQgMTk5NCwgc2Vjb25kIGhhbmQvZ29vZCBjb25kaXRpb24uIiwKICAgIHRhZ3M6IFsibmV3Il0sCiAgICBwb3J0YWw6ICJJZGVhbGlzdGEiLAogICAgdXJsOiAiaHR0cHM6Ly93d3cuaWRlYWxpc3RhLmNvbS9lbi9pbm11ZWJsZS8xMTEwMTUyNTcvIgogIH0sCiAgewogICAgaWQ6IDEwMSwKICAgIGFkZHJlc3M6ICJCYWhpYSBHb2xmLCBGaW5lc3RyYXQgUHVlYmxvIiwKICAgIGJlZHJvb21zOiA0LAogICAgYmF0aHJvb21zOiA0LAogICAgcHJpY2U6IDg0OTAwMCwKICAgIHNpemVfbTI6IDI0OSwKICAgIHBsb3RfbTI6IDUwMCwKICAgIGltYWdlOiAiaHR0cHM6Ly9jZG4udGhpbmt3ZWJjb250ZW50LmNvbS9wcm9wZXJ0eS8zNjczLzk3MTM3OTgvMjAyNjAzMjQxNDExNTAvdzEyODBoNzIwL3MxNjAweDEyMDAveC0yNzY0MjI2NjcuanBnIiwKICAgIGRlc2NyaXB0aW9uOiAiTHV4dXJ5IG5ldyBidWlsZCB2aWxsYSBpbiBCYWhpYSBHb2xmLCAzLjVrbSBmcm9tIGNvYXN0LiBCUkVFQU0gY2VydGlmaWVkLCBQb3JjZWxhbm9zYSBmaW5pc2hlcywgcHJpdmF0ZSBwb29sLCByb29mdG9wIHNvbGFyaXVtLCBtb3Rvcml6ZWQgZ2F0ZS4iLAogICAgdGFnczogWyJuZXciXSwKICAgIHBvcnRhbDogIlRoaW5rU3BhaW4iLAogICAgdXJsOiAiaHR0cHM6Ly93d3cudGhpbmtzcGFpbi5jb20vcHJvcGVydHktZm9yLXNhbGUvOTcxMzc5OCIKICB9LAogIHsKICAgIGlkOiAxMTQsCiAgICBhZGRyZXNzOiAiRWwgTW9udGfDsywgRMOpbmlhIiwKICAgIGJlZHJvb21zOiAzLAogICAgYmF0aHJvb21zOiAzLAogICAgcHJpY2U6IDg2MDAwMCwKICAgIHNpemVfbTI6IDM0NiwKICAgIHBsb3RfbTI6IDEwMDksCiAgICBpbWFnZTogImh0dHBzOi8vY2RuLnRoaW5rd2ViY29udGVudC5jb20vcHJvcGVydHkvMzI5NjAvOTM5NTQyOC8yMDI1MTExNzE4MDU0OS93MjAwMGgxNTAwL3MxNjAweDEyMDAveC0yNjcwNTc4OTMuanBnIiwKICAgIGRlc2NyaXB0aW9uOiAiRWxlZ2FudCByZXNhbGUgdmlsbGEgb24gMSwwMDltwrIgcGxvdC4gUHJpdmF0ZSBwb29sICg0w5c4bSksIHBhbm9yYW1pYyBzZWEgJiBtb3VudGFpbiB2aWV3cywgc3VtbWVyIGtpdGNoZW4gd2l0aCBwaXp6YSBvdmVuLCBnYXJhZ2UgZm9yIDYgY2Fycy4gU291dGgtZmFjaW5nLiIsCiAgICB0YWdzOiBbIm5ldyJdLAogICAgcG9ydGFsOiAiVGhpbmtTcGFpbiIsCiAgICB1cmw6ICJodHRwczovL3d3dy50aGlua3NwYWluLmNvbS9wcm9wZXJ0eS1mb3Itc2FsZS85Mzk1NDI4IgogIH0sCiAgewogICAgaWQ6IDExMiwKICAgIGFkZHJlc3M6ICJCYWxjw7NuIGRlIEZpbmVzdHJhdCwgRmluZXN0cmF0IiwKICAgIGJlZHJvb21zOiA0LAogICAgYmF0aHJvb21zOiAzLAogICAgcHJpY2U6IDg2NTAwMCwKICAgIHNpemVfbTI6IDMyNSwKICAgIHBsb3RfbTI6IDU5MCwKICAgIGltYWdlOiAiaHR0cHM6Ly9jZG4ubHV4aW5tby5jb20vbHV4aW5tb193ZWJzaXRlL3dhdGVybWFyay8yNTYweDE0NDAvMTAwMTEyMDEvaW1hZ2UtOWEyZmI2NWYtMzYzZS00ZDQ1LTgzMmYtOWY4YjAyYTllZjMxLndlYnA/b3JpZ2luYWxFeHQ9anBnIiwKICAgIGRlc2NyaXB0aW9uOiAiQ29udGVtcG9yYXJ5IHZpbGxhICgyMDIzKSwgMzI1bcKyLCBlbmVyZ3kgY2xhc3MgQS4gUHJpdmF0ZSBwb29sICsgY2hpbGRyZW4ncyBwb29sLCBneW0sIGdhdGVkIGNvbXBsZXgsIDI0aCBzdXJ2ZWlsbGFuY2UsIGR1YWwgb3JpZW50YXRpb24uIiwKICAgIHRhZ3M6IFtdLAogICAgcG9ydGFsOiAiTHV4aW5tbyIsCiAgICB1cmw6ICJodHRwczovL3d3dy5sdXhpbm1vLmNvbS9wcm9wZXJ0eS9uZXctNC1iZWRyb29tLW1vZGVybi12aWxsYS1pbi1iYWxjb24tZGUtZmluZXN0cmF0LTcyOTgiCiAgfSwKICB7CiAgICBpZDogMTAzLAogICAgYWRkcmVzczogIlBhaWNoaSwgVGV1bGFkYS1Nb3JhaXJhIiwKICAgIGJlZHJvb21zOiA1LAogICAgYmF0aHJvb21zOiA0LAogICAgcHJpY2U6IDg5OTAwMCwKICAgIHNpemVfbTI6IDQ0MiwKICAgIHBsb3RfbTI6IDgxMSwKICAgIGltYWdlOiAiaHR0cHM6Ly9jZG4udGhpbmt3ZWJjb250ZW50LmNvbS9wcm9wZXJ0eS81NTkzLzkyMDU3MTkvMjAyNTA5MDQxNzAyNDYvdzIwMDBoMTEyOC9zMTYwMHgxMjAwL3gtMjYxMzQwMjY5LmpwZyIsCiAgICBkZXNjcmlwdGlvbjogIlRyYWRpdGlvbmFsIE1lZGl0ZXJyYW5lYW4gdmlsbGEsIGhlYXRlZCBwb29sICgxMcOXNW0pLCBjaW5lbWEgcm9vbSwgZ2FtZXMgcm9vbSwgYmFyIGFyZWEsIGphY3V6emksIHNlYSB2aWV3cywgbmVhciBFbCBQb3J0ZXQgYmVhY2guIiwKICAgIHRhZ3M6IFsiZXhjbHVzaXZlIl0sCiAgICBwb3J0YWw6ICJUaGlua1NwYWluIiwKICAgIHVybDogImh0dHBzOi8vd3d3LnRoaW5rc3BhaW4uY29tL3Byb3BlcnR5LWZvci1zYWxlLzkyMDU3MTkiCiAgfSwKICB7CiAgICBpZDogMTE1LAogICAgYWRkcmVzczogIkJhbGPDs24gZGUgRmluZXN0cmF0IOKAlCBTdW5ueSBIaWxscyIsCiAgICBiZWRyb29tczogNSwKICAgIGJhdGhyb29tczogNCwKICAgIHByaWNlOiA5MTUwMDAsCiAgICBzaXplX20yOiAzMjAsCiAgICBwbG90X20yOiA1MTEsCiAgICBpbWFnZTogImh0dHBzOi8vY2RuLnRoaW5rd2ViY29udGVudC5jb20vcHJvcGVydHkvMTAwOTQvOTYwNDg0MC8yMDI2MDIxNzA0MDMyNy93ODAwaDYwMC9zMTYwMHgxMjAwL3gtMjczMzE3MzI1LmpwZyIsCiAgICBkZXNjcmlwdGlvbjogIkVuZXJneSBBLXJhdGVkIGNvbnRlbXBvcmFyeSB2aWxsYSAoU3VubnkgSGlsbHMpLiBGdWxseSBmdXJuaXNoZWQsIHByaXZhdGUgcG9vbCwgbXVsdGlwbGUgc29sYXJpdW1zLCBiYXNlbWVudCwgcGFkZGxlIHRlbm5pcyBpbiBjb21tdW5pdHkuIDMwIG1pbiB0byBBbGljYW50ZS4iLAogICAgdGFnczogWyJuZXciXSwKICAgIHBvcnRhbDogIlRoaW5rU3BhaW4iLAogICAgdXJsOiAiaHR0cHM6Ly93d3cudGhpbmtzcGFpbi5jb20vcHJvcGVydHktZm9yLXNhbGUvOTYwNDg0MCIKICB9LAogIHsKICAgIGlkOiAxMTcsCiAgICBhZGRyZXNzOiAiUGxheWEgTXVjaGF2aXN0YSwgU2FuIEp1YW4gZGUgQWxpY2FudGUiLAogICAgYmVkcm9vbXM6IDQsCiAgICBiYXRocm9vbXM6IDMsCiAgICBwcmljZTogMTEwMDAwMCwKICAgIHNpemVfbTI6IDM2MCwKICAgIHBsb3RfbTI6IDk4NywKICAgIGltYWdlOiAiaHR0cHM6Ly9pbWFnZXMubHVjYXNmb3guY29tL3Byb3BlcnR5LzR4M18xNjAwdy9CNzIyNjMxQ0NGLmpwZyIsCiAgICBkZXNjcmlwdGlvbjogIlByZW1pdW0gYmVhY2hzaWRlIHZpbGxhIHN0ZXBzIGZyb20gTXVjaGF2aXN0YSBiZWFjaC4gTC1zaGFwZWQgcHJpdmF0ZSBwb29sICg0NG3CsiksIGNoaWxsLW91dCBhcmVhLCA5ODdtwrIgTWVkaXRlcnJhbmVhbiBnYXJkZW4sIG1hc3RlciBzdWl0ZSwgMjMwbcKyIHBhcmtpbmcuIiwKICAgIHRhZ3M6IFsibmV3IiwgImV4Y2x1c2l2ZSJdLAogICAgcG9ydGFsOiAiTHVjYXMgRm94IiwKICAgIHVybDogImh0dHBzOi8vd3d3Lmx1Y2FzZm94LmNvbS9wcm9wZXJ0eS1mb3Itc2FsZS9zcGFpbi9jb3N0YS1ibGFuY2EvYWxpY2FudGUvcGxheWEtbXVjaGF2aXN0YS9ob3VzZS12aWxsYS9hbGk2ODIyOS5odG1sIgogIH0KXTsKCmxldCBjdXJyZW50VmlldyA9ICdncmlkJzsKbGV0IHNob3dGYXZPbmx5ID0gZmFsc2U7CmxldCBmYXZvcml0ZXMgPSBKU09OLnBhcnNlKGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdmYXZvcml0ZXMnKSB8fCAne30nKTsKCmZ1bmN0aW9uIHVwZGF0ZUZhdlVJKCkgewogIGNvbnN0IGNvdW50ID0gT2JqZWN0LnZhbHVlcyhmYXZvcml0ZXMpLmZpbHRlcihCb29sZWFuKS5sZW5ndGg7CiAgY29uc3QgYnRuID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Zhdi1maWx0ZXItYnRuJyk7CiAgY29uc3QgY2xlYXJCdG4gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmF2LWNsZWFyLWJ0bicpOwogIGJ0bi50ZXh0Q29udGVudCA9IGDimIUgRmF2b3VyaXRlcyAoJHtjb3VudH0pYDsKICBjbGVhckJ0bi5zdHlsZS5kaXNwbGF5ID0gY291bnQgPiAwID8gJ2lubGluZS1ibG9jaycgOiAnbm9uZSc7Cn0KCmZ1bmN0aW9uIHJlbmRlclByb3BlcnRpZXMoZmlsdGVyZWQgPSBwcm9wZXJ0aWVzKSB7CiAgY29uc3QgY29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Byb3BlcnRpZXMtY29udGFpbmVyJyk7CiAgY29udGFpbmVyLmNsYXNzTmFtZSA9IGN1cnJlbnRWaWV3ID09PSAnZ3JpZCcgPyAnZ3JpZCcgOiAnbGlzdCc7CiAgY29udGFpbmVyLmlubmVySFRNTCA9ICcnOwoKICBpZiAoZmlsdGVyZWQubGVuZ3RoID09PSAwKSB7CiAgICBjb250YWluZXIuaW5uZXJIVE1MID0gJzxkaXYgY2xhc3M9Im5vLXJlc3VsdHMiIHN0eWxlPSJncmlkLWNvbHVtbjogMS8tMSI+PGgyPk5vIHByb3BlcnRpZXMgZm91bmQ8L2gyPjxwPlRyeSBhZGp1c3RpbmcgeW91ciBmaWx0ZXJzPC9wPjwvZGl2Pic7CiAgICByZXR1cm47CiAgfQoKICBmaWx0ZXJlZC5mb3JFYWNoKHByb3AgPT4gewogICAgY29uc3QgbGluayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2EnKTsKICAgIGxpbmsuY2xhc3NOYW1lID0gJ2NhcmQtbGluayc7CiAgICBsaW5rLmhyZWYgPSBwcm9wLnVybCB8fCAnIyc7CiAgICBsaW5rLnRhcmdldCA9ICdfYmxhbmsnOwogICAgbGluay5yZWwgPSAnbm9vcGVuZXIgbm9yZWZlcnJlcic7CgogICAgY29uc3QgY2FyZCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpOwogICAgY2FyZC5jbGFzc05hbWUgPSBgY2FyZCAke2N1cnJlbnRWaWV3ID09PSAnbGlzdCcgPyAnbGlzdC12aWV3JyA6ICcnfWA7CgogICAgY29uc3QgcGxvdFRleHQgPSBwcm9wLnBsb3RfbTIgPyBgIMK3ICR7cHJvcC5wbG90X20yLnRvTG9jYWxlU3RyaW5nKCl9bcKyIHBsb3RgIDogJyc7CiAgICBjYXJkLmlubmVySFRNTCA9IGAKICAgICAgPGRpdiBjbGFzcz0iaW1hZ2Utc2VjdGlvbiI+CiAgICAgICAgPGltZyBzcmM9IiR7cHJvcC5pbWFnZX0iIGFsdD0iJHtwcm9wLmFkZHJlc3N9IiBsb2FkaW5nPSJsYXp5Ij4KICAgICAgICA8YnV0dG9uIGNsYXNzPSJmYXYtYnRuICR7ZmF2b3JpdGVzW3Byb3AuaWRdID8gJ2Zhdm9yaXRlZCcgOiAnJ30iIGRhdGEtaWQ9IiR7cHJvcC5pZH0iPuKYhTwvYnV0dG9uPgogICAgICAgIDxkaXYgY2xhc3M9InRhZ3MiPgogICAgICAgICAgJHtwcm9wLnRhZ3MubWFwKHRhZyA9PiBgPHNwYW4gY2xhc3M9InRhZyAke3RhZyA9PT0gJ25ldycgPyAnbmV3JyA6IHRhZyA9PT0gJ3ByaWNlLWRyb3AnID8gJ3ByaWNlLWRyb3AnIDogJ2V4Y2x1c2l2ZSd9Ij4ke3RhZyA9PT0gJ25ldycgPyAnTkVXJyA6IHRhZyA9PT0gJ3ByaWNlLWRyb3AnID8gJ1BSSUNFIERST1AnIDogJ0VYQ0xVU0lWRSd9PC9zcGFuPmApLmpvaW4oJycpfQogICAgICAgIDwvZGl2PgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iaW5mby1zZWN0aW9uIj4KICAgICAgICA8ZGl2IGNsYXNzPSJhZGRyZXNzIj4ke3Byb3AuYWRkcmVzc308L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJtZXRhIj4ke3Byb3AuYmVkcm9vbXN9IGJlZCDCtyAke3Byb3AuYmF0aHJvb21zfSBiYXRoIMK3ICR7cHJvcC5zaXplX20yfW3CsiR7cGxvdFRleHR9PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0icHJpY2UiPuKCrCR7cHJvcC5wcmljZS50b0xvY2FsZVN0cmluZygpfTwvZGl2PgogICAgICAgICR7cHJvcC5wcmV2aW91c19wcmljZSA/IGA8ZGl2IGNsYXNzPSJwcmV2aW91cy1wcmljZSI+V2FzIOKCrCR7cHJvcC5wcmV2aW91c19wcmljZS50b0xvY2FsZVN0cmluZygpfTwvZGl2PmAgOiAnJ30KICAgICAgICA8ZGl2IGNsYXNzPSJkZXNjcmlwdGlvbiI+JHtwcm9wLmRlc2NyaXB0aW9ufTwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9InBvcnRhbC1iYWRnZSI+JHtwcm9wLnBvcnRhbH08L2Rpdj4KICAgICAgPC9kaXY+CiAgICBgOwoKICAgIGxpbmsuYXBwZW5kQ2hpbGQoY2FyZCk7CiAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQobGluayk7CiAgfSk7CgogIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5mYXYtYnRuJykuZm9yRWFjaChidG4gPT4gewogICAgYnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgKGUpID0+IHsKICAgICAgZS5wcmV2ZW50RGVmYXVsdCgpOwogICAgICBlLnN0b3BQcm9wYWdhdGlvbigpOwogICAgICBjb25zdCBpZCA9IGJ0bi5kYXRhc2V0LmlkOwogICAgICBmYXZvcml0ZXNbaWRdID0gIWZhdm9yaXRlc1tpZF07CiAgICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdmYXZvcml0ZXMnLCBKU09OLnN0cmluZ2lmeShmYXZvcml0ZXMpKTsKICAgICAgYnRuLmNsYXNzTGlzdC50b2dnbGUoJ2Zhdm9yaXRlZCcpOwogICAgICB1cGRhdGVGYXZVSSgpOwogICAgICBpZiAoc2hvd0Zhdk9ubHkpIGFwcGx5RmlsdGVycygpOwogICAgfSk7CiAgfSk7Cn0KCmZ1bmN0aW9uIGFwcGx5RmlsdGVycygpIHsKICBjb25zdCBiZWRyb29tcyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdiZWRyb29tcycpLnZhbHVlOwogIGNvbnN0IHByaWNlTWF4ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3ByaWNlLW1heCcpLnZhbHVlOwogIGNvbnN0IHNlYXJjaCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzZWFyY2gnKS52YWx1ZS50b0xvd2VyQ2FzZSgpOwoKICBsZXQgZmlsdGVyZWQgPSBwcm9wZXJ0aWVzLmZpbHRlcihwID0+IHsKICAgIGNvbnN0IGJlZHJvb21NYXRjaCA9ICFiZWRyb29tcyB8fCBwLmJlZHJvb21zID49IHBhcnNlSW50KGJlZHJvb21zKTsKICAgIGNvbnN0IHByaWNlTWF0Y2ggPSAhcHJpY2VNYXggfHwgcC5wcmljZSA8PSBwYXJzZUludChwcmljZU1heCk7CiAgICBjb25zdCBzZWFyY2hNYXRjaCA9ICFzZWFyY2ggfHwgcC5hZGRyZXNzLnRvTG93ZXJDYXNlKCkuaW5jbHVkZXMoc2VhcmNoKSB8fCBwLmRlc2NyaXB0aW9uLnRvTG93ZXJDYXNlKCkuaW5jbHVkZXMoc2VhcmNoKSB8fCAocC5wb3J0YWwgJiYgcC5wb3J0YWwudG9Mb3dlckNhc2UoKS5pbmNsdWRlcyhzZWFyY2gpKTsKICAgIGNvbnN0IGZhdk1hdGNoID0gIXNob3dGYXZPbmx5IHx8IGZhdm9yaXRlc1twLmlkXTsKICAgIHJldHVybiBiZWRyb29tTWF0Y2ggJiYgcHJpY2VNYXRjaCAmJiBzZWFyY2hNYXRjaCAmJiBmYXZNYXRjaDsKICB9KTsKCiAgcmVuZGVyUHJvcGVydGllcyhmaWx0ZXJlZCk7Cn0KCmRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdiZWRyb29tcycpLmFkZEV2ZW50TGlzdGVuZXIoJ2NoYW5nZScsIGFwcGx5RmlsdGVycyk7CmRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwcmljZS1tYXgnKS5hZGRFdmVudExpc3RlbmVyKCdjaGFuZ2UnLCBhcHBseUZpbHRlcnMpOwpkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnc2VhcmNoJykuYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCBhcHBseUZpbHRlcnMpOwoKZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnLnZpZXctdG9nZ2xlIGJ1dHRvbicpLmZvckVhY2goYnRuID0+IHsKICBidG4uYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCAoKSA9PiB7CiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcudmlldy10b2dnbGUgYnV0dG9uJykuZm9yRWFjaChiID0+IGIuY2xhc3NMaXN0LnJlbW92ZSgnYWN0aXZlJykpOwogICAgYnRuLmNsYXNzTGlzdC5hZGQoJ2FjdGl2ZScpOwogICAgY3VycmVudFZpZXcgPSBidG4uZGF0YXNldC52aWV3OwogICAgYXBwbHlGaWx0ZXJzKCk7CiAgfSk7Cn0pOwoKZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Zhdi1maWx0ZXItYnRuJykuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCAoKSA9PiB7CiAgc2hvd0Zhdk9ubHkgPSAhc2hvd0Zhdk9ubHk7CiAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Zhdi1maWx0ZXItYnRuJykuY2xhc3NMaXN0LnRvZ2dsZSgnYWN0aXZlJywgc2hvd0Zhdk9ubHkpOwogIGFwcGx5RmlsdGVycygpOwp9KTsKCmRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdmYXYtY2xlYXItYnRuJykuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCAoKSA9PiB7CiAgaWYgKGNvbmZpcm0oJ0NsZWFyIGFsbCBmYXZvdXJpdGVzPycpKSB7CiAgICBmYXZvcml0ZXMgPSB7fTsKICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdmYXZvcml0ZXMnLCBKU09OLnN0cmluZ2lmeShmYXZvcml0ZXMpKTsKICAgIHNob3dGYXZPbmx5ID0gZmFsc2U7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmF2LWZpbHRlci1idG4nKS5jbGFzc0xpc3QucmVtb3ZlKCdhY3RpdmUnKTsKICAgIHVwZGF0ZUZhdlVJKCk7CiAgICBhcHBseUZpbHRlcnMoKTsKICB9Cn0pOwoKdXBkYXRlRmF2VUkoKTsKcmVuZGVyUHJvcGVydGllcygpOwo8L3NjcmlwdD4KCjwvYm9keT4KPC9odG1sPgo=
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alicante Property Search — 4 April 2026</title>
+<style>
+  :root {
+    --bg: #f8f7f4;
+    --card: #ffffff;
+    --accent: #2563eb;
+    --accent-light: #dbeafe;
+    --fav: #f59e0b;
+    --fav-light: #fef3c7;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --green: #059669;
+    --red: #dc2626;
+    --tag-new: #dcfce7;
+    --tag-new-text: #166534;
+    --tag-drop: #fee2e2;
+    --tag-drop-text: #991b1b;
+    --tag-excl: #f3e8ff;
+    --tag-excl-text: #6b21a8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
+
+  header { background: white; border-bottom: 1px solid var(--border); padding: 20px 32px; position: sticky; top: 0; z-index: 100; }
+  header h1 { font-size: 22px; font-weight: 700; }
+  header p { color: var(--muted); font-size: 14px; margin-top: 2px; }
+
+  .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; padding: 16px 32px; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 68px; z-index: 99; }
+  .toolbar .filter-group { display: flex; gap: 6px; align-items: center; }
+  .toolbar label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .toolbar select, .toolbar input { padding: 7px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
+  .toolbar input[type="text"] { width: 180px; }
+
+  .view-toggle { display: flex; gap: 4px; margin-left: auto; }
+  .view-toggle button { padding: 7px 16px; border: 1px solid var(--border); background: white; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); transition: all 0.2s; }
+  .view-toggle button.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .view-toggle button:hover:not(.active) { background: var(--accent-light); }
+
+  .fav-filter-group { display: flex; gap: 6px; align-items: center; }
+  #fav-filter-btn { padding: 7px 14px; border: 1px solid var(--fav); background: white; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--fav); border-radius: 8px; transition: all 0.2s; }
+  #fav-filter-btn.active { background: var(--fav); color: white; }
+  #fav-filter-btn:hover:not(.active) { background: var(--fav-light); }
+  #fav-clear-btn { padding: 7px 12px; border: 1px solid var(--border); background: white; font-size: 13px; cursor: pointer; color: var(--muted); border-radius: 8px; transition: all 0.2s; display: none; }
+  #fav-clear-btn:hover { background: #fee2e2; border-color: var(--red); color: var(--red); }
+
+  main { padding: 24px 32px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .list { display: flex; flex-direction: column; gap: 12px; }
+
+  .card-link { text-decoration: none; color: inherit; display: block; }
+  .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: all 0.2s; cursor: pointer; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); transform: translateY(-2px); }
+  .card.list-view { display: flex; gap: 16px; padding: 12px; }
+  .card.list-view .image-section { flex-shrink: 0; width: 120px; height: 120px; }
+  .card.list-view .info-section { flex: 1; }
+
+  .image-section { position: relative; width: 100%; height: 200px; background: #f0f0f0; overflow: hidden; }
+  .image-section img { width: 100%; height: 100%; object-fit: cover; }
+
+  .fav-btn { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.95); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
+  .fav-btn:hover { transform: scale(1.1); }
+  .fav-btn.favorited { color: var(--fav); }
+
+  .tags { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+  .tag.new { background: var(--tag-new); color: var(--tag-new-text); }
+  .tag.price-drop { background: var(--tag-drop); color: var(--tag-drop-text); }
+  .tag.exclusive { background: var(--tag-excl); color: var(--tag-excl-text); }
+
+  .info-section { padding: 16px; }
+  .list-view .info-section { padding: 0; }
+
+  .address { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .list-view .address { font-size: 15px; }
+
+  .meta { display: flex; gap: 16px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .list-view .meta { margin-bottom: 8px; }
+
+  .price { font-size: 18px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .list-view .price { font-size: 16px; }
+
+  .previous-price { font-size: 12px; color: var(--red); text-decoration: line-through; }
+
+  .description { font-size: 13px; color: var(--muted); line-height: 1.4; }
+  .list-view .description { display: none; }
+
+  .portal-badge { font-size: 11px; color: var(--muted); margin-top: 8px; }
+
+  .no-results { text-align: center; padding: 48px 32px; color: var(--muted); }
+  .no-results h2 { font-size: 18px; margin-bottom: 8px; color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Alicante Luxury Villa Search</h1>
+  <p>Last updated 4 April 2026 · Detached villas &amp; chalets · Max €1.1M · Min 160m² · Min 3 beds · Pool preferred</p>
+</header>
+
+<div class="toolbar">
+  <div class="filter-group">
+    <label for="bedrooms">Bedrooms:</label>
+    <select id="bedrooms">
+      <option value="">All</option>
+      <option value="3">3+</option>
+      <option value="4">4+</option>
+      <option value="5">5+</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label for="price-max">Max Price:</label>
+    <select id="price-max">
+      <option value="">All</option>
+      <option value="500000">€500k</option>
+      <option value="600000">€600k</option>
+      <option value="700000">€700k</option>
+      <option value="800000">€800k</option>
+      <option value="900000">€900k</option>
+      <option value="1100000">€1.1M</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label for="search">Search:</label>
+    <input type="text" id="search" placeholder="Location, area...">
+  </div>
+  <div class="fav-filter-group">
+    <button id="fav-filter-btn">☆ Favourites (0)</button>
+    <button id="fav-clear-btn">Clear ×</button>
+  </div>
+  <div class="view-toggle">
+    <button class="active" data-view="grid">Grid</button>
+    <button data-view="list">List</button>
+  </div>
+</div>
+
+<main>
+  <div class="grid" id="properties-container"></div>
+</main>
+
+<script>
+const properties = [
+  {
+    id: 201,
+    address: "Algorfa, Costa Blanca",
+    bedrooms: 3,
+    bathrooms: 2,
+    price: 473000,
+    size_m2: 198,
+    plot_m2: 176,
+    image: "https://cdn.thinkwebcontent.com/property/9872/8948471/20250424230348/w1024h683/s1600x1200/x-252086136.jpg",
+    description: "Detached villa with pool and garage in Algorfa. 198m\u00b2 build on 176m\u00b2 plot. Mediterranean style with modern finishes.",
+    tags: ["new"],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/8948471"
+  },
+  {
+    id: 102,
+    address: "Loma Bada, Petrer",
+    bedrooms: 4,
+    bathrooms: 3,
+    price: 490000,
+    size_m2: 381,
+    plot_m2: 1765,
+    image: "https://cdn.thinkwebcontent.com/property/15129/9698002/20260320000612/w1920h1279/s1600x1200/x-276006350.jpg",
+    description: "Mediterranean villa in gated community, 381m\u00b2 on 1,765m\u00b2 plot. Private pool ~56m\u00b2, garage, basement with fireplace. 30 min to Alicante coast.",
+    tags: [],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/9698002"
+  },
+  {
+    id: 116,
+    address: "Bonalba, Busot",
+    bedrooms: 5,
+    bathrooms: 3,
+    price: 549500,
+    size_m2: 330,
+    plot_m2: 806,
+    image: "https://cdn.thinkwebcontent.com/property/7107/8564385/20250612080506/w800h600/s1600x1200/x-255232571.jpg",
+    description: "Balinese-inspired 'Villa Bali' on 806m\u00b2 plot near golf course. Pool with automated cover, outdoor jacuzzi, 100m\u00b2 pool terrace, double garage, fireplace. South-facing mountain views.",
+    tags: [],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/8564385"
+  },
+  {
+    id: 108,
+    address: "D\u00e9nia, Alicante",
+    bedrooms: 4,
+    bathrooms: 3,
+    price: 585000,
+    size_m2: 265,
+    plot_m2: 707,
+    image: "https://cdn.thinkwebcontent.com/property/11333/5820938/20231202105528/w2000h1727/s1600x1200/x-220786667.jpg",
+    description: "Villa with independent guest apartment, private pool (8\u00d74m), covered terrace, automatic irrigation. Built 1979/renovated 2017.",
+    tags: [],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/5820938"
+  },
+  {
+    id: 118,
+    address: "Gran Alacant, Santa Pola",
+    bedrooms: 4,
+    bathrooms: 3,
+    price: 615000,
+    size_m2: 197,
+    plot_m2: 304,
+    image: "https://images.lucasfox.com/property/4x3_1600w/A995F95585.jpg",
+    description: "Contemporary villa near natural park and sea. Pool (7\u00d73m), solar panels, semi-basement (77m\u00b2) for cinema/gym, energy class A. Near schools and shopping.",
+    tags: [],
+    portal: "Lucas Fox",
+    url: "https://www.lucasfox.com/property-for-sale/spain/costa-blanca/alicante/gran-alacant/house-villa/mondrian.html"
+  },
+  {
+    id: 111,
+    address: "Altea Hills, Altea",
+    bedrooms: 4,
+    bathrooms: 3,
+    price: 650000,
+    size_m2: 190,
+    plot_m2: 270,
+    image: "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011318/image-80d968be-a063-4e6d-a534-570a6db5a7bc.webp?originalExt=jpg",
+    description: "Detached house in exclusive Altea Hills with panoramic sea views, private pool, 24h security, guest house. Well-maintained. Energy class F.",
+    tags: ["exclusive"],
+    portal: "Luxinmo",
+    url: "https://www.luxinmo.com/property/sea-view-villa-in-exclusive-altea-hills-6203"
+  },
+  {
+    id: 107,
+    address: "Golf Bah\u00eda, Finestrat",
+    bedrooms: 3,
+    bathrooms: 3,
+    price: 685000,
+    size_m2: 163,
+    plot_m2: 445,
+    image: "https://cdn.thinkwebcontent.com/property/36578/9413744/20251126003539/w1919h1281/s1600x1200/x-267646006.jpg",
+    description: "Architectural villa in Finestrat hills with resort-style pool and sea views. Open-concept interiors, premium bathrooms, expansive terraces. Energy class B.",
+    tags: [],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/9413744"
+  },
+  {
+    id: 104,
+    address: "Benissa Costa, Baladrar",
+    bedrooms: 3,
+    bathrooms: 2,
+    price: 695000,
+    size_m2: 245,
+    plot_m2: 1024,
+    image: "https://cdn.thinkwebcontent.com/property/13929/9026099/20250602184336/w1452h817/s1600x1200/x-254471463.jpg",
+    description: "Modern villa near Cala Baladrar. Private pool, sea views, rooftop solarium, outdoor dining with BBQ. Energy class C.",
+    tags: [],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/9026099"
+  },
+  {
+    id: 113,
+    address: "San Miguel de Salinas",
+    bedrooms: 5,
+    bathrooms: 4,
+    price: 780000,
+    size_m2: 295,
+    plot_m2: 558,
+    image: "https://cdn.thinkwebcontent.com/property/37126/9685503/20260316143852/w865h620/s1600x1200/x-275646542.jpg",
+    description: "Luxury villa in gated community. Infinity pool with sea views, master suite with walk-in closet, designer furniture included, 5 min to golf, 10 min to beaches.",
+    tags: ["exclusive"],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/9685503"
+  },
+  {
+    id: 105,
+    address: "Torrevieja, Alicante",
+    bedrooms: 3,
+    bathrooms: 3,
+    price: 780000,
+    size_m2: 178,
+    plot_m2: 378,
+    image: "https://cdn.thinkwebcontent.com/property/24614/7554591/20230510052643/w1170h658/s1600x1200/x-208250199.jpg",
+    description: "Two-story detached villa with 56m\u00b2 roof terrace, private pool, 300m\u00b2 outdoor space. 1.3km to Playa del Cura.",
+    tags: [],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/7554591"
+  },
+  {
+    id: 106,
+    address: "La Nucia, Costa Blanca",
+    bedrooms: 3,
+    bathrooms: 3,
+    price: 788000,
+    size_m2: 225,
+    plot_m2: 1265,
+    image: "https://cdn.thinkwebcontent.com/property/33089/9470946/20251221061128/w1920h1440/s1600x1200/x-269428531.jpg",
+    description: "Renovated villa on 1,265m\u00b2 plot. Heated private pool, sea views, two separate levels with private entrances. <10 min from Altea and sea.",
+    tags: [],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/9470946"
+  },
+  {
+    id: 202,
+    address: "Sierra Cortina, Finestrat",
+    bedrooms: 3,
+    bathrooms: 3,
+    price: 790000,
+    size_m2: 230,
+    plot_m2: 409,
+    image: "https://images.lucasfox.com/property/4x3_1600w/FA6348FD68.jpg",
+    description: "Last key-ready new build villa in Sierra Cortina. Contemporary design, open-plan living, private pool, panoramic terrace views. 3-car garage. Energy class B.",
+    tags: ["new"],
+    portal: "Lucas Fox",
+    url: "https://www.lucasfox.com/property-for-sale/spain/costa-blanca/finestrat-sierra-cortina/house-villa/alt66462.html"
+  },
+  {
+    id: 110,
+    address: "Balc\u00f3n de Finestrat, Finestrat",
+    bedrooms: 3,
+    bathrooms: 3,
+    price: 795000,
+    size_m2: 260,
+    plot_m2: 500,
+    image: "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011243/image-9f35c50d-bac1-4478-9b6e-baac63efef04.webp?originalExt=jpg",
+    description: "Contemporary villa (2022), panoramic sea/mountain views, smart home, private pool, basement, rooftop terrace with jacuzzi pre-installation. Energy class B.",
+    tags: [],
+    portal: "Luxinmo",
+    url: "https://www.luxinmo.com/property/luxurious-detached-villa-with-panoramic-views-in-finestrat-6114"
+  },
+  {
+    id: 203,
+    address: "Sierra Cortina, Finestrat",
+    bedrooms: 5,
+    bathrooms: 3,
+    price: 819900,
+    size_m2: 321,
+    plot_m2: 438,
+    image: "https://images.lucasfox.com/property/4x3_1600w/F58AE3D2B8.jpg",
+    description: "Contemporary villa with pool, jacuzzi, solarium and basement in prime Finestrat location. Sea, mountain, golf and city views. Wine cellar, domotic system. Energy class C.",
+    tags: ["new"],
+    portal: "Lucas Fox",
+    url: "https://www.lucasfox.com/property-for-sale/spain/costa-blanca/finestrat-sierra-cortina/house-villa/alt45689.html"
+  },
+  {
+    id: 119,
+    address: "Centro, Rojales",
+    bedrooms: 4,
+    bathrooms: 4,
+    price: 840000,
+    size_m2: 345,
+    plot_m2: 1894,
+    image: "",
+    description: "Spacious villa on 1,894m\u00b2 plot in Rojales Centro. Private pool, garden, terrace, balcony, parking, fitted wardrobes, storage room. All-aspect orientation (N/S/E/W). Built 1994.",
+    tags: [],
+    portal: "Idealista",
+    url: "https://www.idealista.com/en/inmueble/111015257/"
+  },
+  {
+    id: 101,
+    address: "Bahia Golf, Finestrat Pueblo",
+    bedrooms: 4,
+    bathrooms: 4,
+    price: 849000,
+    size_m2: 249,
+    plot_m2: 500,
+    image: "https://cdn.thinkwebcontent.com/property/3673/9713798/20260324141150/w1280h720/s1600x1200/x-276422667.jpg",
+    description: "Luxury new build villa in Bahia Golf, 3.5km from coast. BREEAM certified, Porcelanosa finishes, private infinity pool, rooftop solarium, motorized gate.",
+    tags: ["new"],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/9713798"
+  },
+  {
+    id: 114,
+    address: "El Montg\u00f3, D\u00e9nia",
+    bedrooms: 3,
+    bathrooms: 3,
+    price: 860000,
+    size_m2: 346,
+    plot_m2: 1009,
+    image: "https://cdn.thinkwebcontent.com/property/32960/9395428/20251117180549/w2000h1500/s1600x1200/x-267057893.jpg",
+    description: "Elegant resale villa on 1,009m\u00b2 plot. Private pool (4\u00d78m), panoramic sea & mountain views, summer kitchen with pizza oven, garage for 6 cars. South-facing.",
+    tags: [],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/9395428"
+  },
+  {
+    id: 112,
+    address: "Balc\u00f3n de Finestrat, Finestrat",
+    bedrooms: 4,
+    bathrooms: 3,
+    price: 865000,
+    size_m2: 325,
+    plot_m2: 590,
+    image: "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011201/image-9a2fb65f-363e-4d45-832f-9f8b02a9ef31.webp?originalExt=jpg",
+    description: "Contemporary villa (2023), 325m\u00b2, energy class A. Private pool + children's pool, gym, gated complex, 24h surveillance, dual orientation.",
+    tags: [],
+    portal: "Luxinmo",
+    url: "https://www.luxinmo.com/property/new-4-bedroom-modern-villa-in-balcon-de-finestrat-7298"
+  },
+  {
+    id: 103,
+    address: "Paichi, Teulada-Moraira",
+    bedrooms: 5,
+    bathrooms: 4,
+    price: 899000,
+    size_m2: 442,
+    plot_m2: 811,
+    image: "https://cdn.thinkwebcontent.com/property/5593/9205719/20250904170246/w2000h1128/s1600x1200/x-261340269.jpg",
+    description: "Traditional Mediterranean villa, heated pool (11\u00d75m), cinema room, games room, bar area, jacuzzi, sea views, near El Portet beach.",
+    tags: ["exclusive"],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/9205719"
+  },
+  {
+    id: 115,
+    address: "Balc\u00f3n de Finestrat \u2014 Sunny Hills",
+    bedrooms: 5,
+    bathrooms: 4,
+    price: 915000,
+    size_m2: 320,
+    plot_m2: 511,
+    image: "https://cdn.thinkwebcontent.com/property/10094/9604840/20260217040327/w800h600/s1600x1200/x-273317325.jpg",
+    description: "Energy A-rated contemporary villa (Sunny Hills). Fully furnished, private pool, multiple solariums, basement, paddle tennis in community. 30 min to Alicante.",
+    tags: [],
+    portal: "ThinkSpain",
+    url: "https://www.thinkspain.com/property-for-sale/9604840"
+  },
+  {
+    id: 204,
+    address: "Altea Town, Altea",
+    bedrooms: 5,
+    bathrooms: 4,
+    price: 949000,
+    size_m2: 326,
+    plot_m2: 1143,
+    image: "https://images.lucasfox.com/property/4x3_1600w/D352A726D6.jpg",
+    description: "Exclusive renovated villa with sea and mountain views. Pool (4\u00d78m), terrace with outdoor kitchen and BBQ, private garage, garden with fruit trees. Traditional Spanish architecture.",
+    tags: ["new"],
+    portal: "Lucas Fox",
+    url: "https://www.lucasfox.com/property-for-sale/spain/costa-blanca/altea/altea-town/house-villa/alt66615.html"
+  },
+  {
+    id: 117,
+    address: "Playa Muchavista, San Juan de Alicante",
+    bedrooms: 4,
+    bathrooms: 3,
+    price: 1100000,
+    size_m2: 360,
+    plot_m2: 987,
+    image: "https://images.lucasfox.com/property/4x3_1600w/B722631CCF.jpg",
+    description: "Premium beachside villa steps from Muchavista beach. L-shaped private pool (44m\u00b2), chill-out area, 987m\u00b2 Mediterranean garden, master suite, 230m\u00b2 parking. Energy class B.",
+    tags: ["exclusive"],
+    portal: "Lucas Fox",
+    url: "https://www.lucasfox.com/property-for-sale/spain/costa-blanca/alicante/playa-muchavista/house-villa/ali68229.html"
+  }
+];
+
+let currentView = 'grid';
+let showFavOnly = false;
+let favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+
+function updateFavUI() {
+  const count = Object.values(favorites).filter(Boolean).length;
+  const btn = document.getElementById('fav-filter-btn');
+  const clearBtn = document.getElementById('fav-clear-btn');
+  btn.textContent = `☆ Favourites (${count})`;
+  clearBtn.style.display = count > 0 ? 'inline-block' : 'none';
+}
+
+function renderProperties(filtered = properties) {
+  const container = document.getElementById('properties-container');
+  container.className = currentView === 'grid' ? 'grid' : 'list';
+  container.innerHTML = '';
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="no-results" style="grid-column: 1/-1"><h2>No properties found</h2><p>Try adjusting your filters</p></div>';
+    return;
+  }
+
+  filtered.forEach(prop => {
+    const link = document.createElement('a');
+    link.className = 'card-link';
+    link.href = prop.url || '#';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+
+    const card = document.createElement('div');
+    card.className = `card ${currentView === 'list' ? 'list-view' : ''}`;
+
+    const plotText = prop.plot_m2 ? ` · ${prop.plot_m2.toLocaleString()}m² plot` : '';
+    card.innerHTML = `
+      <div class="image-section">
+        <img src="${prop.image}" alt="${prop.address}" loading="lazy">
+        <button class="fav-btn ${favorites[prop.id] ? 'favorited' : ''}" data-id="${prop.id}">☆</button>
+        <div class="tags">
+          ${prop.tags.map(tag => `<span class="tag ${tag === 'new' ? 'new' : tag === 'price-drop' ? 'price-drop' : 'exclusive'}">${tag === 'new' ? 'NEW' : tag === 'price-drop' ? 'PRICE DROP' : 'EXCLUSIVE'}</span>`).join('')}
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="address">${prop.address}</div>
+        <div class="meta">${prop.bedrooms} bed · ${prop.bathrooms} bath · ${prop.size_m2}m²${plotText}</div>
+        <div class="price">€${prop.price.toLocaleString()}</div>
+        ${prop.previous_price ? `<div class="previous-price">Was €${prop.previous_price.toLocaleString()}</div>` : ''}
+        <div class="description">${prop.description}</div>
+        <div class="portal-badge">${prop.portal}</div>
+      </div>
+    `;
+
+    link.appendChild(card);
+    container.appendChild(link);
+  });
+
+  document.querySelectorAll('.fav-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      favorites[id] = !favorites[id];
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      btn.classList.toggle('favorited');
+      updateFavUI();
+      if (showFavOnly) applyFilters();
+    });
+  });
+}
+
+function applyFilters() {
+  const bedrooms = document.getElementById('bedrooms').value;
+  const priceMax = document.getElementById('price-max').value;
+  const search = document.getElementById('search').value.toLowerCase();
+
+  let filtered = properties.filter(p => {
+    const bedroomMatch = !bedrooms || p.bedrooms >= parseInt(bedrooms);
+    const priceMatch = !priceMax || p.price <= parseInt(priceMax);
+    const searchMatch = !search || p.address.toLowerCase().includes(search) || p.description.toLowerCase().includes(search) || (p.portal && p.portal.toLowerCase().includes(search));
+    const favMatch = !showFavOnly || favorites[p.id];
+    return bedroomMatch && priceMatch && searchMatch && favMatch;
+  });
+
+  renderProperties(filtered);
+}
+
+document.getElementById('bedrooms').addEventListener('change', applyFilters);
+document.getElementById('price-max').addEventListener('change', applyFilters);
+document.getElementById('search').addEventListener('input', applyFilters);
+
+document.querySelectorAll('.view-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentView = btn.dataset.view;
+    applyFilters();
+  });
+});
+
+document.getElementById('fav-filter-btn').addEventListener('click', () => {
+  showFavOnly = !showFavOnly;
+  document.getElementById('fav-filter-btn').classList.toggle('active', showFavOnly);
+  applyFilters();
+});
+
+document.getElementById('fav-clear-btn').addEventListener('click', () => {
+  if (confirm('Clear all favourites?')) {
+    favorites = {};
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    showFavOnly = false;
+    document.getElementById('fav-filter-btn').classList.remove('active');
+    updateFavUI();
+    applyFilters();
+  }
+});
+
+updateFavUI();
+renderProperties();
+</script>
+
+</body>
+</html>
