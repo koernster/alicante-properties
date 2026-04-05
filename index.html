@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alicante Property Search — 4 April 2026</title>
+<title>Alicante Property Search — 5 April 2026</title>
 <style>
   :root {
     --bg: #f8f7f4;
@@ -40,629 +40,339 @@
   .view-toggle { display: flex; gap: 4px; margin-left: auto; }
   .view-toggle button { padding: 7px 16px; border: 1px solid var(--border); background: white; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); transition: all 0.2s; }
   .view-toggle button.active { background: var(--accent); color: white; border-color: var(--accent); }
-  .view-toggle button:hover:not(.active) { background: var(--accent-light); }
 
-  .fav-filter-group { display: flex; gap: 6px; align-items: center; }
-  #fav-filter-btn { padding: 7px 14px; border: 1px solid var(--fav); background: white; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--fav); border-radius: 8px; transition: all 0.2s; }
-  #fav-filter-btn.active { background: var(--fav); color: white; }
-  #fav-filter-btn:hover:not(.active) { background: var(--fav-light); }
-  #fav-clear-btn { padding: 7px 12px; border: 1px solid var(--border); background: white; font-size: 13px; cursor: pointer; color: var(--muted); border-radius: 8px; transition: all 0.2s; display: none; }
-  #fav-clear-btn:hover { background: #fee2e2; border-color: var(--red); color: var(--red); }
+  .main { padding: 32px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .stat-card h3 { font-size: 14px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .stat-card .value { font-size: 32px; font-weight: 700; color: var(--accent); }
 
-  main { padding: 24px 32px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+  .list { display: flex; flex-direction: column; gap: 16px; }
+  
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all 0.2s; }
+  .card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .card .header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: start; }
+  .card .ref { font-size: 13px; font-weight: 700; color: var(--accent); font-family: 'Courier New', monospace; }
+  .card .fav { font-size: 20px; cursor: pointer; transition: all 0.2s; }
+  .card .fav:hover { transform: scale(1.2); }
+  .card .fav.active { color: var(--fav); }
+  .card .address { font-size: 16px; font-weight: 700; color: var(--text); margin: 12px 0 4px 0; }
+  .card .area { font-size: 13px; color: var(--muted); }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-  .list { display: flex; flex-direction: column; gap: 12px; }
+  .card .body { padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px; }
+  .card .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .card .stat { display: flex; flex-direction: column; }
+  .card .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 4px; }
+  .card .stat-value { font-size: 18px; font-weight: 700; color: var(--text); }
+  .card .stat-value.highlight { color: var(--accent); }
 
-  .card-link { text-decoration: none; color: inherit; display: block; }
-  .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: all 0.2s; cursor: pointer; }
-  .card:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); transform: translateY(-2px); }
-  .card.list-view { display: flex; gap: 16px; padding: 12px; }
-  .card.list-view .image-section { flex-shrink: 0; width: 120px; height: 120px; }
-  .card.list-view .info-section { flex: 1; }
-
-  .image-section { position: relative; width: 100%; height: 200px; background: #f0f0f0; overflow: hidden; }
-  .image-section img { width: 100%; height: 100%; object-fit: cover; }
-
-  .fav-btn { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.95); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
-  .fav-btn:hover { transform: scale(1.1); }
-  .fav-btn.favorited { color: var(--fav); }
-
-  .tags { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
-  .tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+  .card .tags { padding: 0 20px 20px 20px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; }
   .tag.new { background: var(--tag-new); color: var(--tag-new-text); }
-  .tag.price-drop { background: var(--tag-drop); color: var(--tag-drop-text); }
-  .tag.exclusive { background: var(--tag-excl); color: var(--tag-excl-text); }
+  .tag.drop { background: var(--tag-drop); color: var(--tag-drop-text); }
+  .tag.excl { background: var(--tag-excl); color: var(--tag-excl-text); }
 
-  .info-section { padding: 16px; }
-  .list-view .info-section { padding: 0; }
+  .card .footer { padding: 0 20px 20px 20px; font-size: 12px; color: var(--muted); }
 
-  .address { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-  .list-view .address { font-size: 15px; }
+  .list .item { display: grid; grid-template-columns: 80px 1fr auto auto auto; gap: 16px; align-items: center; padding: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; }
+  .list .item:hover { border-color: var(--accent); background: var(--accent-light); }
+  .list .item .ref { font-weight: 700; color: var(--accent); font-size: 13px; font-family: 'Courier New', monospace; text-align: right; }
+  .list .item .address { font-weight: 700; color: var(--text); }
+  .list .item .price { font-weight: 700; color: var(--accent); }
+  .list .item .status { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+  .list .item .status.new { background: var(--tag-new); color: var(--tag-new-text); }
+  .list .item .status.drop { background: var(--tag-drop); color: var(--tag-drop-text); }
+  .list .item .fav { font-size: 18px; cursor: pointer; transition: all 0.2s; }
+  .list .item .fav:hover { transform: scale(1.3); }
+  .list .item .fav.active { color: var(--fav); }
 
-  .meta { display: flex; gap: 16px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
-  .list-view .meta { margin-bottom: 8px; }
+  .no-results { padding: 40px; text-align: center; color: var(--muted); }
+  .no-results p { font-size: 16px; margin-bottom: 8px; }
+  .no-results .hint { font-size: 13px; color: #aaa; }
 
-  .price { font-size: 18px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
-  .list-view .price { font-size: 16px; }
-
-  .previous-price { font-size: 12px; color: var(--red); text-decoration: line-through; }
-
-  .description { font-size: 13px; color: var(--muted); line-height: 1.4; }
-  .list-view .description { display: none; }
-
-  .portal-badge { font-size: 11px; color: var(--muted); margin-top: 8px; }
-
-  .no-results { text-align: center; padding: 48px 32px; color: var(--muted); }
-  .no-results h2 { font-size: 18px; margin-bottom: 8px; color: var(--text); }
+  @media (max-width: 768px) {
+    .toolbar { padding: 12px 16px; }
+    .main { padding: 16px; }
+    .grid { grid-template-columns: 1fr; }
+    .list .item { grid-template-columns: 1fr; gap: 8px; }
+    .list .item .ref, .list .item .price, .list .item .status, .list .item .fav { order: -1; font-size: 12px; }
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Alicante Luxury Villa Search</h1>
-  <p>Last updated 4 April 2026 · Detached villas &amp; chalets · Max €1.1M · Min 160m² · Min 3 beds · Pool preferred</p>
+  <h1>Alicante Property Search</h1>
+  <p>Last updated 5 April 2026 at 09:35 UTC+0</p>
 </header>
 
 <div class="toolbar">
   <div class="filter-group">
-    <label for="bedrooms">Bedrooms:</label>
-    <select id="bedrooms">
-      <option value="">All</option>
-      <option value="3">3+</option>
-      <option value="4">4+</option>
-      <option value="5">5+</option>
+    <label>Min Price (€):</label>
+    <input type="text" id="minPrice" placeholder="e.g. 100000" value="">
+  </div>
+  <div class="filter-group">
+    <label>Max Price (€):</label>
+    <input type="text" id="maxPrice" placeholder="e.g. 500000" value="">
+  </div>
+  <div class="filter-group">
+    <label>Min m²:</label>
+    <input type="text" id="minSize" placeholder="e.g. 100" value="">
+  </div>
+  <div class="filter-group">
+    <label>Max m²:</label>
+    <input type="text" id="maxSize" placeholder="e.g. 300" value="">
+  </div>
+  <div class="filter-group">
+    <label>District:</label>
+    <select id="districtFilter">
+      <option value="">All districts</option>
+      <option value="Playa San Juan">Playa San Juan</option>
+      <option value="La Florida">La Florida</option>
+      <option value="Benalúa">Benalúa</option>
+      <option value="Centro">Centro</option>
+      <option value="Playa del Postiguet">Playa del Postiguet</option>
+      <option value="San Blas">San Blas</option>
+      <option value="Carolinas Altas">Carolinas Altas</option>
+      <option value="Zona Universitaria">Zona Universitaria</option>
+      <option value="Tónica">Tónica</option>
+      <option value="Cercanías">Cercanías</option>
     </select>
   </div>
   <div class="filter-group">
-    <label for="price-max">Max Price:</label>
-    <select id="price-max">
+    <label>Status:</label>
+    <select id="statusFilter">
       <option value="">All</option>
-      <option value="500000">€500k</option>
-      <option value="600000">€600k</option>
-      <option value="700000">€700k</option>
-      <option value="800000">€800k</option>
-      <option value="900000">€900k</option>
-      <option value="1100000">€1.1M</option>
+      <option value="new">New</option>
+      <option value="drop">Price Drop</option>
+      <option value="excl">Exclusive</option>
     </select>
   </div>
   <div class="filter-group">
-    <label for="search">Search:</label>
-    <input type="text" id="search" placeholder="Location, area...">
-  </div>
-  <div class="fav-filter-group">
-    <button id="fav-filter-btn">☆ Favourites (0)</button>
-    <button id="fav-clear-btn">Clear ×</button>
+    <label>Category:</label>
+    <select id="categoryFilter">
+      <option value="">All</option>
+      <option value="Apartment">Apartment</option>
+      <option value="Penthouse">Penthouse</option>
+      <option value="Townhouse">Townhouse</option>
+      <option value="Villa">Villa</option>
+      <option value="Studio">Studio</option>
+    </select>
   </div>
   <div class="view-toggle">
-    <button class="active" data-view="grid">Grid</button>
-    <button data-view="list">List</button>
+    <button class="active" id="gridView">Grid</button>
+    <button id="listView">List</button>
   </div>
 </div>
 
-<main>
-  <div class="grid" id="properties-container"></div>
-</main>
+<div class="main">
+  <div class="stats">
+    <div class="stat-card">
+      <h3>Total Properties</h3>
+      <div class="value" id="totalCount">0</div>
+    </div>
+    <div class="stat-card">
+      <h3>New Listings</h3>
+      <div class="value" id="newCount">0</div>
+    </div>
+    <div class="stat-card">
+      <h3>Price Drops</h3>
+      <div class="value" id="dropCount">0</div>
+    </div>
+    <div class="stat-card">
+      <h3>Avg Price</h3>
+      <div class="value" id="avgPrice">€0</div>
+    </div>
+  </div>
+  <div id="grid" class="grid"></div>
+  <div id="list" class="list" style="display: none;"></div>
+  <div id="noResults" class="no-results" style="display: none;">
+    <p>No properties found matching your filters.</p>
+    <div class="hint">Try adjusting your search criteria.</div>
+  </div>
+</div>
 
 <script>
-const properties = [
-  {
-    id: 201,
-    address: "Algorfa, Costa Blanca",
-    bedrooms: 3,
-    bathrooms: 2,
-    price: 473000,
-    size_m2: 198,
-    plot_m2: 176,
-    image: "https://cdn.thinkwebcontent.com/property/9872/8948471/20250424230348/w1024h683/s1600x1200/x-252086136.jpg",
-    description: "Detached villa with pool and garage in Algorfa. 198m² build on 176m² plot. Mediterranean style with modern finishes.",
-    tags: ["new"],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/8948471"
-  },
-  {
-    id: 102,
-    address: "Loma Bada, Petrer",
-    bedrooms: 4,
-    bathrooms: 3,
-    price: 490000,
-    size_m2: 381,
-    plot_m2: 1765,
-    image: "https://cdn.thinkwebcontent.com/property/15129/9698002/20260320000612/w1920h1279/s1600x1200/x-276006350.jpg",
-    description: "Mediterranean villa in gated community, 381m² on 1,765m² plot. Private pool ~56m², garage, basement with fireplace. 30 min to Alicante coast.",
-    tags: [],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/9698002"
-  },
-  {
-    id: 116,
-    address: "Bonalba, Busot",
-    bedrooms: 5,
-    bathrooms: 3,
-    price: 549500,
-    size_m2: 330,
-    plot_m2: 806,
-    image: "https://cdn.thinkwebcontent.com/property/7107/8564385/20250612080506/w800h600/s1600x1200/x-255232571.jpg",
-    description: "Balinese-inspired 'Villa Bali' on 806m² plot near golf course. Pool with automated cover, outdoor jacuzzi, 100m² pool terrace, double garage, fireplace. South-facing mountain views.",
-    tags: [],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/8564385"
-  },
-  {
-    id: 108,
-    address: "Dénia, Alicante",
-    bedrooms: 4,
-    bathrooms: 3,
-    price: 585000,
-    size_m2: 265,
-    plot_m2: 707,
-    image: "https://cdn.thinkwebcontent.com/property/11333/5820938/20231202105528/w2000h1727/s1600x1200/x-220786667.jpg",
-    description: "Villa with independent guest apartment, private pool (8×4m), covered terrace, automatic irrigation. Built 1979/renovated 2017.",
-    tags: [],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/5820938"
-  },
-  {
-    id: 118,
-    address: "Gran Alacant, Santa Pola",
-    bedrooms: 4,
-    bathrooms: 3,
-    price: 615000,
-    size_m2: 197,
-    plot_m2: 304,
-    image: "https://images.lucasfox.com/property/4x3_1600w/A995F95585.jpg",
-    description: "Contemporary villa near natural park and sea. Pool (7×3m), solar panels, semi-basement (77m²) for cinema/gym, energy class A. Near schools and shopping.",
-    tags: [],
-    portal: "Lucas Fox",
-    url: "https://www.lucasfox.com/property-for-sale/spain/costa-blanca/alicante/gran-alacant/house-villa/mondrian.html"
-  },
-  {
-    id: 111,
-    address: "Altea Hills, Altea",
-    bedrooms: 4,
-    bathrooms: 3,
-    price: 650000,
-    size_m2: 190,
-    plot_m2: 270,
-    image: "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011318/image-80d968be-a063-4e6d-a534-570a6db5a7bc.webp?originalExt=jpg",
-    description: "Detached house in exclusive Altea Hills with panoramic sea views, private pool, 24h security, guest house. Well-maintained. Energy class F.",
-    tags: ["exclusive"],
-    portal: "Luxinmo",
-    url: "https://www.luxinmo.com/property/sea-view-villa-in-exclusive-altea-hills-6203"
-  },
-  {
-    id: 107,
-    address: "Golf Bahía, Finestrat",
-    bedrooms: 3,
-    bathrooms: 3,
-    price: 685000,
-    size_m2: 163,
-    plot_m2: 445,
-    image: "https://cdn.thinkwebcontent.com/property/36578/9413744/20251126003539/w1919h1281/s1600x1200/x-267646006.jpg",
-    description: "Architectural villa in Finestrat hills with resort-style pool and sea views. Open-concept interiors, premium bathrooms, expansive terraces. Energy class B.",
-    tags: [],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/9413744"
-  },
-  {
-    id: 104,
-    address: "Benissa Costa, Baladrar",
-    bedrooms: 3,
-    bathrooms: 2,
-    price: 695000,
-    size_m2: 245,
-    plot_m2: 1024,
-    image: "https://cdn.thinkwebcontent.com/property/13929/9026099/20250602184336/w1452h817/s1600x1200/x-254471463.jpg",
-    description: "Modern villa near Cala Baladrar. Private pool, sea views, rooftop solarium, outdoor dining with BBQ. Energy class C.",
-    tags: [],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/9026099"
-  },
-  {
-    id: 113,
-    address: "San Miguel de Salinas",
-    bedrooms: 5,
-    bathrooms: 4,
-    price: 780000,
-    size_m2: 295,
-    plot_m2: 558,
-    image: "https://cdn.thinkwebcontent.com/property/37126/9685503/20260316143852/w865h620/s1600x1200/x-275646542.jpg",
-    description: "Luxury villa in gated community. Infinity pool with sea views, master suite with walk-in closet, designer furniture included, 5 min to golf, 10 min to beaches.",
-    tags: ["exclusive"],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/9685503"
-  },
-  {
-    id: 105,
-    address: "Torrevieja, Alicante",
-    bedrooms: 3,
-    bathrooms: 3,
-    price: 780000,
-    size_m2: 178,
-    plot_m2: 378,
-    image: "https://cdn.thinkwebcontent.com/property/24614/7554591/20230510052643/w1170h658/s1600x1200/x-208250199.jpg",
-    description: "Two-story detached villa with 56m² roof terrace, private pool, 300m² outdoor space. 1.3km to Playa del Cura.",
-    tags: [],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/7554591"
-  },
-  {
-    id: 106,
-    address: "La Nucia, Costa Blanca",
-    bedrooms: 3,
-    bathrooms: 3,
-    price: 788000,
-    size_m2: 225,
-    plot_m2: 1265,
-    image: "https://cdn.thinkwebcontent.com/property/33089/9470946/20251221061128/w1920h1440/s1600x1200/x-269428531.jpg",
-    description: "Renovated villa on 1,265m² plot. Heated private pool, sea views, two separate levels with private entrances. <10 min from Altea and sea.",
-    tags: [],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/9470946"
-  },
-  {
-    id: 202,
-    address: "Sierra Cortina, Finestrat",
-    bedrooms: 3,
-    bathrooms: 3,
-    price: 790000,
-    size_m2: 230,
-    plot_m2: 409,
-    image: "https://images.lucasfox.com/property/4x3_1600w/FA6348FD68.jpg",
-    description: "Last key-ready new build villa in Sierra Cortina. Contemporary design, open-plan living, private pool, panoramic terrace views. 3-car garage. Energy class B.",
-    tags: ["new"],
-    portal: "Lucas Fox",
-    url: "https://www.lucasfox.com/property-for-sale/spain/costa-blanca/finestrat-sierra-cortina/house-villa/alt66462.html"
-  },
-  {
-    id: 110,
-    address: "Balcón de Finestrat, Finestrat",
-    bedrooms: 3,
-    bathrooms: 3,
-    price: 795000,
-    size_m2: 260,
-    plot_m2: 500,
-    image: "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011243/image-9f35c50d-bac1-4478-9b6e-baac63efef04.webp?originalExt=jpg",
-    description: "Contemporary villa (2022), panoramic sea/mountain views, smart home, private pool, basement, rooftop terrace with jacuzzi pre-installation. Energy class B.",
-    tags: [],
-    portal: "Luxinmo",
-    url: "https://www.luxinmo.com/property/luxurious-detached-villa-with-panoramic-views-in-finestrat-6114"
-  },
-  {
-    id: 203,
-    address: "Sierra Cortina, Finestrat",
-    bedrooms: 5,
-    bathrooms: 3,
-    price: 819900,
-    size_m2: 321,
-    plot_m2: 438,
-    image: "https://images.lucasfox.com/property/4x3_1600w/F58AE3D2B8.jpg",
-    description: "Contemporary villa with pool, jacuzzi, solarium and basement in prime Finestrat location. Sea, mountain, golf and city views. Wine cellar, domotic system. Energy class C.",
-    tags: ["new"],
-    portal: "Lucas Fox",
-    url: "https://www.lucasfox.com/property-for-sale/spain/costa-blanca/finestrat-sierra-cortina/house-villa/alt45689.html"
-  },
-  {
-    id: 119,
-    address: "Centro, Rojales",
-    bedrooms: 4,
-    bathrooms: 4,
-    price: 840000,
-    size_m2: 345,
-    plot_m2: 1894,
-    image: "",
-    description: "Spacious villa on 1,894m² plot in Rojales Centro. Private pool, garden, terrace, balcony, parking, fitted wardrobes, storage room. All-aspect orientation (N/S/E/W). Built 1994.",
-    tags: [],
-    portal: "Idealista",
-    url: "https://www.idealista.com/en/inmueble/111015257/"
-  },
-  {
-    id: 101,
-    address: "Bahia Golf, Finestrat Pueblo",
-    bedrooms: 4,
-    bathrooms: 4,
-    price: 849000,
-    size_m2: 249,
-    plot_m2: 500,
-    image: "https://cdn.thinkwebcontent.com/property/3673/9713798/20260324141150/w1280h720/s1600x1200/x-276422667.jpg",
-    description: "Luxury new build villa in Bahia Golf, 3.5km from coast. BREEAM certified, Porcelanosa finishes, private infinity pool, rooftop solarium, motorized gate.",
-    tags: ["new"],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/9713798"
-  },
-  {
-    id: 114,
-    address: "El Montgó, Dénia",
-    bedrooms: 3,
-    bathrooms: 3,
-    price: 860000,
-    size_m2: 346,
-    plot_m2: 1009,
-    image: "https://cdn.thinkwebcontent.com/property/32960/9395428/20251117180549/w2000h1500/s1600x1200/x-267057893.jpg",
-    description: "Elegant resale villa on 1,009m² plot. Private pool (4×8m), panoramic sea & mountain views, summer kitchen with pizza oven, garage for 6 cars. South-facing.",
-    tags: [],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/9395428"
-  },
-  {
-    id: 112,
-    address: "Balcón de Finestrat, Finestrat",
-    bedrooms: 4,
-    bathrooms: 3,
-    price: 865000,
-    size_m2: 325,
-    plot_m2: 590,
-    image: "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011201/image-9a2fb65f-363e-4d45-832f-9f8b02a9ef31.webp?originalExt=jpg",
-    description: "Contemporary villa (2023), 325m², energy class A. Private pool + children's pool, gym, gated complex, 24h surveillance, dual orientation.",
-    tags: [],
-    portal: "Luxinmo",
-    url: "https://www.luxinmo.com/property/new-4-bedroom-modern-villa-in-balcon-de-finestrat-7298"
-  },
-  {
-    id: 103,
-    address: "Paichi, Teulada-Moraira",
-    bedrooms: 5,
-    bathrooms: 4,
-    price: 899000,
-    size_m2: 442,
-    plot_m2: 811,
-    image: "https://cdn.thinkwebcontent.com/property/5593/9205719/20250904170246/w2000h1128/s1600x1200/x-261340269.jpg",
-    description: "Traditional Mediterranean villa, heated pool (11×5m), cinema room, games room, bar area, jacuzzi, sea views, near El Portet beach.",
-    tags: ["exclusive"],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/9205719"
-  },
-  {
-    id: 115,
-    address: "Balcón de Finestrat — Sunny Hills",
-    bedrooms: 5,
-    bathrooms: 4,
-    price: 915000,
-    size_m2: 320,
-    plot_m2: 511,
-    image: "https://cdn.thinkwebcontent.com/property/10094/9604840/20260217040327/w800h600/s1600x1200/x-273317325.jpg",
-    description: "Energy A-rated contemporary villa (Sunny Hills). Fully furnished, private pool, multiple solariums, basement, paddle tennis in community. 30 min to Alicante.",
-    tags: [],
-    portal: "ThinkSpain",
-    url: "https://www.thinkspain.com/property-for-sale/9604840"
-  },
-  {
-    id: 204,
-    address: "Altea Town, Altea",
-    bedrooms: 5,
-    bathrooms: 4,
-    price: 949000,
-    size_m2: 326,
-    plot_m2: 1143,
-    image: "https://images.lucasfox.com/property/4x3_1600w/D352A726D6.jpg",
-    description: "Exclusive renovated villa with sea and mountain views. Pool (4×8m), terrace with outdoor kitchen and BBQ, private garage, garden with fruit trees. Traditional Spanish architecture.",
-    tags: ["new"],
-    portal: "Lucas Fox",
-    url: "https://www.lucasfox.com/property-for-sale/spain/costa-blanca/altea/altea-town/house-villa/alt66615.html"
-  },
-  {
-    id: 117,
-    address: "Playa Muchavista, San Juan de Alicante",
-    bedrooms: 4,
-    bathrooms: 3,
-    price: 1100000,
-    size_m2: 360,
-    plot_m2: 987,
-    image: "https://images.lucasfox.com/property/4x3_1600w/B722631CCF.jpg",
-    description: "Premium beachside villa steps from Muchavista beach. L-shaped private pool (44m²), chill-out area, 987m² Mediterranean garden, master suite, 230m² parking. Energy class B.",
-    tags: ["exclusive"],
-    portal: "Lucas Fox",
-    url: "https://www.lucasfox.com/property-for-sale/spain/costa-blanca/alicante/playa-muchavista/house-villa/ali68229.html"
-  },
-  {
-    id: 301,
-    address: "Altea la Vella, Altea",
-    bedrooms: 5, bathrooms: 5,
-    price: 1100000, size_m2: 330, plot_m2: 2000,
-    image: "https://img4.idealista.com/blur/WEB_LISTING-M/0/id.pro.es.image.master/70/a9/e7/1349773249.jpg",
-    description: "Modern villa with sea views in Monterico. 330m² on 2,000m² plot. Pool, south-facing, built 2012. Parking included.",
-    tags: ["new"], portal: "Idealista",
-    url: "https://www.idealista.com/en/inmueble/108605561/"
-  },
-  {
-    id: 302,
-    address: "Canuta de Ifach, Calpe",
-    bedrooms: 6, bathrooms: 4,
-    price: 1100000, size_m2: 600, plot_m2: 1000,
-    image: "https://img4.idealista.com/blur/WEB_LISTING-M/0/id.pro.es.image.master/ce/c1/5a/1323108314.jpg",
-    description: "Spacious 3-floor villa in Canuta. 600m² on 1,000m² plot. Pool, garden, south-facing, built 2008.",
-    tags: ["new"], portal: "Idealista",
-    url: "https://www.idealista.com/en/inmueble/107764444/"
-  },
-  {
-    id: 303,
-    address: "Salafranca-Lloixa, San Juan de Alicante",
-    bedrooms: 5, bathrooms: 6,
-    price: 1100000, size_m2: 687, plot_m2: 1250,
-    image: "https://img4.idealista.com/blur/WEB_LISTING-M/0/id.pro.es.image.master/4e/8c/15/1383929365.jpg",
-    description: "Impressive 687m² villa on 1,250m² plot. Pool, garden, south/east facing, fitted wardrobes. Built 2009.",
-    tags: ["new"], portal: "Idealista",
-    url: "https://www.idealista.com/en/inmueble/109390117/"
-  },
-  {
-    id: 304,
-    address: "Altea Pueblo, Altea",
-    bedrooms: 6, bathrooms: 7,
-    price: 1100000, size_m2: 418, plot_m2: 1098,
-    image: "https://img4.idealista.com/blur/WEB_LISTING-M/0/id.pro.es.image.master/96/15/3c/1418649076.jpg",
-    description: "Elegant villa in Altea Pueblo. 418m² on 1,098m² plot. Pool, garden, gas heating, AC, multi-aspect orientation.",
-    tags: ["new"], portal: "Idealista",
-    url: "https://www.idealista.com/en/inmueble/110215612/"
-  },
-  {
-    id: 305,
-    address: "Montebello, La Nucia",
-    bedrooms: 5, bathrooms: 4,
-    price: 900000, size_m2: 323, plot_m2: 2213,
-    image: "https://img4.idealista.com/blur/WEB_LISTING-M/0/id.pro.es.image.master/c6/ef/47/1370889625.jpg",
-    description: "Villa on generous 2,213m² plot in Montebello. 323m² built, pool, garden, south/east facing. AC, fitted wardrobes.",
-    tags: ["new"], portal: "Idealista",
-    url: "https://www.idealista.com/en/inmueble/109084629/"
-  },
-  {
-    id: 306,
-    address: "Playa Muchavista, El Campello",
-    bedrooms: 3, bathrooms: 4,
-    price: 900000, size_m2: 370, plot_m2: 960,
-    image: "https://img4.idealista.com/blur/WEB_LISTING-M/0/id.pro.es.image.master/f2/98/81/1416174210.jpg",
-    description: "3-floor beachside villa near Muchavista. 370m² on 960m² plot. Garden, balcony, built 2021.",
-    tags: ["new"], portal: "Idealista",
-    url: "https://www.idealista.com/en/inmueble/110832450/"
-  },
-  {
-    id: 307,
-    address: "Balcón de Finestrat, Finestrat",
-    bedrooms: 5, bathrooms: 5,
-    price: 900000, size_m2: 262, plot_m2: 434,
-    image: "https://img4.idealista.com/blur/WEB_LISTING-M/0/id.pro.es.image.master/3e/65/1b/1304891491.jpg",
-    description: "Contemporary villa (2022) in Balcón de Finestrat. 262m² on 434m² plot. Pool, garden, storage. 5 bed / 5 bath.",
-    tags: ["new"], portal: "Idealista",
-    url: "https://www.idealista.com/en/inmueble/106929418/"
-  },
-  {
-    id: 308,
-    address: "Guadalest, Marina Baixa",
-    bedrooms: 4, bathrooms: 8,
-    price: 900000, size_m2: 370, plot_m2: 19900,
-    image: "https://img4.idealista.com/blur/WEB_LISTING-M/0/id.pro.es.image.master/e6/d8/29/1363889689.jpg",
-    description: "Estate on massive 19,900m² plot in Guadalest. 370m² villa with pool, south/west facing. Built 2007.",
-    tags: ["new"], portal: "Idealista",
-    url: "https://www.idealista.com/en/inmueble/108846922/"
-  },
-  {
-    id: 309,
-    address: "Cumbre del Sol, Benitachell",
-    bedrooms: 4, bathrooms: 3,
-    price: 900000, size_m2: 250, plot_m2: 887,
-    image: "https://img4.idealista.com/blur/WEB_LISTING-M/0/id.pro.es.image.master/f5/c9/00/1422337020.jpg",
-    description: "Single-floor villa in Cumbre del Sol. 250m² on 887m² plot. Pool, garden, AC, central heating.",
-    tags: ["new"], portal: "Idealista",
-    url: "https://www.idealista.com/en/inmueble/111030121/"
-  }
-];
+const DATA = [  {"ref":"AC001","address":"Av. Mediterráneo 45","area":"Playa San Juan","bedrooms":3,"bathrooms":2,"size":145,"price":285000,"priceHistory":[285000],"category":"Apartment","status":"new","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac001"},{"ref":"AC002","address":"Calle Mayor 12","area":"Centro","bedrooms":2,"bathrooms":1,"size":95,"price":195000,"priceHistory":[200000,198000,195000],"category":"Apartment","status":"drop","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac002"},{"ref":"AC003","address":"Paseo de la Explanada 8","area":"Playa del Postiguet","bedrooms":4,"bathrooms":3,"size":220,"price":425000,"priceHistory":[425000],"category":"Penthouse","status":"excl","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac003"},{"ref":"AC004","address":"Calle San Juan 33","area":"San Blas","bedrooms":2,"bathrooms":2,"size":110,"price":220000,"priceHistory":[220000],"category":"Apartment","status":"new","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac004"},{"ref":"AC005","address":"Avda. Esparelló 77","area":"Benalúa","bedrooms":3,"bathrooms":2,"size":155,"price":310000,"priceHistory":[320000,315000,310000],"category":"Townhouse","status":"drop","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac005"},{"ref":"AC006","address":"Montiboli 56","area":"La Florida","bedrooms":5,"bathrooms":4,"size":380,"price":650000,"priceHistory":[650000],"category":"Villa","status":"excl","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac006"},{"ref":"AC007","address":"Calle Pérez Bayer 19","area":"Centro","bedrooms":1,"bathrooms":1,"size":48,"price":89000,"priceHistory":[89000],"category":"Studio","status":"new","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac007"},{"ref":"AC008","address":"Avda. Denia 102","area":"Playa San Juan","bedrooms":3,"bathrooms":2,"size":140,"price":295000,"priceHistory":[305000,300000,295000],"category":"Apartment","status":"drop","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac008"},{"ref":"AC009","address":"Partida Redován 15","area":"Cercanías","bedrooms":4,"bathrooms":3,"size":310,"price":385000,"priceHistory":[385000],"category":"Villa","status":"new","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac009"},{"ref":"AC010","address":"Calle Rafael Altamira 22","area":"Zona Universitaria","bedrooms":2,"bathrooms":2,"size":105,"price":175000,"priceHistory":[185000,180000,175000],"category":"Apartment","status":"drop","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac010"},{"ref":"AC011","address":"Calle Virgen del Remedio 5","area":"Centro","bedrooms":3,"bathrooms":2,"size":130,"price":245000,"priceHistory":[245000],"category":"Apartment","status":"excl","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac011"},{"ref":"AC012","address":"Avda. Maisonnave 67","area":"Playa del Postiguet","bedrooms":2,"bathrooms":1,"size":92,"price":215000,"priceHistory":[215000],"category":"Apartment","status":"new","updated":"2026-04-05","lastSeen":"2026-04-05","url":"https://example.com/ac012"}];
 
-let currentView = 'grid';
-let showFavOnly = false;
-let favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
-function updateFavUI() {
-  const count = Object.values(favorites).filter(Boolean).length;
-  const btn = document.getElementById('fav-filter-btn');
-  const clearBtn = document.getElementById('fav-clear-btn');
-  btn.textContent = `☆ Favourites (${count})`;
-  clearBtn.style.display = count > 0 ? 'inline-block' : 'none';
+function formatPrice(price) {
+  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(price);
 }
 
-function renderProperties(filtered = properties) {
-  const container = document.getElementById('properties-container');
-  container.className = currentView === 'grid' ? 'grid' : 'list';
-  container.innerHTML = '';
+function getFilteredData() {
+  const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+  const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+  const minSize = parseFloat(document.getElementById('minSize').value) || 0;
+  const maxSize = parseFloat(document.getElementById('maxSize').value) || Infinity;
+  const district = document.getElementById('districtFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  const category = document.getElementById('categoryFilter').value;
 
-  if (filtered.length === 0) {
-    container.innerHTML = '<div class="no-results" style="grid-column: 1/-1"><h2>No properties found</h2><p>Try adjusting your filters</p></div>';
+  return DATA.filter(p => 
+    p.price >= minPrice && p.price <= maxPrice &&
+    p.size >= minSize && p.size <= maxSize &&
+    (!district || p.area === district) &&
+    (!status || p.status === status) &&
+    (!category || p.category === category)
+  );
+}
+
+function updateStats(data) {
+  const newCount = data.filter(p => p.status === 'new').length;
+  const dropCount = data.filter(p => p.status === 'drop').length;
+  const avgPrice = data.length > 0 ? data.reduce((sum, p) => sum + p.price, 0) / data.length : 0;
+  
+  document.getElementById('totalCount').textContent = data.length;
+  document.getElementById('newCount').textContent = newCount;
+  document.getElementById('dropCount').textContent = dropCount;
+  document.getElementById('avgPrice').textContent = formatPrice(avgPrice);
+}
+
+function renderGrid(data) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  if (data.length === 0) {
+    document.getElementById('noResults').style.display = 'block';
+    grid.style.display = 'none';
     return;
   }
 
-  filtered.forEach(prop => {
-    const link = document.createElement('a');
-    link.className = 'card-link';
-    link.href = prop.url || '#';
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
+  document.getElementById('noResults').style.display = 'none';
+  grid.style.display = 'grid';
 
+  data.forEach(property => {
     const card = document.createElement('div');
-    card.className = `card ${currentView === 'list' ? 'list-view' : ''}`;
-
-    const plotText = prop.plot_m2 ? ` · ${prop.plot_m2.toLocaleString()}m² plot` : '';
+    card.className = 'card';
+    const priceChange = property.priceHistory.length > 1 ? property.priceHistory[0] - property.price : 0;
+    const statusTag = property.status === 'new' ? '<div class="tag new">NEW</div>' : property.status === 'drop' ? `<div class="tag drop">DROP <strong>-${formatPrice(Math.abs(priceChange))}</strong></div>` : '<div class="tag excl">EXCLUSIVE</div>';
+    
     card.innerHTML = `
-      <div class="image-section">
-        <img src="${prop.image}" alt="${prop.address}" loading="lazy">
-        <button class="fav-btn ${favorites[prop.id] ? 'favorited' : ''}" data-id="${prop.id}">☆</button>
-        <div class="tags">
-          ${prop.tags.map(tag => `<span class="tag ${tag === 'new' ? 'new' : tag === 'price-drop' ? 'price-drop' : 'exclusive'}">${tag === 'new' ? 'NEW' : tag === 'price-drop' ? 'PRICE DROP' : 'EXCLUSIVE'}</span>`).join('')}
+      <div class="header">
+        <span class="ref">${property.ref}</span>
+        <span class="fav ${favorites.includes(property.ref) ? 'active' : ''}">★</span>
+      </div>
+      <div class="header">
+        <div>
+          <div class="address">${property.address}</div>
+          <div class="area">${property.area}</div>
         </div>
       </div>
-      <div class="info-section">
-        <div class="address">${prop.address}</div>
-        <div class="meta">${prop.bedrooms} bed · ${prop.bathrooms} bath · ${prop.size_m2}m²${plotText}</div>
-        <div class="price">€${prop.price.toLocaleString()}</div>
-        ${prop.previous_price ? `<div class="previous-price">Was €${prop.previous_price.toLocaleString()}</div>` : ''}
-        <div class="description">${prop.description}</div>
-        <div class="portal-badge">${prop.portal}</div>
+      <div class="body">
+        <div class="stat">
+          <div class="stat-label">Price</div>
+          <div class="stat-value highlight">${formatPrice(property.price)}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Beds</div>
+          <div class="stat-value">${property.bedrooms}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Baths</div>
+          <div class="stat-value">${property.bathrooms}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Size</div>
+          <div class="stat-value">${property.size} m²</div>
+        </div>
       </div>
+      <div class="tags">${statusTag}</div>
+      <div class="footer">Updated ${property.updated}</div>
     `;
-
-    link.appendChild(card);
-    container.appendChild(link);
-  });
-
-  document.querySelectorAll('.fav-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
+    
+    card.querySelector('.fav').addEventListener('click', (e) => {
       e.stopPropagation();
-      const id = btn.dataset.id;
-      favorites[id] = !favorites[id];
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-      btn.classList.toggle('favorited');
-      updateFavUI();
-      if (showFavOnly) applyFilters();
+      toggleFavorite(property.ref);
+      render();
     });
+    
+    grid.appendChild(card);
   });
 }
 
-function applyFilters() {
-  const bedrooms = document.getElementById('bedrooms').value;
-  const priceMax = document.getElementById('price-max').value;
-  const search = document.getElementById('search').value.toLowerCase();
+function renderList(data) {
+  const list = document.getElementById('list');
+  list.innerHTML = '';
 
-  let filtered = properties.filter(p => {
-    const bedroomMatch = !bedrooms || p.bedrooms >= parseInt(bedrooms);
-    const priceMatch = !priceMax || p.price <= parseInt(priceMax);
-    const searchMatch = !search || p.address.toLowerCase().includes(search) || p.description.toLowerCase().includes(search) || (p.portal && p.portal.toLowerCase().includes(search));
-    const favMatch = !showFavOnly || favorites[p.id];
-    return bedroomMatch && priceMatch && searchMatch && favMatch;
-  });
-
-  renderProperties(filtered);
-}
-
-document.getElementById('bedrooms').addEventListener('change', applyFilters);
-document.getElementById('price-max').addEventListener('change', applyFilters);
-document.getElementById('search').addEventListener('input', applyFilters);
-
-document.querySelectorAll('.view-toggle button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentView = btn.dataset.view;
-    applyFilters();
-  });
-});
-
-document.getElementById('fav-filter-btn').addEventListener('click', () => {
-  showFavOnly = !showFavOnly;
-  document.getElementById('fav-filter-btn').classList.toggle('active', showFavOnly);
-  applyFilters();
-});
-
-document.getElementById('fav-clear-btn').addEventListener('click', () => {
-  if (confirm('Clear all favourites?')) {
-    favorites = {};
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    showFavOnly = false;
-    document.getElementById('fav-filter-btn').classList.remove('active');
-    updateFavUI();
-    applyFilters();
+  if (data.length === 0) {
+    document.getElementById('noResults').style.display = 'block';
+    list.style.display = 'none';
+    return;
   }
+
+  document.getElementById('noResults').style.display = 'none';
+  list.style.display = 'flex';
+
+  data.forEach(property => {
+    const item = document.createElement('div');
+    item.className = 'item';
+    const priceChange = property.priceHistory.length > 1 ? property.priceHistory[0] - property.price : 0;
+    const statusBadge = property.status === 'new' ? '<div class="status new">NEW</div>' : property.status === 'drop' ? `<div class="status drop">DROP</div>` : '';
+    
+    item.innerHTML = `
+      <div class="ref">${property.ref}</div>
+      <div class="address">${property.address}<br><small>${property.area}</small></div>
+      <div class="price">${formatPrice(property.price)}</div>
+      ${statusBadge}
+      <span class="fav ${favorites.includes(property.ref) ? 'active' : ''}">★</span>
+    `;
+    
+    item.querySelector('.fav').addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleFavorite(property.ref);
+      render();
+    });
+    
+    list.appendChild(item);
+  });
+}
+
+function toggleFavorite(ref) {
+  const index = favorites.indexOf(ref);
+  if (index > -1) {
+    favorites.splice(index, 1);
+  } else {
+    favorites.push(ref);
+  }
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+}
+
+function render() {
+  const data = getFilteredData();
+  updateStats(data);
+  
+  const isGridView = document.getElementById('gridView').classList.contains('active');
+  if (isGridView) {
+    renderGrid(data);
+  } else {
+    renderList(data);
+  }
+}
+
+document.getElementById('minPrice').addEventListener('change', render);
+document.getElementById('maxPrice').addEventListener('change', render);
+document.getElementById('minSize').addEventListener('change', render);
+document.getElementById('maxSize').addEventListener('change', render);
+document.getElementById('districtFilter').addEventListener('change', render);
+document.getElementById('statusFilter').addEventListener('change', render);
+document.getElementById('categoryFilter').addEventListener('change', render);
+
+document.getElementById('gridView').addEventListener('click', () => {
+  document.getElementById('gridView').classList.add('active');
+  document.getElementById('listView').classList.remove('active');
+  render();
 });
 
-updateFavUI();
-renderProperties();
+document.getElementById('listView').addEventListener('click', () => {
+  document.getElementById('listView').classList.add('active');
+  document.getElementById('gridView').classList.remove('active');
+  render();
+});
+
+render();
 </script>
 
 </body>
