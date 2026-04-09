@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Costa Blanca North — Villa Search 9 April 2026</title>
+<title>Costa Blanca / Alicante — Villa Search</title>
 <style>
   :root {
     --bg: #f8f7f4;
@@ -25,6 +25,8 @@
     --tag-excl-text: #6b21a8;
     --tag-warn: #fef9c3;
     --tag-warn-text: #713f12;
+    --tag-gone: #f1f5f9;
+    --tag-gone-text: #94a3b8;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
@@ -33,66 +35,82 @@
   header h1 { font-size: 22px; font-weight: 700; }
   header p { color: var(--muted); font-size: 14px; margin-top: 2px; }
 
-  .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; padding: 16px 32px; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 68px; z-index: 99; }
-  .toolbar .filter-group { display: flex; gap: 6px; align-items: center; }
-  .toolbar label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-  .toolbar select, .toolbar input { padding: 7px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
-  .toolbar input[type="text"] { width: 180px; }
+  .shared-banner { background: #fef9c3; border-bottom: 2px solid #f59e0b; padding: 10px 32px; display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: #713f12; }
+  .shared-banner button { margin-left: auto; padding: 6px 14px; background: #f59e0b; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .shared-banner button:hover { background: #d97706; }
+
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 12px 32px; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 68px; z-index: 99; }
+  .toolbar .filter-group { display: flex; gap: 5px; align-items: center; }
+  .toolbar label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+  .toolbar select, .toolbar input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; background: white; }
+  .toolbar input[type="text"] { width: 150px; }
+
+  .fav-filter-btn { padding: 6px 14px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; background: white; color: var(--muted); transition: all 0.2s; white-space: nowrap; }
+  .fav-filter-btn.active { background: var(--fav-light); color: #b45309; border-color: #f59e0b; }
+  .share-btn { padding: 6px 14px; border: 1px solid #22c55e; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; background: #f0fdf4; color: #166534; transition: all 0.2s; white-space: nowrap; }
+  .share-btn:hover { background: #dcfce7; }
+  .share-btn.copied { background: #166534; color: white; border-color: #166534; }
 
   .view-toggle { display: flex; gap: 4px; margin-left: auto; }
-  .view-toggle button { padding: 7px 16px; border: 1px solid var(--border); background: white; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); transition: all 0.2s; }
+  .view-toggle button { padding: 6px 14px; border: 1px solid var(--border); background: white; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); transition: all 0.2s; }
   .view-toggle button.active { background: var(--accent); color: white; border-color: var(--accent); }
 
   .main { padding: 32px; }
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 32px; }
-  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
-  .stat-card h3 { font-size: 14px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-  .stat-card .value { font-size: 32px; font-weight: 700; color: var(--accent); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+  .stat-card h3 { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .stat-card .value { font-size: 28px; font-weight: 700; color: var(--accent); }
+  .stat-card .value.fav-val { color: var(--fav); }
 
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
   .list { display: flex; flex-direction: column; gap: 16px; }
 
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all 0.2s; cursor: pointer; }
   .card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .card.is-fav { border-color: var(--fav); box-shadow: 0 2px 8px rgba(245,158,11,0.2); }
   .card .card-image { width: 100%; height: 200px; object-fit: cover; display: block; background: #e2e8f0; }
   .card .card-image-placeholder { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; background: #e2e8f0; color: var(--muted); font-size: 13px; }
   .card .header { padding: 16px 20px 8px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: start; }
-  .card .ref { font-size: 13px; font-weight: 700; color: var(--accent); font-family: 'Courier New', monospace; }
-  .card .fav { font-size: 20px; cursor: pointer; transition: all 0.2s; }
-  .card .fav:hover { transform: scale(1.2); }
+  .card .ref { font-size: 12px; font-weight: 700; color: var(--accent); font-family: 'Courier New', monospace; }
+  .card .search-badge { font-size: 11px; padding: 2px 7px; border-radius: 4px; font-weight: 600; background: #f1f5f9; color: #64748b; margin-left: 4px; }
+  .card .search-badge.cb { background: #dbeafe; color: #1d4ed8; }
+  .card .fav { font-size: 22px; cursor: pointer; transition: all 0.2s; color: #d1d5db; }
+  .card .fav:hover { transform: scale(1.2); color: var(--fav); }
   .card .fav.active { color: var(--fav); }
   .card .address { font-size: 16px; font-weight: 700; color: var(--text); margin: 8px 0 4px 0; }
   .card .area { font-size: 13px; color: var(--muted); }
 
-  .card .body { padding: 16px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; }
+  .card .body { padding: 16px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 14px; }
   .card .stat { display: flex; flex-direction: column; }
-  .card .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 4px; }
-  .card .stat-value { font-size: 17px; font-weight: 700; color: var(--text); }
+  .card .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 3px; }
+  .card .stat-value { font-size: 16px; font-weight: 700; color: var(--text); }
   .card .stat-value.highlight { color: var(--accent); }
 
-  .card .tags { padding: 0 20px 16px 20px; display: flex; gap: 8px; flex-wrap: wrap; }
-  .tag { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+  .card .tags { padding: 0 20px 14px 20px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 5px; font-size: 11px; font-weight: 600; }
   .tag.new { background: var(--tag-new); color: var(--tag-new-text); }
   .tag.drop { background: var(--tag-drop); color: var(--tag-drop-text); }
   .tag.excl { background: var(--tag-excl); color: var(--tag-excl-text); }
   .tag.warn { background: var(--tag-warn); color: var(--tag-warn-text); }
   .tag.pool { background: #dbeafe; color: #1d4ed8; }
   .tag.garage { background: #f0fdf4; color: #166534; }
+  .tag.gone { background: var(--tag-gone); color: var(--tag-gone-text); }
 
   .card .footer { padding: 0 20px 16px 20px; font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
   .card .footer a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 12px; }
   .card .footer a:hover { text-decoration: underline; }
 
-  .list .item { display: grid; grid-template-columns: 80px 1fr auto auto auto; gap: 16px; align-items: center; padding: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; }
+  .list .item { display: grid; grid-template-columns: 80px 1fr auto auto auto; gap: 16px; align-items: center; padding: 14px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; }
   .list .item:hover { border-color: var(--accent); background: var(--accent-light); }
-  .list .item .ref { font-weight: 700; color: var(--accent); font-size: 13px; font-family: 'Courier New', monospace; text-align: right; }
+  .list .item.is-fav { border-color: var(--fav); background: var(--fav-light); }
+  .list .item .ref { font-weight: 700; color: var(--accent); font-size: 12px; font-family: 'Courier New', monospace; text-align: right; }
   .list .item .address { font-weight: 700; color: var(--text); }
-  .list .item .price { font-weight: 700; color: var(--accent); }
-  .list .item .status { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+  .list .item .price { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .list .item .status { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
   .list .item .status.new { background: var(--tag-new); color: var(--tag-new-text); }
   .list .item .status.drop { background: var(--tag-drop); color: var(--tag-drop-text); }
-  .list .item .fav { font-size: 18px; cursor: pointer; transition: all 0.2s; }
-  .list .item .fav:hover { transform: scale(1.3); }
+  .list .item .fav { font-size: 20px; cursor: pointer; transition: all 0.2s; color: #d1d5db; }
+  .list .item .fav:hover { transform: scale(1.3); color: var(--fav); }
   .list .item .fav.active { color: var(--fav); }
 
   .no-results { padding: 40px; text-align: center; color: var(--muted); }
@@ -100,25 +118,40 @@
   .no-results .hint { font-size: 13px; color: #aaa; }
 
   @media (max-width: 768px) {
-    .toolbar { padding: 12px 16px; }
+    .toolbar { padding: 10px 16px; }
     .main { padding: 16px; }
     .grid { grid-template-columns: 1fr; }
-    .list .item { grid-template-columns: 1fr; gap: 8px; }
-    .list .item .ref, .list .item .price, .list .item .status, .list .item .fav { order: -1; font-size: 12px; }
+    .list .item { grid-template-columns: 1fr; gap: 6px; }
+    .shared-banner { padding: 10px 16px; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Costa Blanca North — Villa &amp; Chalet Search</h1>
-  <p>Last updated 9 April 2026 · Jávea · Moraira · Benitachell/Cumbre del Sol · Calpe · Benissa Costa</p>
+  <h1>Costa Blanca / Alicante — Villa &amp; Chalet Search</h1>
+  <p id="headerSub">All searches combined · Last updated 9 April 2026</p>
 </header>
+
+<div id="sharedBanner" class="shared-banner" style="display:none">
+  ⭐ Shared favourites view — the properties starred below were selected by someone who shared this link with you.
+  <button onclick="clearSharedView()">Clear &amp; use my own</button>
+</div>
 
 <div class="toolbar">
   <div class="filter-group">
-    <label>Min Price (€):</label>
-    <input type="text" id="minPrice" placeholder="e.g. 400000" value="">
+    <label>Search:</label>
+    <select id="searchAreaFilter">
+      <option value="">All runs</option>
+      <option value="CB North">Costa Blanca North</option>
+      <option value="Alicante">Broader Alicante</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Location:</label>
+    <select id="districtFilter">
+      <option value="">All areas</option>
+    </select>
   </div>
   <div class="filter-group">
     <label>Max Price (€):</label>
@@ -127,22 +160,6 @@
   <div class="filter-group">
     <label>Min m²:</label>
     <input type="text" id="minSize" placeholder="e.g. 160" value="">
-  </div>
-  <div class="filter-group">
-    <label>Max m²:</label>
-    <input type="text" id="maxSize" placeholder="e.g. 400" value="">
-  </div>
-  <div class="filter-group">
-    <label>Location:</label>
-    <select id="districtFilter">
-      <option value="">All areas</option>
-      <option value="Jávea">Jávea</option>
-      <option value="Moraira">Moraira</option>
-      <option value="Benitachell">Benitachell</option>
-      <option value="Calpe">Calpe</option>
-      <option value="Benissa">Benissa</option>
-      <option value="Teulada">Teulada</option>
-    </select>
   </div>
   <div class="filter-group">
     <label>Status:</label>
@@ -159,8 +176,11 @@
       <option value="">Any</option>
       <option value="3">3+</option>
       <option value="4">4+</option>
+      <option value="5">5+</option>
     </select>
   </div>
+  <button class="fav-filter-btn" id="favFilterBtn" onclick="toggleFavFilter()">★ Favourites</button>
+  <button class="share-btn" id="shareBtn" onclick="shareFavorites()">🔗 Share Favourites</button>
   <div class="view-toggle">
     <button class="active" id="gridView">Grid</button>
     <button id="listView">List</button>
@@ -169,747 +189,189 @@
 
 <div class="main">
   <div class="stats">
-    <div class="stat-card">
-      <h3>Total Properties</h3>
-      <div class="value" id="totalCount">0</div>
-    </div>
-    <div class="stat-card">
-      <h3>New Listings</h3>
-      <div class="value" id="newCount">0</div>
-    </div>
-    <div class="stat-card">
-      <h3>Price Drops</h3>
-      <div class="value" id="dropCount">0</div>
-    </div>
-    <div class="stat-card">
-      <h3>Avg Price</h3>
-      <div class="value" id="avgPrice">€0</div>
-    </div>
+    <div class="stat-card"><h3>Total Properties</h3><div class="value" id="totalCount">0</div></div>
+    <div class="stat-card"><h3>New Listings</h3><div class="value" id="newCount">0</div></div>
+    <div class="stat-card"><h3>Price Drops</h3><div class="value" id="dropCount">0</div></div>
+    <div class="stat-card"><h3>Avg Price</h3><div class="value" id="avgPrice">€0</div></div>
+    <div class="stat-card"><h3>Favourited</h3><div class="value fav-val" id="favCount">0</div></div>
   </div>
   <div id="grid" class="grid"></div>
   <div id="list" class="list" style="display: none;"></div>
   <div id="noResults" class="no-results" style="display: none;">
     <p>No properties found matching your filters.</p>
-    <div class="hint">Try adjusting your search criteria.</div>
+    <div class="hint">Try adjusting your search criteria or clearing filters.</div>
   </div>
 </div>
 
 <script>
 const DATA = [
-  {
-    "ref": "CB023",
-    "id": "CB023",
-    "title": "🔻 5-Bed Mediterranean Villa — Major Price Drop, Maryvilla, Calpe",
-    "address": "Canuta-Maryvilla, Calpe",
-    "area": "Calpe",
-    "bedrooms": 5,
-    "bathrooms": 4,
-    "size": 281,
-    "plot": 837,
-    "price": 600000,
-    "priceHistory": [850000, 600000],
-    "category": "Villa",
-    "status": "drop",
-    "pool": true,
-    "garage": true,
-    "orientation": null,
-    "yearBuilt": 1986,
-    "portal": "Luxinmo",
-    "ref_agent": "REF-7356",
-    "updated": "2026-04-09",
-    "lastSeen": "2026-04-09",
-    "url": "https://www.luxinmo.com/property/stunning-5-bedroom-mediterranean-villa-with-beautiful-sea-vi-7356",
-    "image": "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011084/image-41215d83-f38e-46e3-8077-452cbc8ada1f.webp",
-    "notes": "🔻 Huge price drop €250,000 (was €850k, now €600k = 29% off). 5 bed/4 bath. Sea & mountain views. Terrace, BBQ, alarm, AC. Built 1986. ⚠️ Plot 837m² (slightly over preferred max 800m²)."
-  },
-  {
-    "ref": "CB001",
-    "id": "CB001",
-    "title": "Impressive Villa with Sea Views — Oltamar, Calpe",
-    "address": "Oltamar-Cucarres-Gargasindi",
-    "area": "Calpe",
-    "bedrooms": 4,
-    "bathrooms": 5,
-    "size": 384,
-    "plot": 800,
-    "price": 716000,
-    "priceHistory": [716000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": "South",
-    "yearBuilt": null,
-    "portal": "Luxinmo",
-    "ref_agent": "REF-6779",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-09",
-    "url": "https://www.luxinmo.com/property/impressive-villa-with-sea-views-in-oltamar-cucarres-gargasindi-calpe-6779",
-    "image": "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10010841/image-377ea138-db09-4a3f-9671-a2396f327cc1.webp",
-    "notes": "South-facing. Sea & mountain views. Separate guest house. Solar panels. 3.1km to Playa de la Fossa."
-  },
-  {
-    "ref": "CB002",
-    "id": "CB002",
-    "title": "Villa Verdia — Mediterranean Villa with Pool, Jávea",
-    "address": "Balcon al Mar, Av. del Pla",
-    "area": "Jávea",
-    "bedrooms": 4,
-    "bathrooms": 2,
-    "size": 250,
-    "plot": 969,
-    "price": 690000,
-    "priceHistory": [690000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": "West",
-    "yearBuilt": 1976,
-    "portal": "Costa Houses",
-    "ref_agent": "2848V_VERDIA",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.costa-houses.com/en/for-sale/villa-verdia-mediterranean-villa-with-4-bedrooms-and-private-pool-in-javea-2848v-verdia/",
-    "image": "https://app-api.paagees.com/uploads/019cb39b-f1a2-77db-aff7-51a578ca5485/property/2026/04/02/a0/019d4bec-953a-7011-8b31-96f34bc2a7a0.webp",
-    "notes": "West-facing. Organic-shape pool. Alarm. Fireplace. Terrace 100m². 2.1km to sea. Reformed."
-  },
-  {
-    "ref": "CB003",
-    "id": "CB003",
-    "title": "South-Facing Villa with Pool & Garage — Fanadix, Moraira",
-    "address": "Fanadix, Moraira",
-    "area": "Moraira",
-    "bedrooms": 3,
-    "bathrooms": 3,
-    "size": 204,
-    "plot": 850,
-    "price": 695000,
-    "priceHistory": [695000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": "South",
-    "yearBuilt": 1985,
-    "portal": "Select Villas",
-    "ref_agent": "03819M",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://select-villas.es/property/5161/well-maintained-three-bedroom-traditional-villa-with-spacious-terraces-attractive-gardens-summer-kitchen-for-entertaining-and-short-drive-to-moraira-town-and-beach/",
-    "image": "https://select-villas.es/media/images/properties/thumbnails/76d853aa4d5cb799bbf493d22070dca5_1024x800.JPEG",
-    "notes": "South-facing. 8×4m pool. Garage 24m². Summer kitchen+BBQ. 8 min to beach. Sea view glimpse."
-  },
-  {
-    "ref": "CB004",
-    "id": "CB004",
-    "title": "4-Bed Villa with Sea Views — Cumbre del Sol, Benitachell",
-    "address": "Cumbre del Sol",
-    "area": "Benitachell",
-    "bedrooms": 4,
-    "bathrooms": 3,
-    "size": 330,
-    "plot": 820,
-    "price": 730000,
-    "priceHistory": [730000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": false,
-    "orientation": null,
-    "yearBuilt": 2010,
-    "portal": "Luxinmo",
-    "ref_agent": "REF-6376",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-09",
-    "url": "https://www.luxinmo.com/property/4-bedroom-villa-with-sea-mountain-views-in-poble-nou-de-beni-6376",
-    "image": "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10009994/image-e5e1844c-1c6f-49ab-87f9-e02a80b83975.webp",
-    "notes": "Energy class B (best in list). Built 2010. Underfloor heating + solar panels. Sea+mountain views. Parking (not enclosed garage)."
-  },
-  {
-    "ref": "CB005",
-    "id": "CB005",
-    "title": "South-Facing Villa with Sea Views — Benissa Costa",
-    "address": "La Viña-Montemar-San Jaime",
-    "area": "Benissa",
-    "bedrooms": 4,
-    "bathrooms": 2,
-    "size": 309,
-    "plot": 850,
-    "price": 695000,
-    "priceHistory": [695000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": "South",
-    "yearBuilt": 1972,
-    "portal": "Luxinmo",
-    "ref_agent": "REF-7010",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-09",
-    "url": "https://www.luxinmo.com/property/mediterranean-villa-with-sea-views-and-sunny-south-facing-or-7010",
-    "image": "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011059/image-f66cd3e6-25d1-4b53-a1ce-32c265ede7cd.webp",
-    "notes": "South-facing. Sea views. Independent lower unit (guest/rental). Garage + 4 outdoor spaces. 5 min to beach."
-  },
-  {
-    "ref": "CB006",
-    "id": "CB006",
-    "title": "Best Value — Independent Villa with Sea View, Benitachell",
-    "address": "Cumbre del Sol",
-    "area": "Benitachell",
-    "bedrooms": 3,
-    "bathrooms": 3,
-    "size": 211,
-    "plot": 912,
-    "price": 520000,
-    "priceHistory": [520000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": null,
-    "yearBuilt": 1993,
-    "portal": "Villas Buigues",
-    "ref_agent": "VB1025",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.villasbuigues.com/for-sale/independent-villa-with-sea-view-benitachell-vb1025/",
-    "image": "https://www.villasbuigues.com/objetos/temp/source/villasbuigues/2026/03/27/355067/2a56dd36-2e66-4b60-b37f-2c1b45604cb6.jpeg",
-    "notes": "⭐ Best value. 3 en-suite bedrooms. Garage + carport. Sea+mountain views. Needs renovation. Lady Elizabeth School 4 min."
-  },
-  {
-    "ref": "CB007",
-    "id": "CB007",
-    "title": "3-Bed Mediterranean Villa — Benissa",
-    "address": "Benissa",
-    "area": "Benissa",
-    "bedrooms": 3,
-    "bathrooms": 2,
-    "size": 200,
-    "plot": 800,
-    "price": 650000,
-    "priceHistory": [650000],
-    "category": "Villa",
-    "status": "excl",
-    "pool": true,
-    "garage": true,
-    "orientation": "South",
-    "yearBuilt": 1980,
-    "portal": "Luxinmo",
-    "ref_agent": "REF-7545",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-09",
-    "url": "https://www.luxinmo.com/property/modern-mediterranean-3-bedroom-detached-house-in-benissa-wit-7545",
-    "image": "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011114/image-2ba73783-31e7-49ab-b3a2-ea03833e916e.webp",
-    "notes": "South-facing. Off-market/exclusive. 4km to Cala Baladrar beach. Well-maintained garden."
-  },
-  {
-    "ref": "CB008",
-    "id": "CB008",
-    "title": "Spanish Style Villa with Pool — Cansalades, Jávea",
-    "address": "Cansalades, Partida Comunes-Adsubia",
-    "area": "Jávea",
-    "bedrooms": 3,
-    "bathrooms": 3,
-    "size": 232,
-    "plot": 1000,
-    "price": 750000,
-    "priceHistory": [750000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": false,
-    "orientation": null,
-    "yearBuilt": 2009,
-    "portal": "Luxinmo",
-    "ref_agent": "REF-4725",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-09",
-    "url": "https://www.luxinmo.com/property/for-sale-this-spanish-style-villa-in-javea-4725",
-    "image": "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10006590/image-7c6ed2ff-d0aa-4e28-9557-03d237b5cb79.webp",
-    "notes": "⚠️ No enclosed garage confirmed (gated plot). 1,000m² plot. Jacuzzi. Sea+mountain views. 2009 build."
-  },
-  {
-    "ref": "CB009",
-    "id": "CB009",
-    "title": "Villa Saga — South-Facing with Independent Apt, Pinosol Jávea",
-    "address": "Pinosol, Cap Martí",
-    "area": "Jávea",
-    "bedrooms": 4,
-    "bathrooms": 4,
-    "size": 233,
-    "plot": 2044,
-    "price": 690000,
-    "priceHistory": [750000, 690000],
-    "category": "Villa",
-    "status": "drop",
-    "pool": true,
-    "garage": false,
-    "orientation": "South",
-    "yearBuilt": 1979,
-    "portal": "Costa Houses",
-    "ref_agent": "2709V_SAGA",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.costa-houses.com/en/for-sale/villa-saga-for-sale-with-independent-apartment-in-pinosol-javea-xabia-alicante-2709v-saga/",
-    "image": "https://app-api.paagees.com/uploads/019cb39b-f1a2-77db-aff7-51a578ca5485/property/2026/03/28/01/019d33c9-d0da-7502-9209-a147ceee5e01.webp",
-    "notes": "🔻 Price drop €60,000! Now €690k (was €750k). Also on Idealista ID 108374838. ⚠️ 2,044m² plot (heavy gardening). South-facing. Independent apartment. Solar panels."
-  },
-  {
-    "ref": "CB010",
-    "id": "CB010",
-    "title": "4-Bed Semi-Detached with Pool — Partidas Moraira, Teulada",
-    "address": "Partidas Moraira",
-    "area": "Teulada",
-    "bedrooms": 4,
-    "bathrooms": 3,
-    "size": 181,
-    "plot": 227,
-    "price": 460000,
-    "priceHistory": [460000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": "South/West",
-    "yearBuilt": 2006,
-    "portal": "Luxinmo",
-    "ref_agent": "REF-6036",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-09",
-    "url": "https://www.luxinmo.com/property/charming-semi-detached-4-bedroom-in-teulada-6036",
-    "image": "https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10010491/image-93d3e107-d07c-41d4-a202-755799085425.webp",
-    "notes": "⚠️ Semi-detached (not fully independent). 227m² plot only. Gated complex with security. 3.5km to Moraira beach."
-  },
-  {
-    "ref": "CB011",
-    "id": "CB011",
-    "title": "Villa for Sale — Adsubia, Jávea (Renovation Project)",
-    "address": "Adsubia, Jávea",
-    "area": "Jávea",
-    "bedrooms": 3,
-    "bathrooms": null,
-    "size": 184,
-    "plot": 800,
-    "price": 625000,
-    "priceHistory": [625000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": null,
-    "yearBuilt": null,
-    "portal": "Kyero",
-    "ref_agent": "7228",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.kyero.com/en/property/19918172-villa-for-sale-javea",
-    "image": "https://images.kyero.com/crop/720x500/https://production-kyero-property-images.s3.amazonaws.com/19918/19918172/391002118_original.jpg",
-    "notes": "⚠️ Renovation needed. Sea views. Garage. 800m² plot. Adsubia/rural Jávea. Agent: Rimontgó. Price reflects condition."
-  },
-  {
-    "ref": "CB012",
-    "id": "CB012",
-    "title": "Villa with Pool & Garage — Portichol, Jávea",
-    "address": "Portichol - Balcón al Mar, Jávea",
-    "area": "Jávea",
-    "bedrooms": 4,
-    "bathrooms": 3,
-    "size": 200,
-    "plot": 900,
-    "price": 495000,
-    "priceHistory": [495000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": null,
-    "yearBuilt": null,
-    "portal": "Fotocasa",
-    "ref_agent": "178307605",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.fotocasa.es/es/comprar/vivienda/javea-xabia/aire-acondicionado-jardin-piscina/178307605/d",
-    "image": "https://static.fotocasa.es/images/ads/5eae26a9-0a3e-4453-a5a5-bf8aeb70784a?rule=web_948x542_ar",
-    "notes": "Sea views. Garage included + additional parking. Private pool. 900m² garden. Central heating + AC. Alarm. Grupo CLD agent."
-  },
-  {
-    "ref": "CB013",
-    "id": "CB013",
-    "title": "SW-Facing Golf Club Villa — Centro Ciudad, Jávea",
-    "address": "Centro Ciudad, Jávea (near Golf Club)",
-    "area": "Jávea",
-    "bedrooms": 5,
-    "bathrooms": 4,
-    "size": 384,
-    "plot": 1324,
-    "price": 760000,
-    "priceHistory": [760000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": "SW",
-    "yearBuilt": null,
-    "portal": "Fotocasa",
-    "ref_agent": "189116525",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.fotocasa.es/es/comprar/vivienda/javea-xabia/aire-acondicionado-calefaccion-parking-terraza-piscina/189116525/d",
-    "image": "https://static.fotocasa.es/images/ads/6c1ebc66-4425-4f62-a164-46ee85179da3?rule=web_948x542_ar",
-    "notes": "SW-facing. Golf course views. Integrated garage. Solar panels. Underfloor heating. Independent lower apartment. 8 min to beaches."
-  },
-  {
-    "ref": "CB014",
-    "id": "CB014",
-    "title": "South-Facing Villa near Montgó — Partida Tosal, Jávea",
-    "address": "Carretera de Jesus Pobre, Partida Tosal - Zona dels Castellans",
-    "area": "Jávea",
-    "bedrooms": 3,
-    "bathrooms": null,
-    "size": 241,
-    "plot": null,
-    "price": 520000,
-    "priceHistory": [520000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": "South",
-    "yearBuilt": null,
-    "portal": "Idealista",
-    "ref_agent": "108002564",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.idealista.com/en/inmueble/108002564/",
-    "image": "https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/e1/57/f9/1330826666.jpg",
-    "notes": "⚠️ Garden renovation needed (overgrown). South-facing. Near Montgó mountain. 241m² built. Crown Properties. 38 photos."
-  },
-  {
-    "ref": "CB015",
-    "id": "CB015",
-    "title": "Price Drop! 4-Bed Villa — El Tosalet, Cap Martí, Jávea",
-    "address": "de la Campaneta, 25, El Tosalet - Cap Marti",
-    "area": "Jávea",
-    "bedrooms": 4,
-    "bathrooms": null,
-    "size": 217,
-    "plot": null,
-    "price": 580000,
-    "priceHistory": [600000, 580000],
-    "category": "Villa",
-    "status": "drop",
-    "pool": true,
-    "garage": true,
-    "orientation": null,
-    "yearBuilt": null,
-    "portal": "Idealista",
-    "ref_agent": "110272123",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.idealista.com/en/inmueble/110272123/",
-    "image": "https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/79/f0/89/1404907504.jpg",
-    "notes": "🔻 Price drop €20,000 (was €600k). 4 bed, 217m². Cap Martí area near beach. Strategic enclave. Cannot change location."
-  },
-  {
-    "ref": "CB016",
-    "id": "CB016",
-    "title": "South-Facing 5-Bed Villa — Sol de Este, Jávea",
-    "address": "Sol de Este - Puerta Fenicia, Jávea",
-    "area": "Jávea",
-    "bedrooms": 5,
-    "bathrooms": null,
-    "size": 236,
-    "plot": null,
-    "price": 599000,
-    "priceHistory": [599000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": "South",
-    "yearBuilt": null,
-    "portal": "Idealista",
-    "ref_agent": "111063855",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.idealista.com/en/inmueble/111063855/",
-    "image": "https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/96/3d/eb/1424202131.jpg",
-    "notes": "South orientation. Open views. 5 bedrooms. Potential rental income. Needs personalisation."
-  },
-  {
-    "ref": "CB017",
-    "id": "CB017",
-    "title": "Traditional 4-Bed Villa — La Mandarina, Jávea",
-    "address": "La Mandarina, La Lluca - La Tarraula",
-    "area": "Jávea",
-    "bedrooms": 4,
-    "bathrooms": 3,
-    "size": 200,
-    "plot": null,
-    "price": 649000,
-    "priceHistory": [649000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": null,
-    "yearBuilt": null,
-    "portal": "Idealista",
-    "ref_agent": "111024076",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.idealista.com/en/inmueble/111024076/",
-    "image": "https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/9a/bc/cd/1422923454.jpg",
-    "notes": "Beautiful 4-bed, 3-bath traditional villa. La Mandarina tranquil area near La Lluca beach. Javea Home Finders."
-  },
-  {
-    "ref": "CB018",
-    "id": "CB018",
-    "title": "3-Bed Mediterranean Villa — Pinar de Advocat, Moraira",
-    "address": "Camino del Paellero, Pinar de Advocat-Cometa",
-    "area": "Moraira",
-    "bedrooms": 3,
-    "bathrooms": null,
-    "size": 217,
-    "plot": null,
-    "price": 598500,
-    "priceHistory": [598500],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": null,
-    "yearBuilt": null,
-    "portal": "Idealista",
-    "ref_agent": "108709641",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.idealista.com/en/inmueble/108709641/",
-    "image": "https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/68/d6/cb/1352811800.jpg",
-    "notes": "Pinar de Advocat, beautiful Moraira area. Charming Mediterranean villa. Pool + parking."
-  },
-  {
-    "ref": "CB019",
-    "id": "CB019",
-    "title": "Traditional Villa Walk to Beach — Benimeit-Tabaira, Moraira",
-    "address": "CL Santiago De Compostela, 8, Benimeit-Tabaira",
-    "area": "Moraira",
-    "bedrooms": 3,
-    "bathrooms": null,
-    "size": 247,
-    "plot": null,
-    "price": 635000,
-    "priceHistory": [635000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": null,
-    "yearBuilt": null,
-    "portal": "Idealista",
-    "ref_agent": "109743354",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.idealista.com/en/inmueble/109743354/",
-    "image": "https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/b8/67/30/1384239287.jpg",
-    "notes": "Walking distance to beach and Moraira town centre. Traditional Mediterranean. 247m². 3 bed. Benimeit-Tabaira."
-  },
-  {
-    "ref": "CB020",
-    "id": "CB020",
-    "title": "South-Facing Sea View Villa — Benimeit-Tabaira, Moraira",
-    "address": "Calle Benicolet, Benimeit-Tabaira",
-    "area": "Moraira",
-    "bedrooms": 6,
-    "bathrooms": 5,
-    "size": 200,
-    "plot": null,
-    "price": 649950,
-    "priceHistory": [649950],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": "South",
-    "yearBuilt": null,
-    "portal": "Fine & Country",
-    "ref_agent": "110366790",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.idealista.com/en/inmueble/110366790/",
-    "image": "https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/d9/ae/51/1403066325.jpg",
-    "notes": "South-facing. Sea views. Fine & Country listing. 6 bed / 5 bath. Self-contained penthouse suite + lower level. Minutes from beach."
-  },
-  {
-    "ref": "CB021",
-    "id": "CB021",
-    "title": "Recently Refurbished 3-Bed Villa — El Tosalet, Jávea",
-    "address": "El Tosalet - Cap Marti, Jávea",
-    "area": "Jávea",
-    "bedrooms": 3,
-    "bathrooms": null,
-    "size": 218,
-    "plot": null,
-    "price": 745000,
-    "priceHistory": [745000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": null,
-    "yearBuilt": null,
-    "portal": "Idealista",
-    "ref_agent": "107365920",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.idealista.com/en/inmueble/107365920/",
-    "image": "https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/0e/b5/e5/1310801144.jpg",
-    "notes": "Recently refurbished. New UPVC windows, bathrooms, kitchen, flooring. El Tosalet/Toscal area. Blue Square Spain."
-  },
-  {
-    "ref": "CB022",
-    "id": "CB022",
-    "title": "Well-Kept Villa with Sea Views & Garage — Cumbre del Sol, Benitachell",
-    "address": "Cumbre del Sol, Girasoles area",
-    "area": "Benitachell",
-    "bedrooms": 3,
-    "bathrooms": null,
-    "size": 217,
-    "plot": null,
-    "price": 499000,
-    "priceHistory": [499000],
-    "category": "Villa",
-    "status": "new",
-    "pool": true,
-    "garage": true,
-    "orientation": null,
-    "yearBuilt": null,
-    "portal": "Idealista",
-    "ref_agent": "108956733",
-    "updated": "2026-04-08",
-    "lastSeen": "2026-04-08",
-    "url": "https://www.idealista.com/en/inmueble/108956733/",
-    "image": "https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/fd/d3/50/1360029784.jpg",
-    "notes": "⭐ Best value! Sea views. Detached garage at street level. Two independent levels. Girasoles area, Cumbre del Sol. Casas Ambiente Moraira."
-  }
+  {"ref":"CB023","id":"CB023","title":"5-Bed Villa — Major Price Drop, Calpe","address":"Canuta-Maryvilla, Calpe","area":"Calpe","searchArea":"CB North","bedrooms":5,"bathrooms":4,"size":281,"plot":837,"price":600000,"priceHistory":[850000,600000],"status":"drop","pool":true,"garage":true,"orientation":null,"yearBuilt":1986,"portal":"Luxinmo","ref_agent":"REF-7356","updated":"2026-04-09","url":"https://www.luxinmo.com/property/stunning-5-bedroom-mediterranean-villa-with-beautiful-sea-vi-7356","image":"https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011084/image-41215d83-f38e-46e3-8077-452cbc8ada1f.webp","notes":"🔻 Drop €250,000 (was €850k → €600k, 29% off). 5 bed/4 bath. Sea & mountain views. BBQ, alarm, AC. Built 1986. ⚠️ Plot 837m²."},
+  {"ref":"CB001","id":"CB001","title":"Impressive Villa with Sea Views — Oltamar, Calpe","address":"Oltamar-Cucarres-Gargasindi","area":"Calpe","searchArea":"CB North","bedrooms":4,"bathrooms":5,"size":384,"plot":800,"price":716000,"priceHistory":[716000],"status":"new","pool":true,"garage":true,"orientation":"South","yearBuilt":null,"portal":"Luxinmo","ref_agent":"REF-6779","updated":"2026-04-08","url":"https://www.luxinmo.com/property/impressive-villa-with-sea-views-in-oltamar-cucarres-gargasindi-calpe-6779","image":"https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10010841/image-377ea138-db09-4a3f-9671-a2396f327cc1.webp","notes":"South-facing. Sea & mountain views. Separate guest house. Solar panels. 3.1km to Playa de la Fossa."},
+  {"ref":"CB002","id":"CB002","title":"Villa Verdia — Mediterranean Villa with Pool, Jávea","address":"Balcon al Mar, Av. del Pla","area":"Jávea","searchArea":"CB North","bedrooms":4,"bathrooms":2,"size":250,"plot":969,"price":690000,"priceHistory":[690000],"status":"new","pool":true,"garage":true,"orientation":"West","yearBuilt":1976,"portal":"Costa Houses","ref_agent":"2848V_VERDIA","updated":"2026-04-08","url":"https://www.costa-houses.com/en/for-sale/villa-verdia-mediterranean-villa-with-4-bedrooms-and-private-pool-in-javea-2848v-verdia/","image":"https://app-api.paagees.com/uploads/019cb39b-f1a2-77db-aff7-51a578ca5485/property/2026/04/02/a0/019d4bec-953a-7011-8b31-96f34bc2a7a0.webp","notes":"West-facing. Organic-shape pool. Alarm. Fireplace. Terrace 100m². 2.1km to sea. Reformed."},
+  {"ref":"CB003","id":"CB003","title":"South-Facing Villa with Pool & Garage — Fanadix, Moraira","address":"Fanadix, Moraira","area":"Moraira","searchArea":"CB North","bedrooms":3,"bathrooms":3,"size":204,"plot":850,"price":695000,"priceHistory":[695000],"status":"new","pool":true,"garage":true,"orientation":"South","yearBuilt":1985,"portal":"Select Villas","ref_agent":"03819M","updated":"2026-04-08","url":"https://select-villas.es/property/5161/well-maintained-three-bedroom-traditional-villa-with-spacious-terraces-attractive-gardens-summer-kitchen-for-entertaining-and-short-drive-to-moraira-town-and-beach/","image":"https://select-villas.es/media/images/properties/thumbnails/76d853aa4d5cb799bbf493d22070dca5_1024x800.JPEG","notes":"South-facing. 8×4m pool. Garage 24m². Summer kitchen+BBQ. 8 min to beach."},
+  {"ref":"CB004","id":"CB004","title":"4-Bed Villa with Sea Views — Cumbre del Sol, Benitachell","address":"Cumbre del Sol","area":"Benitachell","searchArea":"CB North","bedrooms":4,"bathrooms":3,"size":330,"plot":820,"price":730000,"priceHistory":[730000],"status":"new","pool":true,"garage":false,"orientation":null,"yearBuilt":2010,"portal":"Luxinmo","ref_agent":"REF-6376","updated":"2026-04-08","url":"https://www.luxinmo.com/property/4-bedroom-villa-with-sea-mountain-views-in-poble-nou-de-beni-6376","image":"https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10009994/image-e5e1844c-1c6f-49ab-87f9-e02a80b83975.webp","notes":"Energy class B. Built 2010. Underfloor heating + solar panels. Sea+mountain views. Parking (not enclosed garage)."},
+  {"ref":"CB005","id":"CB005","title":"South-Facing Villa with Sea Views — Benissa Costa","address":"La Viña-Montemar-San Jaime","area":"Benissa","searchArea":"CB North","bedrooms":4,"bathrooms":2,"size":309,"plot":850,"price":695000,"priceHistory":[695000],"status":"new","pool":true,"garage":true,"orientation":"South","yearBuilt":1972,"portal":"Luxinmo","ref_agent":"REF-7010","updated":"2026-04-08","url":"https://www.luxinmo.com/property/mediterranean-villa-with-sea-views-and-sunny-south-facing-or-7010","image":"https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011059/image-f66cd3e6-25d1-4b53-a1ce-32c265ede7cd.webp","notes":"South-facing. Sea views. Independent lower unit. Garage + 4 outdoor spaces. 5 min to beach."},
+  {"ref":"CB006","id":"CB006","title":"⭐ Best Value — Independent Villa with Sea View, Benitachell","address":"Cumbre del Sol","area":"Benitachell","searchArea":"CB North","bedrooms":3,"bathrooms":3,"size":211,"plot":912,"price":520000,"priceHistory":[520000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":1993,"portal":"Villas Buigues","ref_agent":"VB1025","updated":"2026-04-08","url":"https://www.villasbuigues.com/for-sale/independent-villa-with-sea-view-benitachell-vb1025/","image":"https://www.villasbuigues.com/objetos/temp/source/villasbuigues/2026/03/27/355067/2a56dd36-2e66-4b60-b37f-2c1b45604cb6.jpeg","notes":"⭐ Best value CB. 3 en-suite bedrooms. Garage + carport. Sea+mountain views. Needs renovation. Lady Elizabeth School 4 min."},
+  {"ref":"CB007","id":"CB007","title":"3-Bed Mediterranean Villa — Benissa","address":"Benissa","area":"Benissa","searchArea":"CB North","bedrooms":3,"bathrooms":2,"size":200,"plot":800,"price":650000,"priceHistory":[650000],"status":"excl","pool":true,"garage":true,"orientation":"South","yearBuilt":1980,"portal":"Luxinmo","ref_agent":"REF-7545","updated":"2026-04-08","url":"https://www.luxinmo.com/property/modern-mediterranean-3-bedroom-detached-house-in-benissa-wit-7545","image":"https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10011114/image-2ba73783-31e7-49ab-b3a2-ea03833e916e.webp","notes":"South-facing. Off-market/exclusive. 4km to Cala Baladrar beach."},
+  {"ref":"CB008","id":"CB008","title":"Spanish Style Villa with Pool — Cansalades, Jávea","address":"Cansalades, Partida Comunes-Adsubia","area":"Jávea","searchArea":"CB North","bedrooms":3,"bathrooms":3,"size":232,"plot":1000,"price":750000,"priceHistory":[750000],"status":"new","pool":true,"garage":false,"orientation":null,"yearBuilt":2009,"portal":"Luxinmo","ref_agent":"REF-4725","updated":"2026-04-08","url":"https://www.luxinmo.com/property/for-sale-this-spanish-style-villa-in-javea-4725","image":"https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10006590/image-7c6ed2ff-d0aa-4e28-9557-03d237b5cb79.webp","notes":"⚠️ No enclosed garage (gated plot). 1,000m² plot. Jacuzzi. Sea+mountain views. 2009 build."},
+  {"ref":"CB009","id":"CB009","title":"Villa Saga — South-Facing, Pinosol Jávea","address":"Pinosol, Cap Martí","area":"Jávea","searchArea":"CB North","bedrooms":4,"bathrooms":4,"size":233,"plot":2044,"price":690000,"priceHistory":[750000,690000],"status":"drop","pool":true,"garage":false,"orientation":"South","yearBuilt":1979,"portal":"Costa Houses","ref_agent":"2709V_SAGA","updated":"2026-04-08","url":"https://www.costa-houses.com/en/for-sale/villa-saga-for-sale-with-independent-apartment-in-pinosol-javea-xabia-alicante-2709v-saga/","image":"https://app-api.paagees.com/uploads/019cb39b-f1a2-77db-aff7-51a578ca5485/property/2026/03/28/01/019d33c9-d0da-7502-9209-a147ceee5e01.webp","notes":"🔻 Drop €60,000 (was €750k). South-facing. Independent apartment. Solar panels. ⚠️ 2,044m² plot."},
+  {"ref":"CB010","id":"CB010","title":"4-Bed Semi-Detached — Partidas Moraira, Teulada","address":"Partidas Moraira","area":"Teulada","searchArea":"CB North","bedrooms":4,"bathrooms":3,"size":181,"plot":227,"price":460000,"priceHistory":[460000],"status":"new","pool":true,"garage":true,"orientation":"South/West","yearBuilt":2006,"portal":"Luxinmo","ref_agent":"REF-6036","updated":"2026-04-08","url":"https://www.luxinmo.com/property/charming-semi-detached-4-bedroom-in-teulada-6036","image":"https://cdn.luxinmo.com/luxinmo_website/watermark/2560x1440/10010491/image-93d3e107-d07c-41d4-a202-755799085425.webp","notes":"⚠️ Semi-detached. 227m² plot only. Gated complex. 3.5km to Moraira beach."},
+  {"ref":"CB011","id":"CB011","title":"Villa — Adsubia, Jávea (Renovation Project)","address":"Adsubia, Jávea","area":"Jávea","searchArea":"CB North","bedrooms":3,"bathrooms":null,"size":184,"plot":800,"price":625000,"priceHistory":[625000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"Kyero","ref_agent":"7228","updated":"2026-04-08","url":"https://www.kyero.com/en/property/19918172-villa-for-sale-javea","image":"https://images.kyero.com/crop/720x500/https://production-kyero-property-images.s3.amazonaws.com/19918/19918172/391002118_original.jpg","notes":"⚠️ Renovation needed. Sea views. Garage. 800m² plot. Rural Jávea."},
+  {"ref":"CB012","id":"CB012","title":"Villa with Pool & Garage — Portichol, Jávea","address":"Portichol - Balcón al Mar, Jávea","area":"Jávea","searchArea":"CB North","bedrooms":4,"bathrooms":3,"size":200,"plot":900,"price":495000,"priceHistory":[495000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"Fotocasa","ref_agent":"178307605","updated":"2026-04-08","url":"https://www.fotocasa.es/es/comprar/vivienda/javea-xabia/aire-acondicionado-jardin-piscina/178307605/d","image":"https://static.fotocasa.es/images/ads/5eae26a9-0a3e-4453-a5a5-bf8aeb70784a?rule=web_948x542_ar","notes":"Sea views. Garage + parking. Private pool. 900m² garden. Central heating + AC. Alarm."},
+  {"ref":"CB013","id":"CB013","title":"SW-Facing Golf Club Villa — Centro Ciudad, Jávea","address":"Centro Ciudad, Jávea (near Golf Club)","area":"Jávea","searchArea":"CB North","bedrooms":5,"bathrooms":4,"size":384,"plot":1324,"price":760000,"priceHistory":[760000],"status":"new","pool":true,"garage":true,"orientation":"SW","yearBuilt":null,"portal":"Fotocasa","ref_agent":"189116525","updated":"2026-04-08","url":"https://www.fotocasa.es/es/comprar/vivienda/javea-xabia/aire-acondicionado-calefaccion-parking-terraza-piscina/189116525/d","image":"https://static.fotocasa.es/images/ads/6c1ebc66-4425-4f62-a164-46ee85179da3?rule=web_948x542_ar","notes":"SW-facing. Golf views. Integrated garage. Solar panels. Underfloor heating. Independent lower apartment."},
+  {"ref":"CB014","id":"CB014","title":"South-Facing Villa near Montgó — Partida Tosal, Jávea","address":"Carretera de Jesus Pobre, Partida Tosal","area":"Jávea","searchArea":"CB North","bedrooms":3,"bathrooms":null,"size":241,"plot":null,"price":520000,"priceHistory":[520000],"status":"new","pool":true,"garage":true,"orientation":"South","yearBuilt":null,"portal":"Idealista","ref_agent":"108002564","updated":"2026-04-08","url":"https://www.idealista.com/en/inmueble/108002564/","image":"https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/e1/57/f9/1330826666.jpg","notes":"⚠️ Garden renovation needed. South-facing. Near Montgó mountain. 241m²."},
+  {"ref":"CB015","id":"CB015","title":"Price Drop! 4-Bed Villa — El Tosalet, Cap Martí, Jávea","address":"de la Campaneta, 25, El Tosalet - Cap Marti","area":"Jávea","searchArea":"CB North","bedrooms":4,"bathrooms":null,"size":217,"plot":null,"price":580000,"priceHistory":[600000,580000],"status":"drop","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"Idealista","ref_agent":"110272123","updated":"2026-04-08","url":"https://www.idealista.com/en/inmueble/110272123/","image":"https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/79/f0/89/1404907504.jpg","notes":"🔻 Drop €20,000 (was €600k). 4 bed, 217m². Cap Martí near beach."},
+  {"ref":"CB016","id":"CB016","title":"South-Facing 5-Bed Villa — Sol de Este, Jávea","address":"Sol de Este - Puerta Fenicia, Jávea","area":"Jávea","searchArea":"CB North","bedrooms":5,"bathrooms":null,"size":236,"plot":null,"price":599000,"priceHistory":[599000],"status":"new","pool":true,"garage":true,"orientation":"South","yearBuilt":null,"portal":"Idealista","ref_agent":"111063855","updated":"2026-04-08","url":"https://www.idealista.com/en/inmueble/111063855/","image":"https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/96/3d/eb/1424202131.jpg","notes":"South orientation. Open views. 5 bedrooms. Potential rental income."},
+  {"ref":"CB017","id":"CB017","title":"Traditional 4-Bed Villa — La Mandarina, Jávea","address":"La Mandarina, La Lluca - La Tarraula","area":"Jávea","searchArea":"CB North","bedrooms":4,"bathrooms":3,"size":200,"plot":null,"price":649000,"priceHistory":[649000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"Idealista","ref_agent":"111024076","updated":"2026-04-08","url":"https://www.idealista.com/en/inmueble/111024076/","image":"https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/9a/bc/cd/1422923454.jpg","notes":"Traditional 4-bed, 3-bath. La Mandarina near La Lluca beach."},
+  {"ref":"CB018","id":"CB018","title":"3-Bed Mediterranean Villa — Pinar de Advocat, Moraira","address":"Camino del Paellero, Pinar de Advocat-Cometa","area":"Moraira","searchArea":"CB North","bedrooms":3,"bathrooms":null,"size":217,"plot":null,"price":598500,"priceHistory":[598500],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"Idealista","ref_agent":"108709641","updated":"2026-04-08","url":"https://www.idealista.com/en/inmueble/108709641/","image":"https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/68/d6/cb/1352811800.jpg","notes":"Pinar de Advocat, Moraira. Charming Mediterranean villa."},
+  {"ref":"CB019","id":"CB019","title":"Traditional Villa Walk to Beach — Benimeit-Tabaira, Moraira","address":"CL Santiago De Compostela, 8, Benimeit-Tabaira","area":"Moraira","searchArea":"CB North","bedrooms":3,"bathrooms":null,"size":247,"plot":null,"price":635000,"priceHistory":[635000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"Idealista","ref_agent":"109743354","updated":"2026-04-08","url":"https://www.idealista.com/en/inmueble/109743354/","image":"https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/b8/67/30/1384239287.jpg","notes":"Walking distance to beach and Moraira town. 247m². Benimeit-Tabaira."},
+  {"ref":"CB020","id":"CB020","title":"South-Facing Sea View Villa — Benimeit-Tabaira, Moraira","address":"Calle Benicolet, Benimeit-Tabaira","area":"Moraira","searchArea":"CB North","bedrooms":6,"bathrooms":5,"size":200,"plot":null,"price":649950,"priceHistory":[649950],"status":"new","pool":true,"garage":true,"orientation":"South","yearBuilt":null,"portal":"Fine & Country","ref_agent":"110366790","updated":"2026-04-08","url":"https://www.idealista.com/en/inmueble/110366790/","image":"https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/d9/ae/51/1403066325.jpg","notes":"South-facing. Sea views. 6 bed/5 bath. Self-contained penthouse + lower level. Minutes from beach."},
+  {"ref":"CB021","id":"CB021","title":"Recently Refurbished 3-Bed Villa — El Tosalet, Jávea","address":"El Tosalet - Cap Marti, Jávea","area":"Jávea","searchArea":"CB North","bedrooms":3,"bathrooms":null,"size":218,"plot":null,"price":745000,"priceHistory":[745000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"Idealista","ref_agent":"107365920","updated":"2026-04-08","url":"https://www.idealista.com/en/inmueble/107365920/","image":"https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/0e/b5/e5/1310801144.jpg","notes":"Recently refurbished. New UPVC windows, bathrooms, kitchen, flooring. El Tosalet."},
+  {"ref":"CB022","id":"CB022","title":"⭐ Well-Kept Villa with Sea Views & Garage — Cumbre del Sol, Benitachell","address":"Cumbre del Sol, Girasoles area","area":"Benitachell","searchArea":"CB North","bedrooms":3,"bathrooms":null,"size":217,"plot":null,"price":499000,"priceHistory":[499000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"Idealista","ref_agent":"108956733","updated":"2026-04-08","url":"https://www.idealista.com/en/inmueble/108956733/","image":"https://img4.idealista.com/blur/WEB_DETAIL/0/id.pro.es.image.master/fd/d3/50/1360029784.jpg","notes":"⭐ Best value! Sea views. Detached garage. Two independent levels. Cumbre del Sol."},
+  {"ref":"A101","id":"A101","title":"New Build Villa — Bahia Golf, Finestrat","address":"Bahia Golf, Finestrat Pueblo","area":"Finestrat","searchArea":"Alicante","bedrooms":4,"bathrooms":4,"size":249,"plot":500,"price":849000,"priceHistory":[849000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":2026,"portal":"ThinkSpain","ref_agent":"9713798","updated":"2026-04-03","url":"https://www.thinkspain.com/property-for-sale/9713798","image":null,"notes":"Luxury new build (listed Mar 2026). BREEAM energy cert. Porcelanosa finishes. Rooftop solarium. 3.5km to coast."},
+  {"ref":"A102","id":"A102","title":"⭐ Best Value — Large Villa, Loma Bada, Petrer","address":"Loma Bada, Petrel/Petrer","area":"Petrer","searchArea":"Alicante","bedrooms":4,"bathrooms":3,"size":381,"plot":1765,"price":490000,"priceHistory":[490000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"ThinkSpain","ref_agent":"9698002","updated":"2026-04-03","url":"https://www.thinkspain.com/property-for-sale/9698002","image":null,"notes":"⭐ Best price/m² (€1,286/m²). Gated community. Pool ~56m². Basement. Fireplace. 30 mins to Alicante coast."},
+  {"ref":"A103","id":"A103","title":"Standout Luxury Villa — Paichi, Teulada-Moraira","address":"Paichi, Teulada-Moraira","area":"Teulada","searchArea":"Alicante","bedrooms":5,"bathrooms":4,"size":442,"plot":811,"price":899000,"priceHistory":[899000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"ThinkSpain","ref_agent":"9205719","updated":"2026-04-03","url":"https://www.thinkspain.com/property-for-sale/9205719","image":null,"notes":"Heated pool 11×5m. Cinema room. Games room. Bar. Jacuzzi. Sea views. Near El Portet beach."},
+  {"ref":"A104","id":"A104","title":"Villa with Pool — Benissa Costa, Baladrár","address":"Benissa Costa, Baladrár","area":"Benissa","searchArea":"Alicante","bedrooms":3,"bathrooms":2,"size":245,"plot":1024,"price":695000,"priceHistory":[695000],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":null,"portal":"ThinkSpain","ref_agent":"9026099","updated":"2026-04-03","url":"https://www.thinkspain.com/property-for-sale/9026099","image":null,"notes":"3 bed, 245m² on 1,024m² plot. Benissa Costa coastal area."},
+  {"ref":"A105","id":"A105","title":"Villa with Pool — Torrevieja","address":"Torrevieja","area":"Torrevieja","searchArea":"Alicante","bedrooms":3,"bathrooms":3,"size":178,"plot":378,"price":780000,"priceHistory":[780000],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":null,"portal":"ThinkSpain","ref_agent":"7554591","updated":"2026-04-03","url":"https://www.thinkspain.com/property-for-sale/7554591","image":null,"notes":"3 bed/3 bath, 178m² on 378m² plot. Torrevieja coastal area."},
+  {"ref":"A106","id":"A106","title":"Sea Views Villa — La Nucia","address":"La Nucia, Costa Blanca","area":"La Nucia","searchArea":"Alicante","bedrooms":3,"bathrooms":3,"size":225,"plot":1265,"price":788000,"priceHistory":[788000],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":null,"portal":"ThinkSpain","ref_agent":"9470946","updated":"2026-04-03","url":"https://www.thinkspain.com/property-for-sale/9470946","image":null,"notes":"Renovated. Heated pool. Sea views. 225m² on 1,265m² plot. Dual-level. Forest access. <10 min to Altea."},
+  {"ref":"A107","id":"A107","title":"Villa — Golf Bahía, Finestrat","address":"Golf Bahía, Finestrat","area":"Finestrat","searchArea":"Alicante","bedrooms":3,"bathrooms":3,"size":163,"plot":445,"price":685000,"priceHistory":[685000],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":null,"portal":"ThinkSpain","ref_agent":"9413744","updated":"2026-04-03","url":"https://www.thinkspain.com/property-for-sale/9413744","image":null,"notes":"3 bed/3 bath. 163m² on 445m² plot. Golf Bahía urbanisation, Finestrat."},
+  {"ref":"A108","id":"A108","title":"Villa — Dénia","address":"Dénia","area":"Dénia","searchArea":"Alicante","bedrooms":4,"bathrooms":3,"size":265,"plot":707,"price":585000,"priceHistory":[585000],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":null,"portal":"ThinkSpain","ref_agent":"5820938","updated":"2026-04-03","url":"https://www.thinkspain.com/property-for-sale/5820938","image":null,"notes":"4 bed/3 bath. 265m² on 707m² plot. Dénia area."},
+  {"ref":"A110","id":"A110","title":"Contemporary Villa (2022) — Balcón de Finestrat","address":"Balcón de Finestrat","area":"Finestrat","searchArea":"Alicante","bedrooms":3,"bathrooms":3,"size":260,"plot":500,"price":795000,"priceHistory":[795000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":2022,"portal":"Luxinmo","ref_agent":"6114","updated":"2026-04-03","url":"https://www.luxinmo.com/property/luxurious-detached-villa-with-panoramic-views-in-finestrat-6114","image":null,"notes":"Completed 2022. Panoramic sea/city views. Smart home. Private pool. Basement. Energy class B."},
+  {"ref":"A111","id":"A111","title":"Sea View Villa — Altea Hills (Exclusive Gated)","address":"Altea Hills, Altea","area":"Altea","searchArea":"Alicante","bedrooms":4,"bathrooms":3,"size":190,"plot":270,"price":650000,"priceHistory":[650000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"Luxinmo","ref_agent":"6203","updated":"2026-04-03","url":"https://www.luxinmo.com/property/sea-view-villa-in-exclusive-altea-hills-6203","image":null,"notes":"Exclusive gated community. Panoramic sea views. 24h security. Guest house. Altea Hills."},
+  {"ref":"A112","id":"A112","title":"Modern Villa (2023) — Balcón de Finestrat","address":"Balcón de Finestrat","area":"Finestrat","searchArea":"Alicante","bedrooms":4,"bathrooms":3,"size":325,"plot":590,"price":865000,"priceHistory":[865000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":2023,"portal":"Luxinmo","ref_agent":"7298","updated":"2026-04-03","url":"https://www.luxinmo.com/property/new-4-bedroom-modern-villa-in-balcon-de-finestrat-7298","image":null,"notes":"New 4-bed modern villa, 2023. 325m² on 590m² plot. Balcón de Finestrat."},
+  {"ref":"A113","id":"A113","title":"Balinese-Style 5-Bed Villa — Bonalba, Busot","address":"Bonalba, Busot (Alicante)","area":"Busot","searchArea":"Alicante","bedrooms":5,"bathrooms":null,"size":330,"plot":806,"price":549500,"priceHistory":[549500],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":null,"portal":"ThinkSpain","ref_agent":"8564385","updated":"2026-04-04","url":"https://www.thinkspain.com/property-for-sale/8564385","image":null,"notes":"Balinese-inspired design. Automated pool cover. Jacuzzi. 806m² plot. 5 beds, 330m²."},
+  {"ref":"A114","id":"A114","title":"Energy A-Rated Villa 'Mondrian' — Gran Alacant","address":"Gran Alacant, Santa Pola","area":"Gran Alacant","searchArea":"Alicante","bedrooms":4,"bathrooms":null,"size":197,"plot":304,"price":615000,"priceHistory":[615000],"status":"new","pool":true,"garage":true,"orientation":null,"yearBuilt":null,"portal":"Lucas Fox","ref_agent":"mondrian","updated":"2026-04-04","url":"https://www.lucasfox.com/property-for-sale/spain/costa-blanca/alicante/gran-alacant/house-villa/mondrian.html","image":null,"notes":"Energy A-rated. Solar panels. 7×3m pool. Near sea & natural park."},
+  {"ref":"A115","id":"A115","title":"Infinity Pool Villa — San Miguel de Salinas","address":"San Miguel de Salinas, Alicante","area":"San Miguel","searchArea":"Alicante","bedrooms":5,"bathrooms":null,"size":295,"plot":558,"price":780000,"priceHistory":[780000],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":null,"portal":"ThinkSpain","ref_agent":"9685503","updated":"2026-04-04","url":"https://www.thinkspain.com/property-for-sale/9685503","image":null,"notes":"Infinity pool. Sea views. Designer furniture included. Gated community."},
+  {"ref":"A116","id":"A116","title":"Large Villa with Huge Plot — Centro, Rojales","address":"Centro, Rojales","area":"Rojales","searchArea":"Alicante","bedrooms":4,"bathrooms":null,"size":345,"plot":1894,"price":840000,"priceHistory":[840000],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":1994,"portal":"Idealista","ref_agent":"111015257","updated":"2026-04-04","url":"https://www.idealista.com/en/inmueble/111015257/","image":null,"notes":"4 bed, 345m² on 1,894m² plot. All-aspect orientation. Built 1994."},
+  {"ref":"A117","id":"A117","title":"Villa with Pizza Oven & Sea Views — El Montgó, Dénia","address":"El Montgó, Dénia","area":"Dénia","searchArea":"Alicante","bedrooms":3,"bathrooms":null,"size":346,"plot":1009,"price":860000,"priceHistory":[860000],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":null,"portal":"ThinkSpain","ref_agent":"9395428","updated":"2026-04-04","url":"https://www.thinkspain.com/property-for-sale/9395428","image":null,"notes":"346m² on 1,009m² plot. Summer kitchen with pizza oven. Panoramic sea+mountain views."},
+  {"ref":"A118","id":"A118","title":"Energy A Villa — Balcón de Finestrat (2023, A-rated)","address":"Balcón de Finestrat, Sunny Hills","area":"Finestrat","searchArea":"Alicante","bedrooms":5,"bathrooms":null,"size":320,"plot":511,"price":915000,"priceHistory":[915000],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":2023,"portal":"ThinkSpain","ref_agent":"9604840","updated":"2026-04-04","url":"https://www.thinkspain.com/property-for-sale/9604840","image":null,"notes":"Energy class A. Fully furnished. Sunny Hills community. Paddle tennis. Multiple solariums. 5 beds."},
+  {"ref":"A119","id":"A119","title":"Beachfront Villa — Playa Muchavista, San Juan","address":"Playa Muchavista, San Juan de Alicante","area":"San Juan","searchArea":"Alicante","bedrooms":4,"bathrooms":null,"size":360,"plot":987,"price":1100000,"priceHistory":[1100000],"status":"new","pool":true,"garage":null,"orientation":null,"yearBuilt":null,"portal":"Lucas Fox","ref_agent":"ALI68229","updated":"2026-04-04","url":"https://www.lucasfox.com/property-for-sale/spain/costa-blanca/alicante/playa-muchavista/house-villa/ali68229.html","image":null,"notes":"Steps from Muchavista beach. L-shaped pool. 987m² landscaped plot. Premium architecture."}
 ];
 
 let favorites = JSON.parse(localStorage.getItem('alicante-favs')) || [];
+let showFavOnly = false;
 
-function formatPrice(price) {
-  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(price);
+(function populateAreas() {
+  const areas = [...new Set(DATA.map(p => p.area))].sort();
+  const sel = document.getElementById('districtFilter');
+  areas.forEach(a => { const o = document.createElement('option'); o.value = a; o.textContent = a; sel.appendChild(o); });
+})();
+
+function initFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const favsParam = params.get('favs');
+  if (favsParam && favsParam.trim()) {
+    const ids = favsParam.split(',').map(s => s.trim()).filter(Boolean);
+    if (ids.length > 0) {
+      favorites = ids;
+      localStorage.setItem('alicante-favs', JSON.stringify(favorites));
+      document.getElementById('sharedBanner').style.display = 'flex';
+      showFavOnly = true;
+      document.getElementById('favFilterBtn').classList.add('active');
+    }
+  }
+}
+
+function clearSharedView() {
+  document.getElementById('sharedBanner').style.display = 'none';
+  const url = new URL(window.location.href);
+  url.searchParams.delete('favs');
+  window.history.replaceState({}, '', url.toString());
+  render();
+}
+
+function shareFavorites() {
+  if (favorites.length === 0) { alert('Star some properties first (click the ★), then share!'); return; }
+  const url = new URL(window.location.href);
+  url.searchParams.set('favs', favorites.join(','));
+  navigator.clipboard.writeText(url.toString()).then(() => {
+    const btn = document.getElementById('shareBtn');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Link Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2500);
+  }).catch(() => { prompt('Copy this link to share your favourites:', url.toString()); });
+}
+
+function toggleFavFilter() {
+  showFavOnly = !showFavOnly;
+  document.getElementById('favFilterBtn').classList.toggle('active', showFavOnly);
+  render();
 }
 
 function getFilteredData() {
-  const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
   const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
   const minSize = parseFloat(document.getElementById('minSize').value) || 0;
-  const maxSize = parseFloat(document.getElementById('maxSize').value) || Infinity;
   const district = document.getElementById('districtFilter').value;
   const status = document.getElementById('statusFilter').value;
   const beds = parseInt(document.getElementById('bedsFilter').value) || 0;
-
+  const searchArea = document.getElementById('searchAreaFilter').value;
   return DATA.filter(p =>
-    p.price >= minPrice && p.price <= maxPrice &&
-    p.size >= minSize && p.size <= maxSize &&
+    p.price <= maxPrice && p.size >= minSize &&
     (!district || p.area === district) &&
     (!status || p.status === status) &&
-    (!beds || p.bedrooms >= beds)
+    (!beds || p.bedrooms >= beds) &&
+    (!searchArea || p.searchArea === searchArea) &&
+    (!showFavOnly || favorites.includes(p.ref))
   );
 }
 
-function updateStats(data) {
-  const newCount = data.filter(p => p.status === 'new').length;
-  const dropCount = data.filter(p => p.status === 'drop').length;
-  const avgPrice = data.length > 0 ? data.reduce((sum, p) => sum + p.price, 0) / data.length : 0;
+function formatPrice(p) { return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',minimumFractionDigits:0}).format(p); }
 
+function updateStats(data) {
   document.getElementById('totalCount').textContent = data.length;
-  document.getElementById('newCount').textContent = newCount;
-  document.getElementById('dropCount').textContent = dropCount;
-  document.getElementById('avgPrice').textContent = formatPrice(avgPrice);
+  document.getElementById('newCount').textContent = data.filter(p=>p.status==='new').length;
+  document.getElementById('dropCount').textContent = data.filter(p=>p.status==='drop').length;
+  const avg = data.length ? data.reduce((s,p)=>s+p.price,0)/data.length : 0;
+  document.getElementById('avgPrice').textContent = formatPrice(avg);
+  document.getElementById('favCount').textContent = favorites.length;
+}
+
+function badge(p) {
+  return p.searchArea==='CB North'
+    ? '<span style="font-size:11px;padding:2px 6px;border-radius:4px;background:#dbeafe;color:#1d4ed8;margin-left:4px;font-weight:600">CB North</span>'
+    : '<span style="font-size:11px;padding:2px 6px;border-radius:4px;background:#f1f5f9;color:#64748b;margin-left:4px;font-weight:600">Alicante</span>';
 }
 
 function renderGrid(data) {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
-
-  if (data.length === 0) {
-    document.getElementById('noResults').style.display = 'block';
-    grid.style.display = 'none';
-    return;
-  }
-
-  document.getElementById('noResults').style.display = 'none';
-  grid.style.display = 'grid';
-
+  if (!data.length) { document.getElementById('noResults').style.display='block'; grid.style.display='none'; return; }
+  document.getElementById('noResults').style.display='none'; grid.style.display='grid';
   data.forEach(prop => {
+    const isFav = favorites.includes(prop.ref);
     const card = document.createElement('div');
-    card.className = 'card';
-    const priceChange = prop.priceHistory.length > 1 ? prop.priceHistory[0] - prop.price : 0;
-    const statusTag = prop.status === 'new'
-      ? '<div class="tag new">NEW</div>'
-      : prop.status === 'drop'
-        ? `<div class="tag drop">DROP <strong>-${formatPrice(Math.abs(priceChange))}</strong></div>`
-        : '<div class="tag excl">EXCLUSIVE</div>';
-
-    const poolTag = prop.pool ? '<div class="tag pool">Pool</div>' : '';
-    const garageTag = prop.garage ? '<div class="tag garage">Garage</div>' : '';
-    const warnTag = prop.notes && prop.notes.startsWith('⚠️') ? '<div class="tag warn">⚠️ Note</div>' : '';
-
-    const imgHtml = prop.image
-      ? `<img class="card-image" src="${prop.image}" alt="${prop.title}" loading="lazy" onerror="this.style.display='none'">`
-      : `<div class="card-image-placeholder">No image available</div>`;
-
-    card.innerHTML = `
-      ${imgHtml}
+    card.className = 'card' + (isFav?' is-fav':'');
+    const drop = prop.priceHistory.length>1 ? prop.priceHistory[0]-prop.price : 0;
+    const stTag = prop.status==='new' ? '<div class="tag new">NEW</div>'
+      : prop.status==='drop' ? `<div class="tag drop">🔻 DROP ${formatPrice(Math.abs(drop))}</div>`
+      : '<div class="tag excl">EXCLUSIVE</div>';
+    const img = prop.image
+      ? `<img class="card-image" src="${prop.image}" alt="" loading="lazy" onerror="this.parentNode.innerHTML='<div class=card-image-placeholder>No image</div>'">`
+      : '<div class="card-image-placeholder">No image available</div>';
+    card.innerHTML = `${img}
       <div class="header">
         <div>
-          <span class="ref">${prop.ref} · ${prop.portal}</span>
+          <span class="ref">${prop.ref}</span>${badge(prop)}<span style="font-size:11px;color:var(--muted);margin-left:5px">${prop.portal}</span>
           <div class="address">${prop.address}</div>
           <div class="area">${prop.area}</div>
         </div>
-        <span class="fav ${favorites.includes(prop.ref) ? 'active' : ''}">★</span>
+        <span class="fav ${isFav?'active':''}">★</span>
       </div>
       <div class="body">
-        <div class="stat">
-          <div class="stat-label">Price</div>
-          <div class="stat-value highlight">${formatPrice(prop.price)}</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Beds/Baths</div>
-          <div class="stat-value">${prop.bedrooms}/${prop.bathrooms ?? '?'}</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Built</div>
-          <div class="stat-value">${prop.size} m²</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Plot</div>
-          <div class="stat-value">${prop.plot ? prop.plot + ' m²' : 'n/a'}</div>
-        </div>
-        ${prop.orientation ? `<div class="stat"><div class="stat-label">Facing</div><div class="stat-value">${prop.orientation}</div></div>` : ''}
-        ${prop.yearBuilt ? `<div class="stat"><div class="stat-label">Built</div><div class="stat-value">${prop.yearBuilt}</div></div>` : ''}
+        <div class="stat"><div class="stat-label">Price</div><div class="stat-value highlight">${formatPrice(prop.price)}</div></div>
+        <div class="stat"><div class="stat-label">Beds/Baths</div><div class="stat-value">${prop.bedrooms}/${prop.bathrooms??'?'}</div></div>
+        <div class="stat"><div class="stat-label">Built m²</div><div class="stat-value">${prop.size} m²</div></div>
+        <div class="stat"><div class="stat-label">Plot</div><div class="stat-value">${prop.plot?prop.plot+' m²':'n/a'}</div></div>
+        ${prop.orientation?`<div class="stat"><div class="stat-label">Facing</div><div class="stat-value">${prop.orientation}</div></div>`:''}
       </div>
-      <div class="tags">${statusTag}${poolTag}${garageTag}${warnTag}</div>
+      <div class="tags">${stTag}${prop.pool?'<div class="tag pool">Pool</div>':''}${prop.garage?'<div class="tag garage">Garage</div>':''}${prop.notes&&prop.notes.includes('⚠️')?'<div class="tag warn">⚠️</div>':''}</div>
       <div class="footer">
-        <span style="color:var(--muted);font-size:11px">${prop.notes ? prop.notes.substring(0, 80) + (prop.notes.length > 80 ? '…' : '') : 'Updated ' + prop.updated}</span>
-        <a href="${prop.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">View listing →</a>
-      </div>
-    `;
-
-    card.addEventListener('click', (e) => {
-      if (e.target.classList.contains('fav')) return;
-      window.open(prop.url, '_blank', 'noopener');
-    });
-
-    card.querySelector('.fav').addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleFavorite(prop.ref);
-      render();
-    });
-
+        <span style="color:var(--muted);font-size:11px">${prop.notes?prop.notes.substring(0,80)+(prop.notes.length>80?'…':''):''}</span>
+        <a href="${prop.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">View →</a>
+      </div>`;
+    card.addEventListener('click', e=>{if(e.target.classList.contains('fav'))return; window.open(prop.url,'_blank','noopener');});
+    card.querySelector('.fav').addEventListener('click', e=>{e.stopPropagation(); toggleFavorite(prop.ref); render();});
     grid.appendChild(card);
   });
 }
@@ -917,95 +379,48 @@ function renderGrid(data) {
 function renderList(data) {
   const list = document.getElementById('list');
   list.innerHTML = '';
-
-  if (data.length === 0) {
-    document.getElementById('noResults').style.display = 'block';
-    list.style.display = 'none';
-    return;
-  }
-
-  document.getElementById('noResults').style.display = 'none';
-  list.style.display = 'flex';
-
+  if (!data.length) { document.getElementById('noResults').style.display='block'; list.style.display='none'; return; }
+  document.getElementById('noResults').style.display='none'; list.style.display='flex';
   data.forEach(prop => {
+    const isFav = favorites.includes(prop.ref);
     const item = document.createElement('div');
-    item.className = 'item';
-    const priceChange = prop.priceHistory.length > 1 ? prop.priceHistory[0] - prop.price : 0;
-    const statusBadge = prop.status === 'new'
-      ? '<div class="status new">NEW</div>'
-      : prop.status === 'drop'
-        ? `<div class="status drop">DROP</div>`
-        : '<div class="status">EXCL</div>';
-
+    item.className = 'item'+(isFav?' is-fav':'');
+    const stBadge = prop.status==='drop'?'<div class="status drop">DROP</div>'
+      :prop.status==='excl'?'<div class="status" style="background:#f3e8ff;color:#6b21a8">EXCL</div>'
+      :'<div class="status new">NEW</div>';
     item.innerHTML = `
       <div class="ref">${prop.ref}</div>
-      <div class="address">${prop.address}<br><small>${prop.area} · ${prop.bedrooms}br · ${prop.size}m² · ${prop.plot ? prop.plot+'m² plot' : 'plot n/a'} · ${prop.portal}</small></div>
+      <div class="address">${prop.address}<br><small>${prop.area} · ${prop.bedrooms}br · ${prop.size}m²${prop.plot?' · '+prop.plot+'m² plot':''} · ${prop.portal} ${badge(prop)}</small></div>
       <div class="price">${formatPrice(prop.price)}</div>
-      ${statusBadge}
-      <span class="fav ${favorites.includes(prop.ref) ? 'active' : ''}">★</span>
-    `;
-
-    item.addEventListener('click', (e) => {
-      if (e.target.classList.contains('fav')) return;
-      window.open(prop.url, '_blank', 'noopener');
-    });
-
-    item.querySelector('.fav').addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleFavorite(prop.ref);
-      render();
-    });
-
+      ${stBadge}
+      <span class="fav ${isFav?'active':''}">★</span>`;
+    item.addEventListener('click', e=>{if(e.target.classList.contains('fav'))return; window.open(prop.url,'_blank','noopener');});
+    item.querySelector('.fav').addEventListener('click', e=>{e.stopPropagation(); toggleFavorite(prop.ref); render();});
     list.appendChild(item);
   });
 }
 
 function toggleFavorite(ref) {
-  const index = favorites.indexOf(ref);
-  if (index > -1) {
-    favorites.splice(index, 1);
-  } else {
-    favorites.push(ref);
-  }
+  const i = favorites.indexOf(ref);
+  if (i>-1) favorites.splice(i,1); else favorites.push(ref);
   localStorage.setItem('alicante-favs', JSON.stringify(favorites));
 }
 
 function render() {
   const data = getFilteredData();
   updateStats(data);
-
-  const isGridView = document.getElementById('gridView').classList.contains('active');
-  if (isGridView) {
-    renderGrid(data);
-    document.getElementById('list').style.display = 'none';
-  } else {
-    renderList(data);
-    document.getElementById('grid').style.display = 'none';
-  }
+  const isGrid = document.getElementById('gridView').classList.contains('active');
+  if (isGrid) { renderGrid(data); document.getElementById('list').style.display='none'; }
+  else { renderList(data); document.getElementById('grid').style.display='none'; }
 }
 
-document.getElementById('minPrice').addEventListener('change', render);
-document.getElementById('maxPrice').addEventListener('change', render);
-document.getElementById('minSize').addEventListener('change', render);
-document.getElementById('maxSize').addEventListener('change', render);
-document.getElementById('districtFilter').addEventListener('change', render);
-document.getElementById('statusFilter').addEventListener('change', render);
-document.getElementById('bedsFilter').addEventListener('change', render);
+['maxPrice','minSize'].forEach(id=>document.getElementById(id).addEventListener('change',render));
+['districtFilter','statusFilter','bedsFilter','searchAreaFilter'].forEach(id=>document.getElementById(id).addEventListener('change',render));
+document.getElementById('gridView').addEventListener('click',()=>{ document.getElementById('gridView').classList.add('active'); document.getElementById('listView').classList.remove('active'); render(); });
+document.getElementById('listView').addEventListener('click',()=>{ document.getElementById('listView').classList.add('active'); document.getElementById('gridView').classList.remove('active'); render(); });
 
-document.getElementById('gridView').addEventListener('click', () => {
-  document.getElementById('gridView').classList.add('active');
-  document.getElementById('listView').classList.remove('active');
-  render();
-});
-
-document.getElementById('listView').addEventListener('click', () => {
-  document.getElementById('listView').classList.add('active');
-  document.getElementById('gridView').classList.remove('active');
-  render();
-});
-
+initFromURL();
 render();
 </script>
-
 </body>
 </html>
