@@ -7,6 +7,8 @@
 
 > This is an automated daily refresh. Today's run re-verified the priority agent sites and the Benitachell/Cumbre del Sol portal inventory, added **2 new in-budget villas**, and re-confirmed several existing listings are still live. Listings carried from prior runs were not all re-crawled today (portals with anti-bot protection) — always verify details with the listing agent before acting.
 
+> **⚙️ Automation status (22 Jun):** ✅ `index.html` (77 properties) + this report committed to GitHub `koernster/alicante-properties`. ⚠️ **Cloudflare Worker NOT redeployed** — the live site `alicante-properties.stkoern.workers.dev` still shows the prior dataset (titled "18 June"). The stored Cloudflare credential (wrangler OAuth token) **expired 2026-04-12 and its refresh token is revoked**, and no `CLOUDFLARE_API_TOKEN` is configured. **Action needed:** run `wrangler login` (or add `CLOUDFLARE_API_TOKEN` to the deploy config) to restore automatic publishing.
+
 ---
 
 ## Summary by portal / source
